@@ -7,7 +7,8 @@
   <meta name="robots" content="noindex, nofollow">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru; connect-src 'self' https://*.supabase.co wss://*.supabase.co; base-uri 'none'; form-action 'none'">
   <title>Новогодний вечер · Моя узбечка</title>
-  <link rel="stylesheet" href="styles.css?v=20261127-catalog">
+  <link rel="stylesheet" href="vendor/glisse-0.6.0.css">
+  <link rel="stylesheet" href="styles.css?v=20261127-entrance">
   <script src="vendor/supabase.js" defer></script>
   <script type="module" src="app.js?v=20261127-catalog"></script>
 </head>
@@ -26,11 +27,11 @@
           <label for="login-password">Пароль</label>
           <div class="password-entry">
             <input id="login-password" name="password" type="password" autocomplete="current-password" maxlength="128" required aria-describedby="login-help">
-            <button id="toggle-password" type="button" aria-controls="login-password" aria-pressed="false">Показать</button>
+            <button id="toggle-password" class="lg-button lg-glass" type="button" aria-controls="login-password" aria-pressed="false">Показать</button>
           </div>
         </div>
-        <p class="muted" id="login-help">Используйте номер телефона или личный код, который назначил организатор.</p>
-        <button class="primary" type="submit">Войти</button>
+        <p class="muted" id="login-help">Пароль — ваш телефон или личный код от организатора</p>
+        <button class="lg-button" data-variant="filled" type="submit">Войти</button>
       </form>
       <p id="status" role="status">Проверяем подключение…</p>
       <button id="switch-account" type="button" hidden>Войти под другим именем</button>

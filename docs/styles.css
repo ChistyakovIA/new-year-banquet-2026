@@ -85,39 +85,67 @@ li { margin-block: 6px; }
 .entrance {
   display: grid;
   grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-  min-height: min(44rem, calc(100svh - 4rem));
+  min-height: min(40rem, calc(100svh - 4rem));
   width: min(calc(100% - 2.5rem), 68rem);
-  margin: clamp(1.25rem, 5vh, 4rem) auto;
+  margin: clamp(.75rem, 4svh, 2rem) auto;
   padding: 0;
   overflow: hidden;
-  border: 1px solid #d7c8bd;
-  border-radius: 22px;
-  box-shadow: 0 25px 70px #3a24321c;
+  border: 1px solid #d7cbc3;
+  border-radius: 20px;
+  box-shadow: 0 16px 48px #1c151514;
   background: #fffdfa;
 }
 .entrance-cover {
+  container-type: inline-size;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   align-content: center;
+  gap: 12px;
+  min-width: 0;
   min-height: 27rem;
-  padding: clamp(1.75rem, 5vw, 4.5rem);
+  padding: clamp(1.5rem, 4vw, 3rem);
   color: #fff7e9;
-  background: linear-gradient(145deg, #2a1b37f2, #3b2039e8 54%, #7a3a42cd),
-    url("dishes/dish-06.jpg") center/cover #3b2039;
+  background: #362730;
 }
-.entrance-cover h1 { font-size: clamp(2.4rem, 6vw, 5.3rem); line-height: 1.04; }
-.entrance-date { color: #f6cd98; margin-bottom: 1rem; }
-.entrance-venue { margin-top: 1rem; color: #fff1dc; }
+.entrance-cover h1 {
+  margin: 0;
+  font-size: clamp(1.75rem, 4vw, 4rem);
+  font-weight: 500;
+  line-height: 1.06;
+  overflow-wrap: anywhere;
+}
+@supports (font-size: 1cqi) {
+  .entrance-cover h1 { font-size: clamp(1.75rem, 12.5cqi, 4rem); }
+}
+.entrance-cover::after {
+  content: "";
+  display: block;
+  block-size: clamp(6rem, 22cqi, 8rem);
+  margin-top: 8px;
+  border-radius: 12px;
+  background: #655345 url("dishes/dish-06.jpg") center 52% / cover no-repeat;
+}
+.entrance-date, .entrance-venue { margin: 0; }
+.entrance-date { color: #f6cd98; }
+.entrance-venue { color: #fff1dc; }
 .entrance-form {
+  --lg-fill: #6e3047;
+  --lg-foreground: #322931;
+  --lg-glass: #faf5f1;
+  --lg-glass-active: #f0e6e7;
+  --lg-edge: #6d526f4a;
+  --lg-ring: #9b491c;
   align-self: center;
-  padding: clamp(1.4rem, 4vw, 3.25rem);
+  padding: clamp(1.5rem, 4vw, 3rem);
   min-width: 0;
 }
-.entrance-form h2 { margin-bottom: 1.35rem; }
-.entrance-form #login { display: grid; grid-template-columns: 1fr; gap: .9rem; }
-.entrance-form #login label, .password-field { display: grid; gap: .3rem; }
-.entrance-form .primary { background: #6e3047; border-color: #6e3047; color: white; }
-.entrance-form .primary:hover:not(:disabled) { background: #592339; }
-.password-entry { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px; }
+.entrance-form h2 { margin-bottom: 24px; }
+.entrance-form #login { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
+.entrance-form #login label, .password-field { display: grid; gap: 4px; }
+.entrance-form .lg-button { min-height: 48px; height: auto; border-radius: 12px; font-size: 1rem; }
+.entrance-form .lg-button[aria-pressed="true"] { background-color: var(--lg-glass-active); color: var(--lg-foreground); }
+.entrance-form input { min-height: 48px; border-radius: 12px; }
+.password-entry { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
 .password-entry input { width: 100%; min-width: 0; }
 .entrance-form #status, #login-help { font-size: .94rem; }
 .entrance-form #status { margin-top: 1rem; }
@@ -155,18 +183,21 @@ li { margin-block: 6px; }
 #photo-price { margin: 10px 0 0; font-weight: bold; }
 @media (max-width: 740px) {
   .entrance { grid-template-columns: 1fr; min-height: 0; }
-  .entrance-cover { min-height: 0; padding: clamp(1.15rem, 5vw, 2.5rem); }
-  .entrance-cover h1 { font-size: clamp(2.25rem, 8vw, 3.7rem); }
-  .entrance-date { margin-bottom: .5rem; }
-  .entrance-venue { margin-top: 0; margin-bottom: 0; }
+  .entrance-cover { min-height: 0; padding: clamp(1.25rem, 5vw, 2.5rem); }
+  .entrance-cover h1 { font-size: clamp(1.75rem, 8vw, 3.5rem); }
+  .entrance-cover::after { display: none; }
   .catalog-controls { grid-template-columns: 1fr 1fr; }
   .catalog-controls label:first-child { grid-column: 1/-1; }
 }
 @media (max-width: 460px) {
-  .entrance { width: calc(100% - 1.25rem); margin: .625rem auto; }
+  .entrance { width: calc(100% - 1.5rem); margin: .75rem auto; }
   .catalog-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .catalog-info { padding: 8px; font-size: .94rem; overflow-wrap: anywhere; }
   .catalog-controls { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .entrance-form .lg-button,
+  .entrance-form .lg-glass::after { transition: none; }
 }
 @media print {
   #entrance, #catalog, .session-bar { display: none !important; }
