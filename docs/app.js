@@ -1,5 +1,5 @@
 import { accountEmail, loginPassword } from "./login.js";
-import { catalogPhoto, loadCatalogGroups, setCatalogAccess, wishCatalog } from "./catalog.js?v=wishes";
+import { catalogPhoto, loadCatalogGroups, setCatalogAccess, wishCatalog } from "./catalog.js?v=portions";
 import { menus, photos } from "./menu-data.js";
 import { googleCalendarUrl, calendarHref, animateChange, drinkGroups, tableZones } from "./event.js?v=dashboard-1";
 import { supabaseUrl, supabasePublishableKey } from "./config.js?v=20261127-catalog";
@@ -787,7 +787,8 @@ const wishSlots = {
   main: "Выбрать основное блюдо",
   drink: "Добавить напиток"
 };
-const wishItemLabel = item => item.name + (Number.isFinite(item.price) ? " · " + rubles(item.price) : "");
+const wishPrice = ({ price, volume }) => rubles(price) + (volume ? " за " + volume + " мл" : "");
+const wishItemLabel = item => item.name + (Number.isFinite(item.price) ? " · " + wishPrice(item) : "");
 
 function renderWishChoices() {
   for (const slot of ["salad", "main"]) {
@@ -836,8 +837,8 @@ function renderWishPicker() {
   const maxReached = pickerSlot === "drink" && wishLegacyDishes.length + wishDrinks.length >= 15;
   setText("wish-picker-status", maxReached ? "Достигнут лимит из 15 дополнительных позиций." :
     available.length ? "" : "По этому запросу в категории ничего нет.");
-  results.replaceChildren(...available.map(([name, price]) => {
-    const item = { name, category, price };
+  results.replaceChildren(...available.map(([name, price, , volume]) => {
+    const item = { name, category, price, ...(volume ? { volume } : {}) };
     const isDrink = pickerSlot === "drink";
     const selected = isDrink ? wishDrinks.some(drink => sameWishItem(drink, item)) :
       wishFood[pickerSlot] && sameWishItem(wishFood[pickerSlot], item);
@@ -856,7 +857,7 @@ function renderWishPicker() {
       } else get("wish-picker").close();
     });
     control.disabled = Boolean(selected || maxReached);
-    control.append(element("strong", name), element("small", rubles(price) + (selected ? " · выбрано" : "")));
+    control.append(element("strong", name), element("small", wishPrice(item) + (selected ? " · выбрано" : "")));
     return control;
   }));
 }

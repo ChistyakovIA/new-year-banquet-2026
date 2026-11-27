@@ -46,17 +46,19 @@ export function wishCatalog(groups, slot) {
   });
 }
 
-function openPhoto(name, price, url) {
+const pricedPortion = (price, volume) => prices.format(price) + " ₽" + (volume ? " за " + volume + " мл" : "");
+
+function openPhoto(name, price, url, volume) {
   const dialog = element("catalog-photo");
   const image = element("photo-image");
   element("photo-title").textContent = name;
-  element("photo-price").textContent = prices.format(price) + " ₽";
+  element("photo-price").textContent = pricedPortion(price, volume);
   image.alt = name;
   image.src = url;
   dialog.showModal();
 }
 
-function card([name, price, source], category) {
+function card([name, price, source, volume], category) {
   const article = node("article", null, "catalog-card");
   const info = node("div", null, "catalog-info");
   const url = photoUrl(source);
@@ -69,7 +71,7 @@ function card([name, price, source], category) {
     image.alt = "";
     button.type = "button";
     button.setAttribute("aria-label", "Увеличить фото: " + name);
-    button.addEventListener("click", () => openPhoto(name, price, url));
+    button.addEventListener("click", () => openPhoto(name, price, url, volume));
     image.addEventListener("error", () => button.replaceWith(placeholder()), { once: true });
     image.src = url;
     button.append(image);
@@ -77,7 +79,7 @@ function card([name, price, source], category) {
   } else article.append(placeholder());
   info.append(node("p", name));
   if (category) info.append(node("small", category, "muted"));
-  info.append(node("strong", prices.format(price) + " ₽"));
+  info.append(node("strong", pricedPortion(price, volume)));
   article.append(info);
   return article;
 }
@@ -91,7 +93,8 @@ function render() {
   const sortAll = Boolean(order && !category);
   if (sortAll) visible = [{
     category: "Все категории",
-    items: visible.flatMap(group => group.items.map(item => [...item, group.category]))
+    items: visible.flatMap(group => group.items.map(([name, price, source, volume]) =>
+      [name, price, source, volume, group.category]))
   }];
   let count = 0;
   let displayed = 0;
@@ -106,7 +109,7 @@ function render() {
     displayed += page.length;
     const section = node("section", null, "catalog-group");
     const grid = node("div", null, "catalog-grid");
-    grid.append(...page.map(item => card(item, sortAll ? item[3] : null)));
+    grid.append(...page.map(item => card(item, sortAll ? item[4] : null)));
     section.append(node("h3", group.category), grid);
     results.push(section);
   }
@@ -131,7 +134,7 @@ export function loadCatalogGroups() {
   if (groups) return Promise.resolve(groups);
   if (!loading) {
     loading = (async () => {
-      const response = await fetch(new URL("./catalog-data.json", import.meta.url), {signal:AbortSignal.timeout(10000)});
+      const response = await fetch(new URL("./catalog-data.json?v=portions", import.meta.url), {signal:AbortSignal.timeout(10000)});
       if (!response.ok) throw Error("Catalog request failed");
       const data = await response.json();
       if (!Array.isArray(data.groups) || data.groups.length === 0) throw Error("Catalog data is incomplete");
