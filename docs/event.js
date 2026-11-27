@@ -1,5 +1,22 @@
+import { menus } from "./menu-data.js";
+
+export const eventTitle = "🎄 Новогодний корпоратив";
+export const eventLocation = "Ресторан «Моя узбечка», Саратов, Соколовая улица, 10/16";
+export const eventSite = "https://chistyakovia.github.io/new-year-banquet-2026/";
 export const start = new Date("2026-12-25T18:00:00+04:00");
 export const end = new Date("2026-12-26T00:00:00+04:00");
+
+export const calendarDescription = [
+  "📍 Место встречи",
+  eventLocation,
+  "Карта: https://yandex.com/maps/org/moya_uzbechka/28586833407/",
+  "",
+  "🕒 Программа по времени Саратова (UTC+4)",
+  ...menus[0][0].map(([time, name]) => `${time} · ${name}`),
+  "",
+  "🍽 Меню, рассадка и пожелания участников",
+  eventSite
+].join("\n");
 
 function eventTime(text) {
   const hour = Number(text.split(":")[0]);
@@ -16,7 +33,7 @@ export function programStatus(stages, now) {
   const live = phases.indexOf("live");
   const next = phases.indexOf("upcoming");
   if (live >= 0) return { phases, note: "Сейчас · " + stages[live][1], next };
-  if (next < 0) return { phases, note: "Вечер завершён", next };
+  if (next < 0) return { phases, note: "Корпоратив завершён", next };
   if (now >= start.getTime()) return { phases, note: "Далее в " + stages[next][0].split("–")[0] + " · " + stages[next][1], next };
   const minutes = Math.ceil((start.getTime() - now) / 60000);
   const days = Math.floor(minutes / 1440);
@@ -30,10 +47,10 @@ export function googleCalendarUrl() {
   const stamp = date => date.toISOString().replace(/[-:]/g, "").replace(".000", "");
   const url = new URL("https://calendar.google.com/calendar/render");
   url.search = new URLSearchParams({
-    action: "TEMPLATE", text: "Новогодний вечер",
+    action: "TEMPLATE", text: eventTitle,
     dates: stamp(start) + "/" + stamp(end), stz: "Europe/Saratov", etz: "Europe/Saratov",
-    location: "Моя узбечка, Саратов, Соколовая, 10/16",
-    details: "Встреча гостей в 18:00 по Саратову.\nhttps://chistyakovia.github.io/new-year-banquet-2026/"
+    location: eventLocation,
+    details: calendarDescription + "\n\n🔔 При сохранении добавьте два уведомления: за сутки и за час."
   });
   return url.href;
 }

@@ -1,7 +1,7 @@
 import { accountEmail, loginPassword } from "./login.js";
 import { catalogPhoto, setCatalogAccess } from "./catalog.js";
 import { menus, photos } from "./menu-data.js";
-import { programStatus, googleCalendarUrl, calendarHref, animateChange, drinkGroups, tableZones } from "./event.js";
+import { programStatus, googleCalendarUrl, calendarHref, animateChange, drinkGroups, tableZones } from "./event.js?v=20261127-calendar";
 import { supabaseUrl, supabasePublishableKey } from "./config.js?v=20261127-catalog";
 
 const budget = 39000;

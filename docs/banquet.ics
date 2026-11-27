@@ -4,13 +4,35 @@ PRODID:-//New Year Banquet//Saratov//RU
 CALSCALE:GREGORIAN
 BEGIN:VEVENT
 UID:banquet-20261225@chistyakovia.github.io
-DTSTAMP:20261127T120000Z
 DTSTART:20261225T140000Z
 DTEND:20261225T200000Z
-SUMMARY:Новогодний вечер
-LOCATION:Моя узбечка\, Саратов\, Соколовая\, 10/1
- 6
-DESCRIPTION:Встреча гостей в 18:00 по Саратову.
+DTSTAMP:20261127T161007Z
+SEQUENCE:1
+SUMMARY:🎄 Новогодний корпоратив
+LOCATION:Ресторан «Моя узбечка»\, Саратов\, Со
+ коловая улица\, 10/16
+DESCRIPTION:📍 Место встречи\nРесторан «Моя уз
+ бечка»\, Саратов\, Соколовая улица\, 10/16\nК
+ арта: https://yandex.com/maps/org/moya_uzbechka/28586833407/\n\n🕒 
+ Программа по времени Саратова (UTC+4)\n18:00–1
+ 9:00 · Встреча гостей\n19:00–19:45 · Свежие сал
+ аты\n19:45–20:30 · Первое горячее\n21:30–22:00 · В
+ торое горячее\n22:30–23:00 · Чайная пауза\n23:00
+ –00:00 · Дискотека\n\n🍽 Меню\, рассадка и по
+ желания участников\nhttps://chistyakovia.github.io/new-ye
+ ar-banquet-2026/
 URL:https://chistyakovia.github.io/new-year-banquet-2026/
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-P1D
+DESCRIPTION:🎄 Новогодний корпоратив · завтра 
+ в 18:00
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT1H
+DESCRIPTION:🎄 Новогодний корпоратив · через ч
+ ас
+END:VALARM
 END:VEVENT
 END:VCALENDAR
