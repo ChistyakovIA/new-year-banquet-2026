@@ -92,6 +92,8 @@ button:active:not(:disabled) { box-shadow: inset 0 2px 5px #142b252e; }
 .workspace-nav a { display: inline-flex; align-items: center; min-height: 44px; color: var(--muted); padding: 6px 14px; border-radius: 12px; text-decoration: none; font-weight: 650; }
 .workspace-nav a:hover { background: #dfe9da; color: var(--ink); }
 .workspace-nav a[aria-current] { background: linear-gradient(122deg, #173b2e, #25684d); color: #fff9eb; }
+.workspace-nav .nav-extra-orders { color: #fff; background: #225ba8; }
+.workspace-nav .nav-extra-orders:hover, .workspace-nav .nav-extra-orders[aria-current] { color: #fff; background: #194684; }
 [data-view] { scroll-margin-top: 84px; }
 .overview-hero {
   min-height: 17rem;
@@ -396,6 +398,23 @@ button:active:not(:disabled) { box-shadow: inset 0 2px 5px #142b252e; }
 }
 :root { --program-switcher-top: 62px; }
 #program-selection { margin: .35rem 0 0; font-weight: 650; font-size: .88rem; }
+.extra-orders-notice {
+  background: #eff5fc;
+  color: #19385d;
+  border-inline-start: 4px solid #225ba8;
+  border-radius: 9px;
+  padding: .7rem .9rem;
+  margin: .75rem 0;
+}
+.extra-orders-notice p { margin: .35rem 0 0; }
+.extra-order-fields { display:grid; grid-template-columns: minmax(0,2fr) minmax(7rem,.7fr) minmax(10rem,1fr); gap:.65rem; margin-block:.8rem; }
+.extra-order-choices { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,13rem),1fr)); gap:.45rem; }
+.extra-order-choices button { text-align:left; }
+.extra-order-choices small, .extra-order-list small { display:block; color:var(--muted); }
+.extra-order-list { list-style:none; padding:0; }
+.extra-order-list li { display:flex; justify-content:space-between; flex-wrap:wrap; align-items:center; gap:.45rem; border-bottom:1px solid var(--line); padding:.45rem 0; }
+#extra-order-participants > div { margin:.45rem 0 .8rem; }
+@media (max-width:620px) { .extra-order-fields { grid-template-columns:1fr; } }
 .serving-step { scroll-margin-top: calc(var(--program-switcher-top) + 105px); }
 #serving-editor { scroll-margin-top: calc(var(--program-switcher-top) + 105px); }
 @media (max-width: 460px) {

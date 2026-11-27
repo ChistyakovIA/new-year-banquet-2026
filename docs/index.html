@@ -9,9 +9,9 @@
   <title>🎄 Новогодний корпоратив 2027 · Моя узбечка</title>
   <link rel="stylesheet" href="vendor/glisse-0.6.0.css">
   <link rel="stylesheet" href="styles.css?v=20261127-calendar">
-  <link rel="stylesheet" href="dashboard.css?v=9">
+  <link rel="stylesheet" href="dashboard.css?v=10">
   <link rel="stylesheet" href="grinch.css?v=2">
-  <script type="module" src="app.js?v=portions-1"></script>
+  <script type="module" src="app.js?v=extra-orders-1"></script>
 </head>
 <body>
   <main id="entrance" class="entrance">
@@ -54,6 +54,7 @@
       <a href="#seating" data-nav="seating">Рассадка</a>
       <a href="#wishes" data-nav="wishes">Пожелания</a>
       <a href="#catalog" data-nav="catalog">Каталог</a>
+      <a href="#extra-orders" data-nav="extra-orders" class="nav-extra-orders">Дозаказать</a>
     </nav>
     <section id="layout-start" class="panel layout-start" aria-labelledby="layout-start-title" hidden>
       <h2 id="layout-start-title" tabindex="-1">Выберите формат рассадки</h2>
@@ -252,6 +253,35 @@
       <p class="muted" id="catalog-status" role="status"></p>
       <button id="catalog-retry" type="button" hidden>Загрузить снова</button>
       <div id="catalog-results"></div>
+    </section>
+    <section id="extra-orders" data-view="extra-orders" class="panel" aria-labelledby="extra-orders-title">
+      <h2 id="extra-orders-title">Личные дозаказы</h2>
+      <div class="extra-orders-notice">
+        <strong>Заполняйте только в «Моей узбечке» во время банкета.</strong>
+        <p>25 декабря, Саратов, ул. Соколовая, 10/16. Сначала закажите у официанта, затем запишите здесь то, что взяли сверх утверждённого меню. Личный дозаказ оплачивается отдельно.</p>
+      </div>
+      <form id="extra-order-form">
+        <details id="extra-order-catalog">
+          <summary>Выбрать из каталога</summary>
+          <label>Поиск по каталогу<input id="extra-order-search" type="search" maxlength="100"></label>
+          <p id="extra-order-catalog-status" class="muted" role="status"></p>
+          <div id="extra-order-choices" class="extra-order-choices"></div>
+        </details>
+        <div class="extra-order-fields">
+          <label>Блюдо или напиток<input id="extra-order-name" maxlength="120" required></label>
+          <label>Количество<input id="extra-order-quantity" type="number" min="1" max="200" step="1" value="1" required></label>
+          <label>Цена за порцию, ₽<input id="extra-order-price" type="number" min="0" max="100000" step="0.01" placeholder="Если известна"></label>
+        </div>
+        <p id="extra-order-volume" class="muted" hidden></p>
+        <button id="extra-order-add" class="primary" type="submit">Записать дозаказ</button>
+        <p id="extra-order-status" role="status"></p>
+      </form>
+      <h3>Мои дозаказы</h3>
+      <div id="my-extra-orders"></div>
+      <details id="all-extra-orders" hidden>
+        <summary>Дозаказы всех участников</summary>
+        <div id="extra-order-participants"></div>
+      </details>
     </section>
   </main>
   <dialog id="catalog-photo" aria-labelledby="photo-title">

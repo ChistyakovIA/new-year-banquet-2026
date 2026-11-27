@@ -1,5 +1,6 @@
 import { accountEmail, loginPassword } from "./login.js";
 import { catalogPhoto, loadCatalogGroups, setCatalogAccess, wishCatalog } from "./catalog.js?v=portions";
+import { installExtraOrders } from "./extra-orders.js";
 import { menus, photos } from "./menu-data.js";
 import { googleCalendarUrl, calendarHref, animateChange, drinkGroups, tableZones } from "./event.js?v=dashboard-1";
 import { supabaseUrl, supabasePublishableKey } from "./config.js?v=20261127-catalog";
@@ -930,7 +931,7 @@ function showView(scroll = true) {
   const fragment = location.hash.slice(1);
   const raw = fragment === "history" ? "wishes" : fragment;
   const servingAnchor = /^serving-step-[0-4]$/.test(raw);
-  const known = ["overview", "menu", "program", "beverage-editor", "seating", "wishes", "organizer", "catalog"].includes(raw)
+  const known = ["overview", "menu", "program", "beverage-editor", "seating", "wishes", "organizer", "catalog", "extra-orders"].includes(raw)
     && (raw !== "organizer" || snapshot?.admin);
   const target = servingAnchor ? "program" : known ? raw : "overview";
   const panel = get(target);
@@ -975,6 +976,7 @@ function renderOnline() {
   get("publish").disabled = !planDraft || publishing || selectedMenu == null;
   if (!member) {
     void setCatalogAccess(false);
+    extraOrders.reset();
     get("layout-start").hidden = true;
     get("review").replaceChildren();
     get("votes").replaceChildren();
@@ -989,6 +991,7 @@ function renderOnline() {
   }
 
   if (!wishDirty) loadWish();
+  extraOrders.render(snapshot, nameOf);
   renderOverview();
   const wishes = snapshot.admin ? snapshot.wishes : [];
   get("votes").replaceChildren(...(snapshot.admin ? menuNames.map((name, i) =>
@@ -1401,4 +1404,9 @@ for (const link of document.querySelectorAll("[data-calendar]")) {
 }
 get("google-calendar").href = googleCalendarUrl();
 
+const extraOrders = installExtraOrders({
+  session: () => snapshot && userId ? { user: userId, client } : null,
+  refresh: sync,
+  loadCatalog: loadCatalogGroups
+});
 startOnline();
