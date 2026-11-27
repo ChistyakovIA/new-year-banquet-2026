@@ -19,7 +19,8 @@ export function orderMetrics(stages, drinks, fee) {
   };
 }
 
-export function tablePortions(rows, table) {
+export function tablePortions(rows, table, tableCount = 2) {
+  if (tableCount === 1) return rows;
   return rows.map(([name, count, ...rest]) => {
     const first = Math.round(count * 7 / 13);
     return [name, table === 0 ? first : count - first, ...rest];

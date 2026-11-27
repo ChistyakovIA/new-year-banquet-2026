@@ -3,7 +3,7 @@ import { catalogPhoto, setCatalogAccess } from "./catalog.js?v=dashboard-1";
 import { menus, photos } from "./menu-data.js";
 import { programStatus, googleCalendarUrl, calendarHref, animateChange, drinkGroups, tableZones } from "./event.js?v=dashboard-1";
 import { supabaseUrl, supabasePublishableKey } from "./config.js?v=20261127-catalog";
-import { drinkPreferences, orderMetrics, tablePortions } from "./overview.js";
+import { drinkPreferences, orderMetrics, tablePortions } from "./overview.js?v=layouts";
 
 const budget = 39000;
 const guestCount = 13;
@@ -45,6 +45,7 @@ let selectedStage = 0;
 let selectedSeat = 0;
 let selectedZone = 1;
 let selectedTable = 0;
+let previewTables = null;
 let seatFilter = "";
 let snapshot = null;
 let planDraft = null;
@@ -141,7 +142,7 @@ function renderOverview() {
     if (pending.length) money.append(element("p", "Нет отметки об оплате · " + pending.map(record => nameOf(record.guest_id)).join(", "), "muted"));
   }
   const cards = [
-    ["Гостей", String(guestCount), "Два стола · 7 и 6 мест"],
+    ["Гостей", String(guestCount), (planDraft?.tables ?? snapshot.plan.table_count) === 1 ? "Один стол · 13 мест" : "Два стола · 7 и 6 мест"],
     ["Бюджет", rubles(budget), rubles(budget / guestCount) + " с участника"],
     ["Смета", rubles(metrics.total), "Вариант " + (selectedMenu + 1) + " · " + menuNames[selectedMenu]],
     ["Еда на гостя", currency.format(metrics.weight / guestCount) + " г", "По указанным граммовкам"]
@@ -243,18 +244,45 @@ function renderMenu() {
   const active = document.activeElement?.getAttribute("aria-label");
   const [stages] = menus[selectedMenu];
   get("choices").replaceChildren(...menus.map(([steps, drinks], i) => {
-    const choice = button(null, () => {
+    const card = element("article", null, "menu-choice");
+    card.dataset.selected = String(i === selectedMenu);
+    const choice = button(i === selectedMenu ? "Открыть подачу" : "Выбрать и открыть подачу", () => {
       selectedMenu = i;
       selectedStage = 0;
       renderMenu();
       renderSeating();
-      get("choices").children[i].focus();
-    }, i === selectedMenu);
-    const estimate = orderMetrics(steps.map((_, stage) => rowsFor(i, stage)), rowsFor(i, 6), drafts[i].fee);
-    choice.append(element("small", "Вариант " + (i + 1)), element("strong", menuNames[i]));
-    if (snapshot?.menu_authors[i]) choice.append(element("small", snapshot.menu_authors[i]));
-    choice.append(element("span", rubles(estimate.total)), element("small", currency.format(estimate.weight / guestCount) + " г/гостя"));
-    return choice;
+      location.hash = "program";
+      showView();
+      get("program-title").focus({ preventScroll: true });
+    });
+    choice.setAttribute("aria-label", choice.textContent + " · вариант " + (i + 1));
+    const stageRows = steps.map((_, stage) => rowsFor(i, stage));
+    const beverageRows = rowsFor(i, 6);
+    const estimate = orderMetrics(stageRows, beverageRows, drafts[i].fee);
+    const cost = element("p", null, "menu-cost");
+    cost.append(element("strong", rubles(estimate.total)),
+      element("small", rubles(estimate.total / guestCount) + "/гостя"));
+    const balance = budget - estimate.total;
+    const balanceLabel = balance < 0 ? "Сверх бюджета " + rubles(-balance) : "Резерв " + rubles(balance);
+    const course = element("dl", null, "menu-courses");
+    for (const [index, label] of [[1, "Салаты"], [2, "Первое горячее"], [3, "Второе горячее"]]) {
+      const names = stageRows[index].filter(row => row[1] > 0).map(row => row[0]);
+      course.append(element("dt", label), element("dd", names.join(", ") || "Без заказа"));
+    }
+    const included = beverageRows.filter(row => row[1] > 0);
+    let beverageLabel = "Отдельно от сметы";
+    if (estimate.categories[1] > 0) beverageLabel = estimate.categories[2] > 0
+      ? "Алкоголь и безалкогольные в смете" : "Алкоголь включён";
+    else if (included.length) beverageLabel = included.map(row => row[0].replace(", графин", "")).join(", ");
+    course.append(element("dt", "Напитки"), element("dd", beverageLabel));
+    const badge = i === selectedMenu ? " · выбран" : "";
+    card.append(element("p", "Вариант " + (i + 1) + badge, "menu-index"),
+      element("h3", menuNames[i]), cost,
+      element("p", balanceLabel, balance < 0 ? "warn menu-balance" : "muted menu-balance"),
+      course, element("small", currency.format(estimate.weight / guestCount) + " г еды на гостя", "muted"));
+    if (snapshot?.menu_authors[i]) card.append(element("small", snapshot.menu_authors[i], "muted"));
+    card.append(choice);
+    return card;
   }));
   get("stages").replaceChildren(...stages.map(([time, title], i) => {
     const choice = button(null, () => {
@@ -266,6 +294,7 @@ function renderMenu() {
     return choice;
   }));
   updateProgramClock();
+  setText("program-menu", "Вариант " + (selectedMenu + 1) + " · " + menuNames[selectedMenu]);
   setText("menu-note", menuNotes[selectedMenu]);
   const plan = snapshot?.plan;
   setText("plan-status", plan?.menu != null
@@ -334,8 +363,20 @@ function setOptions(select, options, current, empty = "Любое") {
   if (select.selectedIndex < 0) select.selectedIndex = 0;
 }
 
+const publishedTables = () => snapshot?.plan.table_count ?? 2;
+const visibleTables = () => planDraft?.tables ?? previewTables ?? publishedTables();
+const seatTable = index => visibleTables() === 2 && index >= 7 ? 1 : 0;
+
 function renderSeating() {
   const order = planDraft?.seats || snapshot?.plan.seats || defaultSeats;
+  const tableCount = visibleTables();
+  const isPreview = !planDraft && tableCount !== publishedTables();
+  selectedTable = Math.min(selectedTable, tableCount - 1);
+  get("seats").dataset.tables = tableCount;
+  get("layout-one").setAttribute("aria-pressed", String(tableCount === 1));
+  get("layout-two").setAttribute("aria-pressed", String(tableCount === 2));
+  get("seating-edit").hidden = !snapshot?.admin || Boolean(planDraft);
+  get("seating-approve").hidden = !planDraft;
   const guestId = order[selectedSeat];
   const guest = snapshot?.guests.find(person => person.id === guestId);
   const assignmentSet = planDraft?.assignments[selectedMenu]
@@ -366,7 +407,7 @@ function renderSeating() {
     const group = groupOf(id);
     const control = button(null, () => {
       selectedSeat = index;
-      selectedTable = index < 7 ? 0 : 1;
+      selectedTable = seatTable(index);
       renderSeating();
       focusSeat(index);
       animateChange(get("guest-card"));
@@ -384,7 +425,8 @@ function renderSeating() {
   });
   const zones = tableZones(rowsFor(selectedMenu, selectedStage), rowsFor(selectedMenu, 6));
   const zoneLabels = ["Без алкоголя", "Блюда", "Другие напитки"];
-  const tables = [[0, 4, 7], [7, 10, 13]].map(([start, middle, end], table) => {
+  const splits = tableCount === 1 ? [[0, 7, 13]] : [[0, 4, 7], [7, 10, 13]];
+  const tables = splits.map(([start, middle, end], table) => {
     const room = element("section", null, "seating-table");
     const top = element("div", null, "seat-row seat-row-top");
     const bottom = element("div", null, "seat-row seat-row-bottom");
@@ -393,7 +435,7 @@ function renderSeating() {
     const surface = element("div", null, "table banquet-table");
     const zoneControls = element("div", null, "table-zones");
     zones.forEach((zone, index) => {
-      const rows = tablePortions(zone.rows, table).filter(row => row[1] > 0);
+      const rows = tablePortions(zone.rows, table, tableCount).filter(row => row[1] > 0);
       const control = button(null, () => {
         selectedTable = table;
         selectedZone = index;
@@ -421,16 +463,17 @@ function renderSeating() {
     });
     surface.append(zoneControls);
     const heading = element("h3");
-    heading.append(element("span", "Стол " + (table + 1)), element("small", (end - start) + " мест"));
+    heading.append(element("span", tableCount === 1 ? "Общий стол" : "Стол " + (table + 1)), element("small", (end - start) + " мест"));
     room.append(heading, top, surface, bottom);
     return room;
   });
   get("seats").replaceChildren(...tables);
   const tableDetail = get("table-detail");
   const zone = zones[selectedZone];
-  const portions = tablePortions(zone.rows, selectedTable).filter(row => row[1] > 0);
-  tableDetail.replaceChildren(element("h3", "Стол " + (selectedTable + 1) + " · " + zone.name),
-    element("p", "Пример сервировки пропорционально числу мест.", "muted"));
+  const portions = tablePortions(zone.rows, selectedTable, tableCount).filter(row => row[1] > 0);
+  const tableLabel = tableCount === 1 ? "Общий стол" : "Стол " + (selectedTable + 1);
+  tableDetail.replaceChildren(element("h3", tableLabel + " · " + zone.name),
+    element("p", tableCount === 1 ? "Все порции выбранной подачи на одном столе." : "Пример сервировки пропорционально числу мест.", "muted"));
   if (portions.length) {
     const list = element("ul");
     for (const [name, quantity, , grams] of portions) {
@@ -438,9 +481,10 @@ function renderSeating() {
     }
     tableDetail.append(list);
   } else tableDetail.append(element("p", "Для этой зоны в текущем меню нет позиций."));
-  setText("seats-status", planDraft ? "Черновик организатора. Для участников действует опубликованная схема."
-    : snapshot?.plan.revision ? "Утверждённая рассадка. Выберите место для просмотра."
-    : "Предварительная схема на 13 мест. Выберите место, чтобы открыть карточку.");
+  setText("seats-status", planDraft ? "Черновик организатора. Формат применится после утверждения плана."
+    : isPreview ? "Предпросмотр. Формат общего плана остался прежним."
+    : snapshot?.plan.revision ? "Утверждённый формат. Выберите место для просмотра."
+    : "Предварительная схема. Выберите место, чтобы открыть карточку.");
   const card = get("guest-card");
   card.replaceChildren(element("h3", "Место " + (selectedSeat + 1) + " · " + (guest?.profile?.[0] || nameOf(guestId))));
   if (guest) card.append(element("p", drinkGroups[groupOf(guestId)], "muted"));
@@ -451,7 +495,7 @@ function renderSeating() {
     });
     card.append(list);
   }
-  const ownButton = snapshot && !planDraft ? button("Предложить это место", () => {
+  const ownButton = snapshot && !planDraft && !isPreview ? button("Предложить это место", () => {
     fields.seat.value = String(selectedSeat + 1);
     wishDirty = true;
     location.hash = "wishes";
@@ -468,7 +512,7 @@ function renderSeating() {
       const index = Number(swap.value);
       [order[index], order[selectedSeat]] = [order[selectedSeat], order[index]];
       selectedSeat = index;
-      selectedTable = index < 7 ? 0 : 1;
+      selectedTable = seatTable(index);
       renderSeating();
     });
     label.append(swap);
@@ -528,6 +572,9 @@ function loadWish() {
 function describeChanges(before, after) {
   const changes = [];
   if (before.menu !== after.menu) changes.push("Меню · " + menuNames[after.menu]);
+  if ((before.table_count ?? 2) !== (after.table_count ?? 2)) {
+    changes.push(after.table_count === 1 ? "Рассадка за одним столом" : "Рассадка за двумя столами");
+  }
   if (before.fee !== after.fee) changes.push("Сервисный сбор · " + rubles(before.fee) + " → " + rubles(after.fee));
   after.seats.forEach((id, i) => {
     if (id !== before.seats[i]) changes.push("Место " + (i + 1) + " · " + nameOf(before.seats[i]) + " → " + nameOf(id));
@@ -686,7 +733,7 @@ async function sync() {
   renderOnline();
   if (!previous || previous.plan.revision !== snapshot.plan.revision) renderMenu();
   const focusInSeating = get("seating").contains(document.activeElement);
-  if (!focusInSeating || !previous) renderSeating();
+  if (!focusInSeating || !previous || previous.plan.revision !== snapshot.plan.revision) renderSeating();
 }
 
 function switchUser(session) {
@@ -696,6 +743,7 @@ function switchUser(session) {
   syncSequence++;
   snapshot = null;
   planDraft = null;
+  previewTables = null;
   publishing = false;
   wishDirty = false;
   wishRevision = 0;
@@ -847,16 +895,23 @@ wish.addEventListener("submit", async event => {
   }
 });
 
-get("edit-plan").addEventListener("click", () => {
+function editPlan() {
   if (!snapshot?.admin) return;
+  if (planDraft) return;
   const plan = snapshot.plan;
-  planDraft = { revision: plan.revision, seats: [...plan.seats], assignments: {} };
+  planDraft = { revision: plan.revision, seats: [...plan.seats], tables: visibleTables(), assignments: {} };
+  previewTables = null;
   if (plan.menu != null) planDraft.assignments[plan.menu] = structuredClone(plan.assignments);
   usePlan(plan);
   renderOnline();
   renderMenu();
   renderSeating();
   setText("publish-status", "Черновик открыт. Места и порции можно изменить выше.");
+}
+get("edit-plan").addEventListener("click", editPlan);
+get("edit-seating").addEventListener("click", () => {
+  editPlan();
+  get("layout-" + (visibleTables() === 1 ? "one" : "two")).focus({ preventScroll: true });
 });
 get("discard-plan").addEventListener("click", () => {
   planDraft = null;
@@ -876,7 +931,7 @@ get("publish").addEventListener("click", async () => {
   const { data, error } = await client.rpc("banquet_publish", {
     expected_revision: planDraft.revision, approved_menu: selectedMenu, approved_seats: planDraft.seats,
     approved_adjustments: [...draft.adjustments.values()], approved_assignments: planDraft.assignments[selectedMenu] || {},
-    approved_fee: draft.fee
+    approved_fee: draft.fee, approved_tables: planDraft.tables
   });
   if (owner !== userId) return;
   publishing = false;
@@ -934,6 +989,17 @@ get("copy-menu").addEventListener("click", async () => {
   }
 });
 get("print").addEventListener("click", () => window.print());
+for (const [id, tableCount] of [["layout-one", 1], ["layout-two", 2]]) {
+  get(id).addEventListener("click", () => {
+    if (planDraft) {
+      planDraft.tables = tableCount;
+      renderOverview();
+    } else previewTables = tableCount === publishedTables() ? null : tableCount;
+    selectedTable = seatTable(selectedSeat);
+    renderSeating();
+    animateChange(get("seats"));
+  });
+}
 get("table-serving").addEventListener("change", event => selectServing(Number(event.currentTarget.value)));
 get("my-seat").addEventListener("click", () => {
   if (!snapshot) return;
@@ -941,7 +1007,7 @@ get("my-seat").addEventListener("click", () => {
   const index = order.indexOf(snapshot.member);
   if (index < 0) return;
   selectedSeat = index;
-  selectedTable = index < 7 ? 0 : 1;
+  selectedTable = seatTable(index);
   seatFilter = "";
   renderSeating();
   get("seats").querySelector('[data-seat="' + index + '"]').focus();
