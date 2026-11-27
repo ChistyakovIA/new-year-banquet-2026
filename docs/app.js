@@ -42,7 +42,9 @@ const drafts = menus.map(blankDraft);
 const localExtras = [];
 const wish = get("wish-form");
 const fields = wish.elements;
-let selectedMenu = 0;
+let selectedMenu = null;
+const comparison = new Set();
+let comparisonActive = false;
 let selectedStage = 0;
 let selectedSeat = 0;
 let selectedZone = 1;
@@ -89,7 +91,8 @@ function inputNumber(label, value, max, onChange) {
   return input;
 }
 
-function rowsFor(menuIndex, stage, adjustments = drafts[menuIndex].adjustments) {
+function rowsFor(menuIndex, stage, adjustments = drafts[menuIndex]?.adjustments) {
+  if (menuIndex == null) return [];
   const [stages, drinks] = menus[menuIndex];
   const source = stage === 6 ? drinks : stages[stage][3];
   return source.map((row, i) => {
@@ -104,12 +107,12 @@ function activeTotal() {
 }
 
 function renderBudget() {
-  const total = activeTotal();
+  const total = selectedMenu == null ? null : activeTotal();
   const balance = budget - total;
-  setText("total", rubles(total));
-  setText("per-guest", rubles(total / guestCount));
+  setText("total", total == null ? "—" : rubles(total));
+  setText("per-guest", total == null ? "—" : rubles(total / guestCount));
   setText("balance-label", balance < 0 ? "Превышение" : "Резерв");
-  setText("balance", rubles(Math.abs(balance)));
+  setText("balance", total == null ? "—" : rubles(Math.abs(balance)));
   get("balance").classList.toggle("warn", balance < 0);
   setText("extras-total", rubles(costs(localExtras)));
   if (snapshot) renderOverview();
@@ -129,8 +132,9 @@ function overviewMeter(label, amount, max, value) {
 }
 
 function renderOverview() {
-  const stages = menus[selectedMenu][0];
-  const metrics = orderMetrics(stages.map((_, i) => rowsFor(selectedMenu, i)), rowsFor(selectedMenu, 6), drafts[selectedMenu].fee);
+  const stages = menus[selectedMenu]?.[0] ?? [];
+  const metrics = selectedMenu == null ? null :
+    orderMetrics(stages.map((_, i) => rowsFor(selectedMenu, i)), rowsFor(selectedMenu, 6), drafts[selectedMenu].fee);
   const fund = snapshot.admin ? snapshot.funding : null;
   const money = get("payments");
   money.replaceChildren();
@@ -149,18 +153,20 @@ function renderOverview() {
   const cards = [
     ["Гостей", String(guestCount), (planDraft?.tables ?? snapshot.plan.table_count) === 1 ? "Один стол · 13 мест" : "Два стола · 7 и 6 мест"],
     ["Бюджет", rubles(budget), rubles(budget / guestCount) + " с участника"],
-    ["Смета", rubles(metrics.total), "Вариант " + (selectedMenu + 1) + " · " + menuNames[selectedMenu]],
-    ["Еда на гостя", currency.format(metrics.weight / guestCount) + " г", "По указанным граммовкам"]
+    ["Смета", metrics ? rubles(metrics.total) : "—", metrics ? menuLabel(selectedMenu) : "Меню ещё не выбрано"],
+    ["Еда на гостя", metrics ? currency.format(metrics.weight / guestCount) + " г" : "—", "По указанным граммовкам"]
   ];
   get("overview-facts").replaceChildren(...cards.map(([label, value, caption]) => {
     const card = element("div", null, "overview-fact");
     card.append(element("span", label), element("strong", value), element("small", caption, "muted"));
     return card;
   }));
-  get("estimate").replaceChildren(...["Блюда", "Алкоголь", "Безалкогольные", "Сервисный сбор"].map((label, i) =>
-    overviewMeter(label, metrics.categories[i], metrics.total, rubles(metrics.categories[i]))));
+  get("estimate").replaceChildren(...(metrics ? ["Блюда", "Алкоголь", "Безалкогольные", "Сервисный сбор"].map((label, i) =>
+    overviewMeter(label, metrics.categories[i], metrics.total, rubles(metrics.categories[i])))
+    : [element("p", "Выберите вариант, чтобы увидеть смету.", "muted")]));
   const weight = get("serving-analytics");
-  weight.replaceChildren(element("p", (metrics.weight / 1000).toLocaleString("ru-RU", { maximumFractionDigits: 2 }) + " кг еды всего", "overview-total"),
+  weight.replaceChildren(metrics ? element("p", (metrics.weight / 1000).toLocaleString("ru-RU", { maximumFractionDigits: 2 }) + " кг еды всего", "overview-total")
+    : element("p", "Подача и вес еды зависят от выбранного меню.", "muted"),
     ...stages.map(([time, label], i) => {
       const row = overviewMeter(time.slice(0, 5) + " · " + label, metrics.weights[i], Math.max(...metrics.weights),
         metrics.weights[i] ? currency.format(metrics.weights[i] / guestCount) + " г/гостя" : "—");
@@ -170,7 +176,7 @@ function renderOverview() {
       row.append(link);
       return row;
     }));
-  if (metrics.missingWeights) weight.append(element("p", "Без данных о весе: " + metrics.missingWeights + " позиций.", "muted"));
+  if (metrics?.missingWeights) weight.append(element("p", "Без данных о весе: " + metrics.missingWeights + " позиций.", "muted"));
   const preferences = get("drink-analytics");
   if (fund?.records) {
     preferences.replaceChildren(...Object.entries(drinkPreferences).map(([key, label]) => {
@@ -187,11 +193,11 @@ function renderOverview() {
   }
   const issues = [
     snapshot.plan.menu == null ? "Окончательное меню ожидает утверждения." : "Утверждён вариант " + (snapshot.plan.menu + 1) + ".",
-    metrics.total > budget ? "Смета выше бюджета на " + rubles(metrics.total - budget) + "." : "Резерв по смете — " + rubles(budget - metrics.total) + ".",
-    ...(selectedMenu < 3 ? ["Исходные предложения Алексеевой на 14 порций. Проверьте количества на 13 гостей."] : []),
+    ...(metrics ? [metrics.total > budget ? "Смета выше бюджета на " + rubles(metrics.total - budget) + "." : "Резерв по смете — " + rubles(budget - metrics.total) + "."] : []),
+    ...(metrics && selectedMenu < 3 ? ["Исходные предложения Алексеевой на 14 порций. Проверьте количества на 13 гостей."] : []),
     ...(selectedMenu === 1 ? ["В исходном расчёте варианта 2 расхождение 320 ₽."] : []),
     "Объём и цену бутылок водки уточнить у ресторана.",
-    ...(fund?.records ? [metrics.total > fund.records.reduce((sum, record) => sum + record.amount, 0)
+    ...(metrics && fund?.records ? [metrics.total > fund.records.reduce((sum, record) => sum + record.amount, 0)
       ? "До оплаты этой сметы из собранных взносов не хватает " + rubles(metrics.total - fund.records.reduce((sum, record) => sum + record.amount, 0)) + "."
       : "Собранных взносов хватает на выбранную смету."] : []),
     ...(snapshot.admin ? ["Пожеланий сохранено · " + snapshot.wishes.length + " из " + guestCount + "."] : [])
@@ -245,17 +251,77 @@ function dishRow(row, stage, i) {
   return container;
 }
 
+const menuLabel = index => "Вариант " + (index + 1) + " · " + menuNames[index];
+const programStages = () => (menus[selectedMenu] ?? menus[0])[0];
+
+function chooseMenu(index) {
+  selectedMenu = index;
+  renderMenu();
+  renderSeating();
+  get("publish").disabled = !planDraft || publishing;
+}
+
+const programButtons = menuNames.map((name, index) => {
+  const control = button("Меню " + (index + 1), () => {
+    const bar = get("program-switcher").getBoundingClientRect();
+    const previousSteps = [...get("serving-timeline").children];
+    const visible = previousSteps.findIndex(step => {
+      const rect = step.getBoundingClientRect();
+      return rect.top <= bar.bottom && rect.bottom > bar.bottom;
+    });
+    const offset = visible === -1 ? 0 : bar.bottom - previousSteps[visible].getBoundingClientRect().top;
+    chooseMenu(index);
+    if (visible >= 0) {
+      const rect = get("serving-timeline").children[visible].getBoundingClientRect();
+      const edge = get("program-switcher").getBoundingClientRect().bottom;
+      window.scrollBy({ top: rect.top + Math.min(offset, Math.max(0, rect.height - 28)) - edge, behavior: "instant" });
+    }
+    animateChange(get("serving-timeline"));
+  }, false);
+  control.setAttribute("aria-label", "Меню " + (index + 1) + " · " + name);
+  return control;
+});
+get("program-variants").replaceChildren(...programButtons);
+
+const comparisonButtons = menuNames.map((name, index) => {
+  const control = button("Вариант " + (index + 1), () => {
+    if (comparison.has(index)) comparison.delete(index);
+    else comparison.add(index);
+    if (comparison.size < 2) comparisonActive = false;
+    filterComparison();
+  }, false);
+  control.setAttribute("aria-label", "Вариант " + (index + 1) + " для сравнения · " + name);
+  return control;
+});
+get("menu-compare-options").replaceChildren(...comparisonButtons);
+
+function filterComparison() {
+  comparisonButtons.forEach((control, index) => control.setAttribute("aria-pressed", String(comparison.has(index))));
+  get("menu-compare-apply").disabled = comparison.size < 2 || comparisonActive;
+  get("menu-compare-clear").hidden = !comparisonActive;
+  [...get("choices").children].forEach((card, index) => { card.hidden = comparisonActive && !comparison.has(index); });
+}
+
+get("menu-compare-apply").addEventListener("click", () => {
+  if (comparison.size < 2) return;
+  comparisonActive = true;
+  filterComparison();
+  get("menu-compare-clear").focus({ preventScroll: true });
+});
+get("menu-compare-clear").addEventListener("click", () => {
+  comparisonActive = false;
+  filterComparison();
+  get("menu-compare-apply").focus({ preventScroll: true });
+});
+
 function renderMenu() {
   const active = document.activeElement?.getAttribute("aria-label");
-  const [stages] = menus[selectedMenu];
-  get("choices").replaceChildren(...menus.map(([steps, drinks], i) => {
+  const stages = programStages();
+  get("choices").replaceChildren(...menus.map(([steps], i) => {
     const card = element("article", null, "menu-choice");
     card.dataset.selected = String(i === selectedMenu);
     const choice = button(i === selectedMenu ? "Открыть подачу" : "Выбрать и открыть подачу", () => {
-      selectedMenu = i;
-      selectedStage = 0;
-      renderMenu();
-      renderSeating();
+      chooseMenu(i);
       location.hash = "program";
       showView();
       get("program-title").focus({ preventScroll: true });
@@ -289,6 +355,9 @@ function renderMenu() {
     card.append(choice);
     return card;
   }));
+  filterComparison();
+  programButtons.forEach((control, index) => control.setAttribute("aria-pressed", String(index === selectedMenu)));
+  setText("program-selection", selectedMenu == null ? "Выберите меню, чтобы увидеть блюда и напитки по времени." : menuLabel(selectedMenu));
   get("stages").replaceChildren(...stages.map(([time, title], i) => {
     const choice = button(null, () => {
       selectServing(i, get("stages"));
@@ -300,20 +369,26 @@ function renderMenu() {
   }));
   updateProgramClock();
   renderServingTimeline();
-  setText("program-menu", "Вариант " + (selectedMenu + 1) + " · " + menuNames[selectedMenu]);
-  setText("menu-note", menuNotes[selectedMenu]);
+  setText("program-menu", "План подачи для всех гостей");
+  setText("menu-note", menuNotes[selectedMenu] ?? "");
   const plan = snapshot?.plan;
   setText("plan-status", plan?.menu != null
     ? "Утверждено организатором: вариант " + (plan.menu + 1) + ". Расчёты на странице можно менять в черновике."
     : "Меню ожидает утверждения организатором.");
   get("show-plan").hidden = plan?.menu == null;
+  for (const id of ["suggested-bar", "reset-menu", "fee", "copy-menu"]) get(id).disabled = selectedMenu == null;
   const [time, title, detail] = stages[selectedStage];
   const stageRows = rowsFor(selectedMenu, selectedStage);
-  get("stage").replaceChildren(element("h3", title), element("p", time + " · " + detail),
-    ...stageRows.map((row, i) => dishRow(row, selectedStage, i)),
-    element("p", "Стоимость подачи — " + rubles(costs(stageRows))));
-  get("drinks").replaceChildren(...rowsFor(selectedMenu, 6).map((row, i) => dishRow(row, 6, i)));
-  get("fee").value = drafts[selectedMenu].fee;
+  if (selectedMenu == null) {
+    get("stage").replaceChildren(element("p", "Выберите меню, чтобы посмотреть порции и цены."));
+    get("drinks").replaceChildren(element("p", "Выберите меню, чтобы посмотреть напитки."));
+  } else {
+    get("stage").replaceChildren(element("h3", title), element("p", time + " · " + detail),
+      ...stageRows.map((row, i) => dishRow(row, selectedStage, i)),
+      element("p", "Стоимость подачи — " + rubles(costs(stageRows))));
+    get("drinks").replaceChildren(...rowsFor(selectedMenu, 6).map((row, i) => dishRow(row, 6, i)));
+  }
+  get("fee").value = drafts[selectedMenu]?.fee ?? "";
   renderBudget();
   if (active && /^(Цена|Убавить порцию|Добавить порцию) — /.test(active)) {
     for (const control of document.querySelectorAll("#stage [aria-label], #drinks [aria-label]")) {
@@ -326,7 +401,7 @@ function renderMenu() {
 }
 
 function updateProgramClock() {
-  const state = programStatus(menus[selectedMenu][0], Date.now());
+  const state = programStatus(programStages(), Date.now());
   setText("program-clock", state.note);
   [...get("stages").children].forEach((control, i) => {
     const phase = state.phases[i];
@@ -344,14 +419,15 @@ function servingDrinks(stage) {
 
 function renderServingTimeline() {
   const tables = visibleTables();
-  const key = JSON.stringify([selectedMenu, tables, [...drafts[selectedMenu].adjustments.values()]]);
+  const key = JSON.stringify([selectedMenu, tables, [...(drafts[selectedMenu]?.adjustments.values() ?? [])]]);
   if (timelineKey === key) return;
   timelineKey = key;
-  get("serving-timeline").replaceChildren(...menus[selectedMenu][0].map(([time, name], i) => {
+  get("serving-timeline").replaceChildren(...programStages().map(([time, name], i) => {
     const step = element("li", null, "serving-step");
     step.id = "serving-step-" + i;
     step.append(element("p", time, "serving-time"),
-      element("h3", i === 0 ? "К сбору гостей · столы уже накрыты" : name));
+      element("h3", i === 0 && selectedMenu != null ? "К сбору гостей · столы уже накрыты" : name));
+    if (selectedMenu == null) return step;
     const food = rowsFor(selectedMenu, i);
     const rows = [...food, ...servingDrinks(i)].filter(row => row[1] > 0);
     if (!rows.length) step.append(element("p", i === 4 ? "Чай и десерты по желанию." : "По выбранному меню отдельной подачи нет.", "muted"));
@@ -453,7 +529,7 @@ function renderSeating() {
   const assignmentSet = planDraft?.assignments[selectedMenu]
     || (selectedMenu === snapshot?.plan.menu ? snapshot.plan.assignments : {});
   const serving = get("table-serving");
-  serving.replaceChildren(...menus[selectedMenu][0].map(([time, title], index) => new Option(time + " · " + title, index)));
+  serving.replaceChildren(...programStages().map(([time, title], index) => new Option(time + " · " + title, index)));
   serving.value = selectedStage;
   const groupOf = id => {
     const record = snapshot?.guests.find(person => person.id === id);
@@ -551,6 +627,10 @@ function renderSeating() {
       list.append(element("li", name + " × " + quantity + (grams ? " · " + grams + " г/порция" : "")));
     }
     tableDetail.append(list);
+  } else if (selectedMenu == null) {
+    const link = element("a", "Выбрать меню на таймлайне");
+    link.href = "#program";
+    tableDetail.append(link);
   } else tableDetail.append(element("p", "Для этой зоны в текущем меню нет позиций."));
   setText("seats-status", planDraft ? "Черновик организатора. Формат применится после утверждения плана."
     : isPreview ? "Предпросмотр. Формат общего плана остался прежним."
@@ -590,6 +670,12 @@ function renderSeating() {
     card.append(label);
   }
   const allocation = get("allocation");
+  allocation.hidden = selectedMenu == null;
+  if (selectedMenu == null) {
+    allocation.replaceChildren();
+    renderSeatingReview(order, tableCount);
+    return;
+  }
   allocation.replaceChildren(element("h3", "Распределение порций · вариант " + (selectedMenu + 1)));
   for (const [stage, field, labelText] of [[1, "salad", "Салат"], [2, "hot", "Первое горячее"]]) {
     const dishes = rowsFor(selectedMenu, stage, planDraft ? drafts[selectedMenu].adjustments :
@@ -803,7 +889,7 @@ function renderOnline() {
   get("history").hidden = !member;
   get("edit-plan").disabled = Boolean(planDraft);
   get("discard-plan").disabled = !planDraft || publishing;
-  get("publish").disabled = !planDraft || publishing;
+  get("publish").disabled = !planDraft || publishing || selectedMenu == null;
   if (!member) {
     void setCatalogAccess(false);
     get("review").replaceChildren();
@@ -861,9 +947,9 @@ function renderOnline() {
 }
 
 function usePlan(plan) {
-  if (plan.menu == null) return;
   selectedMenu = plan.menu;
   selectedStage = 0;
+  if (plan.menu == null) return;
   drafts[selectedMenu] = {
     fee: plan.fee,
     adjustments: new Map(plan.adjustments.map(item => [item[0] + ":" + item[1], item]))
@@ -914,6 +1000,9 @@ function switchUser(session) {
   snapshot = null;
   planDraft = null;
   previewTables = null;
+  selectedMenu = null;
+  comparison.clear();
+  comparisonActive = false;
   wishItems = [];
   timelineKey = "";
   publishing = false;
@@ -927,7 +1016,6 @@ function switchUser(session) {
   if (!userId) {
     drafts.splice(0, drafts.length, ...menus.map(blankDraft));
     localExtras.length = 0;
-    selectedMenu = 0;
     selectedStage = 0;
     selectedSeat = 0;
     seatFilter = "";
@@ -1075,7 +1163,6 @@ function editPlan() {
   planDraft = { revision: plan.revision, seats: [...plan.seats], tables: visibleTables(), assignments: {} };
   previewTables = null;
   if (plan.menu != null) planDraft.assignments[plan.menu] = structuredClone(plan.assignments);
-  usePlan(plan);
   renderOnline();
   renderMenu();
   renderSeating();
@@ -1095,7 +1182,7 @@ get("discard-plan").addEventListener("click", () => {
   setText("publish-status", "Редактирование завершено.");
 });
 get("publish").addEventListener("click", async () => {
-  if (!snapshot?.admin || !planDraft || publishing) return;
+  if (!snapshot?.admin || !planDraft || publishing || selectedMenu == null) return;
   const owner = userId;
   const draft = drafts[selectedMenu];
   if (activeTotal() > budget && !window.confirm("Заказ превышает бюджет. Утвердить план с превышением?")) return;
@@ -1126,6 +1213,7 @@ get("publish").addEventListener("click", async () => {
 
 get("show-plan").addEventListener("click", () => { usePlan(snapshot.plan); renderMenu(); renderSeating(); });
 get("suggested-bar").addEventListener("click", () => {
+  if (selectedMenu == null) return;
   const recommended = menus[3][1];
   rowsFor(selectedMenu, 6).forEach((row, i) => {
     const fromMenu = recommended.find(drink => drink[0] === row[0]);
@@ -1134,8 +1222,14 @@ get("suggested-bar").addEventListener("click", () => {
   renderMenu();
   renderSeating();
 });
-get("reset-menu").addEventListener("click", () => { drafts[selectedMenu] = blankDraft(); renderMenu(); renderSeating(); });
+get("reset-menu").addEventListener("click", () => {
+  if (selectedMenu == null) return;
+  drafts[selectedMenu] = blankDraft();
+  renderMenu();
+  renderSeating();
+});
 get("fee").addEventListener("change", event => {
+  if (selectedMenu == null) return;
   const value = bounded(event.currentTarget.value, budget);
   event.currentTarget.value = value;
   drafts[selectedMenu].fee = value;
@@ -1147,6 +1241,7 @@ get("add-extra").addEventListener("click", () => {
   get("extras").lastElementChild.firstElementChild.focus();
 });
 get("copy-menu").addEventListener("click", async () => {
+  if (selectedMenu == null) return;
   const lines = menu => menu.filter(row => row[1]).map(([name, amount, price]) => name + " × " + amount + " · " + rubles(amount * price));
   const output = [
     "Вариант " + (selectedMenu + 1) + " · " + menuNames[selectedMenu],

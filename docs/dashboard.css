@@ -371,3 +371,28 @@ button:active:not(:disabled) { box-shadow: inset 0 2px 5px #142b252e; }
   .serving-timeline { padding-left: .75rem; }
   .serving-step::before { left: -1.12rem; }
 }
+
+.menu-compare { margin: .75rem 0; }
+.variant-controls { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .35rem; }
+.variant-controls button { min-height: 44px; padding-inline: .28rem; line-height: 1.1; }
+.program-switcher {
+  position: sticky;
+  top: var(--program-switcher-top);
+  z-index: 3;
+  margin-block: .75rem;
+  padding: .45rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #f2f7ed;
+}
+:root { --program-switcher-top: 62px; }
+#program-selection { margin: .35rem 0 0; font-weight: 650; font-size: .88rem; }
+.serving-step { scroll-margin-top: calc(var(--program-switcher-top) + 105px); }
+#serving-editor { scroll-margin-top: calc(var(--program-switcher-top) + 105px); }
+@media (max-width: 460px) {
+  :root { --program-switcher-top: 100px; }
+  .variant-controls button { font-size: .82rem; }
+}
+@media print {
+  .program-switcher { position: static; }
+}

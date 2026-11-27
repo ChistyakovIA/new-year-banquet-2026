@@ -9,8 +9,8 @@
   <title>🎄 Новогодний корпоратив 2027 · Моя узбечка</title>
   <link rel="stylesheet" href="vendor/glisse-0.6.0.css">
   <link rel="stylesheet" href="styles.css?v=20261127-calendar">
-  <link rel="stylesheet" href="dashboard.css?v=4">
-  <script type="module" src="app.js?v=2027-1"></script>
+  <link rel="stylesheet" href="dashboard.css?v=5">
+  <script type="module" src="app.js?v=2027-2"></script>
 </head>
 <body>
   <main id="entrance" class="entrance">
@@ -97,7 +97,14 @@
     </section>
     <section id="menu" data-view="menu" class="panel" aria-labelledby="menu-title">
       <h2 id="menu-title">Четыре варианта меню</h2>
-      <p class="muted">Сравните состав и смету. Выбранный вариант откроется с программой подачи.</p>
+      <p class="muted">Отметьте варианты, которые хотите сравнить. Из карточки можно открыть программу подачи.</p>
+      <div class="menu-compare">
+        <div id="menu-compare-options" class="variant-controls" role="group" aria-label="Варианты для сравнения"></div>
+        <div class="actions">
+          <button id="menu-compare-apply" type="button" disabled>Сравнить выбранные</button>
+          <button id="menu-compare-clear" type="button" hidden>Показать все варианты</button>
+        </div>
+      </div>
       <div id="choices" class="choices"></div>
       <p id="plan-status"></p>
       <p id="menu-note" class="muted"></p>
@@ -133,6 +140,10 @@
         <p><strong>18:00–19:00</strong> Сбор гостей</p>
         <p><strong>19:00–23:00</strong> Культурная программа</p>
         <p><strong>23:00–00:00</strong> Дискотека</p>
+      </div>
+      <div id="program-switcher" class="program-switcher">
+        <div id="program-variants" class="variant-controls" role="group" aria-label="Меню на таймлайне"></div>
+        <p id="program-selection" role="status"></p>
       </div>
       <div id="stages" class="stages event-timeline" role="group" aria-label="Этапы программы"></div>
       <p class="muted">Ниже план подачи по времени. Количества на столах рассчитаны по выбранному меню и формату рассадки.</p>
