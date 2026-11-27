@@ -4,8 +4,15 @@ create table public.guests (
   id integer primary key check (id between 0 and 12),
   user_id uuid unique references auth.users(id) on delete set null,
   admin boolean not null default false,
+  login_surname text check (length(btrim(login_surname)) between 1 and 80),
   profile jsonb not null check (jsonb_typeof(profile) = 'array' and jsonb_array_length(profile) = 7)
 );
+
+create table public.banquet_login_sessions (
+  id uuid primary key,
+  user_id uuid not null references auth.users(id) on delete cascade
+);
+create index banquet_login_sessions_user_id on public.banquet_login_sessions(user_id);
 
 create table public.banquet_plan (
   id integer primary key check (id = 1),
@@ -52,20 +59,59 @@ create table public.banquet_signal (
 insert into public.banquet_signal(id) values (1);
 
 alter table public.guests enable row level security;
+alter table public.banquet_login_sessions enable row level security;
 alter table public.banquet_menu_authors enable row level security;
 alter table public.banquet_plan enable row level security;
 alter table public.banquet_wishes enable row level security;
 alter table public.banquet_history enable row level security;
 alter table public.banquet_signal enable row level security;
-revoke all on public.guests, public.banquet_menu_authors, public.banquet_plan, public.banquet_wishes, public.banquet_history, public.banquet_signal from public, anon, authenticated;
+revoke all on public.guests, public.banquet_login_sessions, public.banquet_menu_authors, public.banquet_plan, public.banquet_wishes, public.banquet_history, public.banquet_signal from public, anon, authenticated;
 revoke all on sequence public.banquet_history_id_seq from public, anon, authenticated;
+
+create function public.banquet_confirm_surname(entered_surname text)
+returns boolean
+language plpgsql security definer
+set search_path = ''
+as $$
+declare
+  account_id uuid := auth.uid();
+  session_id uuid := nullif(auth.jwt()->>'session_id', '')::uuid;
+  cyrillic_upper constant text := 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ';
+  cyrillic_lower constant text := 'абвгдеежзийклмнопрстуфхцчшщъыьэюя';
+begin
+  if session_id is null or entered_surname is null or length(entered_surname) not between 1 and 80
+    or not coalesce(auth.jwt()->'amr' @> '[{"method":"otp"}]'::jsonb, false) then
+    return false;
+  end if;
+  if not exists (
+    select 1 from public.guests g
+    join auth.users u on u.id = g.user_id
+    where g.user_id = account_id and u.phone_confirmed_at is not null and nullif(u.phone, '') is not null
+      and ltrim(u.phone, '+') = ltrim(auth.jwt()->>'phone', '+')
+      and lower(translate(btrim(g.login_surname), cyrillic_upper || 'ё', cyrillic_lower || 'е'))
+        = lower(translate(btrim(entered_surname), cyrillic_upper || 'ё', cyrillic_lower || 'е'))
+  ) then
+    return false;
+  end if;
+  insert into public.banquet_login_sessions(id, user_id) values (session_id, account_id)
+  on conflict (id) do nothing;
+  return true;
+end
+$$;
+revoke execute on function public.banquet_confirm_surname(text) from public, anon;
+grant execute on function public.banquet_confirm_surname(text) to authenticated;
 
 create function public.banquet_is_member()
 returns boolean
 language sql stable security definer
 set search_path = ''
 as $$
-  select exists(select 1 from public.guests where user_id = (select auth.uid()))
+  select exists (
+    select 1 from public.guests g
+    join public.banquet_login_sessions s on s.user_id = g.user_id
+    where g.user_id = (select auth.uid())
+      and s.id = (select nullif(auth.jwt()->>'session_id', '')::uuid)
+  )
 $$;
 revoke execute on function public.banquet_is_member() from public, anon;
 grant execute on function public.banquet_is_member() to authenticated;
@@ -84,7 +130,7 @@ declare
   organizer boolean;
 begin
   select g.id, g.admin into member_id, organizer from public.guests g where g.user_id = (select auth.uid());
-  if member_id is null then
+  if member_id is null or not public.banquet_is_member() then
     raise exception using errcode = '42501', message = 'banquet_membership_required';
   end if;
 
@@ -132,7 +178,7 @@ declare
   current_revision integer := 0;
 begin
   select g.id into member_id from public.guests g where g.user_id = (select auth.uid()) for update;
-  if member_id is null then
+  if member_id is null or not public.banquet_is_member() then
     raise exception using errcode = '42501', message = 'banquet_membership_required';
   end if;
   select coalesce((select revision from public.banquet_wishes where guest_id = member_id), 0) into current_revision;
@@ -170,7 +216,7 @@ declare
 begin
   select g.id into member_id
     from public.guests g where g.user_id = (select auth.uid()) and g.admin for share;
-  if member_id is null then
+  if member_id is null or not public.banquet_is_member() then
     raise exception using errcode = '42501', message = 'banquet_organizer_required';
   end if;
   if approved_menu is null or approved_menu not between 0 and 3 or approved_fee is null or approved_fee not between 0 and 39000

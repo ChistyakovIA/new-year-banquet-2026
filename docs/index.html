@@ -28,9 +28,14 @@
       <h2 id="account-title">Вход участников</h2>
       <p id="status" role="status">Проверяем подключение…</p>
       <form id="login" hidden>
-        <label>Электронная почта<input name="email" type="email" autocomplete="username" required></label>
-        <label>Пароль<input name="password" type="password" autocomplete="current-password" required></label>
-        <button class="primary">Войти</button>
+        <label>Номер телефона<input name="phone" type="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" maxlength="30" required></label>
+        <label>Фамилия<input name="surname" type="text" autocomplete="family-name" maxlength="80" required></label>
+        <button class="primary">Получить код по SMS</button>
+      </form>
+      <form id="verify-phone" hidden>
+        <label>Код из SMS<input name="token" type="text" autocomplete="one-time-code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required></label>
+        <button class="primary">Подтвердить вход</button>
+        <button id="edit-login" type="button">Изменить номер или фамилию</button>
       </form>
       <button id="logout" type="button" hidden>Выйти</button>
       <button id="refresh" type="button" hidden>Обновить данные</button>

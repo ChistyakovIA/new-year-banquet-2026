@@ -44,6 +44,8 @@ let userId = null;
 let channel = null;
 let syncSequence = 0;
 let publishing = false;
+let pendingLogin = null;
+let verifyingOtp = false;
 
 function element(tag, text, className) {
   const node = document.createElement(tag);
@@ -329,7 +331,8 @@ function describeChanges(before, after) {
 
 function renderOnline() {
   const member = Boolean(snapshot);
-  get("login").hidden = Boolean(userId);
+  get("login").hidden = Boolean(userId || pendingLogin);
+  get("verify-phone").hidden = !pendingLogin || Boolean(userId);
   get("logout").hidden = !userId;
   get("refresh").hidden = !userId;
   get("wishes").hidden = !member;
@@ -395,7 +398,7 @@ async function sync() {
     snapshot = null;
     planDraft = null;
     wishDirty = false;
-    setText("status", "Вход выполнен. Организатору нужно привязать аккаунт к участнику.");
+    setText("status", "Доступ к банкету не подтверждён. Выйдите и войдите снова или свяжитесь с организатором.");
     renderOnline();
     renderMenu();
     renderSeating();
@@ -431,7 +434,7 @@ function switchUser(session) {
   channel = null;
   setText("wish-status", "");
   setText("publish-status", "");
-  setText("status", userId ? "Загружаем данные банкета…" : "Войдите с аккаунтом, выданным организатором.");
+  setText("status", userId ? "Загружаем данные банкета…" : "Введите номер телефона и фамилию, указанные организатору.");
   if (!userId) {
     drafts.splice(0, drafts.length, ...menus.map(blankDraft));
     localExtras.length = 0;
@@ -456,31 +459,95 @@ function configReady() {
     && /^sb_publishable_[A-Za-z0-9_-]+$/.test(supabasePublishableKey);
 }
 
+function normalizePhone(value) {
+  let phone = value.trim().replace(/[\s().-]/g, "");
+  if (/^8\d{10}$/.test(phone)) phone = "+7" + phone.slice(1);
+  if (/^7\d{10}$/.test(phone)) phone = "+" + phone;
+  return /^\+[1-9]\d{7,14}$/.test(phone) ? phone : null;
+}
+
 function startOnline() {
+  const login = get("login");
+  const verify = get("verify-phone");
+  login.hidden = false;
   if (!configReady() || !globalThis.supabase?.createClient) {
     setText("status", "Онлайн-доступ ещё подключается. Меню, программа и смета доступны для просмотра.");
+    for (const control of login.elements) control.disabled = true;
     return;
   }
   client = globalThis.supabase.createClient(supabaseUrl, supabasePublishableKey, {
     auth: { storage: sessionStorage, persistSession: true, detectSessionInUrl: false, autoRefreshToken: true }
   });
-  setText("status", "Войдите с аккаунтом, выданным организатором.");
-  get("login").hidden = false;
-  client.auth.onAuthStateChange((_event, session) => setTimeout(() => switchUser(session), 0));
-  get("login").addEventListener("submit", async event => {
+  setText("status", "Введите номер телефона и фамилию, указанные организатору.");
+  client.auth.onAuthStateChange((_event, session) => {
+    if (!verifyingOtp) setTimeout(() => switchUser(session), 0);
+  });
+  login.addEventListener("submit", async event => {
     event.preventDefault();
-    const form = event.currentTarget;
-    const submit = form.querySelector("button");
-    const { email, password } = form.elements;
-    submit.disabled = true;
+    const phone = normalizePhone(login.elements.phone.value);
+    const surname = login.elements.surname.value.trim().normalize("NFC");
+    if (!phone || !surname) {
+      setText("status", "Укажите фамилию и полный номер телефона, например +7 900 000-00-00.");
+      return;
+    }
+    for (const control of login.elements) control.disabled = true;
     try {
-      const { error } = await client.auth.signInWithPassword({ email: email.value.trim(), password: password.value });
-      if (error) setText("status", "Войти не удалось. Проверьте почту и пароль или обратитесь к организатору.");
+      const { error } = await client.auth.signInWithOtp({ phone, options: { shouldCreateUser: false, channel: "sms" } });
+      if (error) {
+        setText("status", "Отправить код не удалось. Проверьте номер или повторите запрос позже.");
+        return;
+      }
+      pendingLogin = { phone, surname };
+      renderOnline();
+      setText("status", "Введите шестизначный код из SMS.");
+      verify.elements.token.focus();
     } catch {
       setText("status", "Связь с базой прервана. Попробуйте снова.");
     } finally {
-      password.value = "";
-      submit.disabled = false;
+      for (const control of login.elements) control.disabled = false;
+    }
+  });
+  get("edit-login").addEventListener("click", () => {
+    pendingLogin = null;
+    verify.reset();
+    renderOnline();
+    setText("status", "Введите номер телефона и фамилию, затем снова запросите код.");
+    login.elements.phone.focus();
+  });
+  verify.addEventListener("submit", async event => {
+    event.preventDefault();
+    if (!pendingLogin || verifyingOtp) return;
+    verifyingOtp = true;
+    for (const control of verify.elements) control.disabled = true;
+    try {
+      const { phone, surname } = pendingLogin;
+      const { data, error } = await client.auth.verifyOtp({ phone, token: verify.elements.token.value.trim(), type: "sms" });
+      if (error || !data.session) {
+        setText("status", "Код неверен или истёк. Проверьте SMS или запросите новый код.");
+        return;
+      }
+      const confirmation = await client.rpc("banquet_confirm_surname", { entered_surname: surname });
+      if (confirmation.error || confirmation.data !== true) {
+        await client.auth.signOut({ scope: "local" });
+        pendingLogin = null;
+        renderOnline();
+        setText("status", confirmation.error ? "Не удалось подтвердить доступ. Попробуйте войти ещё раз."
+          : "Связать номер и фамилию с карточкой не удалось. Проверьте написание или обратитесь к организатору.");
+        login.elements.surname.focus();
+        return;
+      }
+      pendingLogin = null;
+      login.reset();
+      switchUser(data.session);
+    } catch {
+      await client.auth.signOut({ scope: "local" }).catch(() => {});
+      pendingLogin = null;
+      renderOnline();
+      setText("status", "Связь с базой прервана. Попробуйте войти ещё раз.");
+    } finally {
+      verify.reset();
+      for (const control of verify.elements) control.disabled = false;
+      verifyingOtp = false;
     }
   });
   get("logout").addEventListener("click", async () => {
