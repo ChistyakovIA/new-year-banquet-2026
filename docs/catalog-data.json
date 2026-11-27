@@ -1,0 +1,1312 @@
+{
+  "source": "https://banquets.uzbechka.rest/menu",
+  "branch": "Саратов, ул. Соколовая, 10/16",
+  "date": "2026-11-27",
+  "groups": [
+    {
+      "category": "Фестиваль самсы",
+      "items": [
+        [
+          "Самса Бургер",
+          340,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/a1938aae67be200ed84b5bddf62b1445.JPEG"
+        ],
+        [
+          "Самса Том Ям",
+          340,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/f48948548ebada1dcedc507c216b0883.JPEG"
+        ],
+        [
+          "Самса курица-сыр",
+          290,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/ba34a05c6cd519e3e8cdc6d55387db49.JPEG"
+        ],
+        [
+          "Самса с мозговой костью",
+          340,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/ece5080f9b9f16363d791d20a7bcf45b.JPEG"
+        ],
+        [
+          "Самса тыква-сыр",
+          290,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/66ea9b19b95abf23b006eeb5345effb8.JPEG"
+        ],
+        [
+          "Самса-штрудель",
+          290,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/cfcb76ee88d1c8c52394f6b8533d07ab.JPEG"
+        ]
+      ]
+    },
+    {
+      "category": "Салаты",
+      "items": [
+        [
+          "Лансай с говядиной",
+          520,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/4332d0beb6d2186efc91f410e11f7870.WEBP"
+        ],
+        [
+          "Салат из свежих овощей с сыром фета",
+          460,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/3ebe2bd92be15d18f12d4071de0de697.WEBP"
+        ],
+        [
+          "Салат с говядиной и песто",
+          580,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/fbe8970c7648ea541f4d310a03508b48.WEBP"
+        ],
+        [
+          "Салат Филадельфия",
+          690,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/1207dc6cad04233f6bb982e54aa93f5b.WEBP"
+        ],
+        [
+          "Фергана",
+          630,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/fbd4f0a7eefdc73e89e085f5da95ad7f.WEBP"
+        ],
+        [
+          "Лаззат",
+          520,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/1ae054fc51b79481ba23f0915dbd576e.WEBP"
+        ],
+        [
+          "Лаззат с креветками",
+          690,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/d7b7f572c4c691c251c55497eb2d78d0.WEBP"
+        ],
+        [
+          "Цахтон",
+          610,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/2df327c7035a88d98db332e3cc1bdea7.WEBP"
+        ],
+        [
+          "Бахча",
+          470,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/6d2e778fcf01953574265a233e193330.WEBP"
+        ],
+        [
+          "Саратон",
+          420,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/91d0ae4f65394be6415409ba07fb0c7a.WEBP"
+        ],
+        [
+          "Пойтахт",
+          420,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/228fa85f4d6c554a99d1cbc1227dec22.WEBP"
+        ],
+        [
+          "Салат из телячьего языка",
+          530,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/71703a0cd0212d7cabb9e1232971c3d0.WEBP"
+        ],
+        [
+          "Цезарь-хан с креветками",
+          650,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/9e2eb50ca8e60483b94896a2d8a03575.WEBP"
+        ],
+        [
+          "Цезарь-хан с курицей",
+          560,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/ccf6b475907df87af41bc6a696e85ae1.WEBP"
+        ],
+        [
+          "Овощной салат",
+          390,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/63c482e19416cd26a6456621ecc7f49d.WEBP"
+        ],
+        [
+          "Ачик-чичук",
+          350,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/bfd83b1c86d6c20f4cb286e4660df0c3.WEBP"
+        ]
+      ]
+    },
+    {
+      "category": "Закуски",
+      "items": [
+        [
+          "Чабан-закуска с хрустящей лепешкой",
+          580,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/c6db76a377ccd6d75e8dcc44744b4bc6.WEBP"
+        ],
+        [
+          "Рулетики из баклажанов",
+          510,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/4c6792028060a44aa8db08b82d3b4ea4.WEBP"
+        ],
+        [
+          "Бей-кебаб",
+          620,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/fd9b20302c54a8090230cef001a90fd7.WEBP"
+        ],
+        [
+          "Мясная нарезка",
+          760,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/b83e3cec5a37d6a0b6e91d4304b55dbc.WEBP"
+        ],
+        [
+          "Рыбное ассорти",
+          750,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/ff9da2ef9f32864f01ccdb8d513967e7.WEBP"
+        ],
+        [
+          "Ассорти кавказских сыров",
+          650,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/4b14087928588d9de7fd5af8e3245301.WEBP"
+        ],
+        [
+          "Свежие спелые овощи",
+          540,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/f250ed8d219ffa0805f124ba567a686d.WEBP"
+        ],
+        [
+          "Микс из бочковых солений",
+          530,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/1f505ebda9db4017b70b9ce489165cda.WEBP"
+        ],
+        [
+          "Жареный сыр",
+          520,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/a7d7fbb6512ce777621613ef6ebc71b8.WEBP"
+        ],
+        [
+          "Чесночные сухарики",
+          280,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/ea6600b495bfe6d744ae3111ee5013fd.WEBP"
+        ]
+      ]
+    },
+    {
+      "category": "Супы",
+      "items": [
+        [
+          "Лагман Узбекский",
+          540,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/8a542f874f3bf2a9910bccaddc18e3dc.WEBP"
+        ],
+        [
+          "Шурпа классическая из говядины",
+          540,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/1ba154019916bedde183f182b474b06a.WEBP"
+        ],
+        [
+          "Шурпа Том Ям",
+          640,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/dd9324d7faebc1d707765816eab22fe1.WEBP"
+        ],
+        [
+          "Товук шурпа",
+          330,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/2e501a18d7e3861b3a746598f2ff9a6c.WEBP"
+        ],
+        [
+          "Ханский борщ",
+          450,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/b426e4eab35005af4f9d90c670cebae3.WEBP"
+        ]
+      ]
+    },
+    {
+      "category": "Тесто",
+      "items": [
+        [
+          "Чебурек с телятиной",
+          490,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/de4d3c6a85253f6eee506af9fb14a71f.WEBP"
+        ],
+        [
+          "Чебурек с сыром и зеленью",
+          450,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/a233c618a74aee56e598e4b6c69ee67e.WEBP"
+        ],
+        [
+          "Самса с мясом",
+          340,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/30f7ce246a5fb4aafb97e0995b255cc3.WEBP"
+        ],
+        [
+          "Хачапури",
+          510,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/358dabd11ff14a1033592fa966f36464.WEBP"
+        ],
+        [
+          "Кутаб с сыром и зеленью",
+          320,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/3c9f52bc324eb255086840b67ebaa127.WEBP"
+        ],
+        [
+          "Кутаб с картофелем и сыром",
+          320,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/cde27a595d88140661c6a86836ec96e2.WEBP"
+        ],
+        [
+          "Лахмаджун",
+          580,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/e1dc4cdefd3eb4df7c1c9611f8a958f3.WEBP"
+        ],
+        [
+          "Хачапури с двойным желтком",
+          540,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/42245a4253c39f1f145a1265a288c3d8.WEBP"
+        ],
+        [
+          "Хачапури по-аджарски с креветками",
+          670,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/ab8439657f23013f24db654f53935d2c.WEBP"
+        ],
+        [
+          "Пеновани с сыром",
+          430,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/67318efcce56bd713bd9b21aa4397436.WEBP"
+        ],
+        [
+          "Лепешка тандырная",
+          120,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/a9b091bff111f98ac5ef177646a79a41.WEBP"
+        ],
+        [
+          "Хрустящая тандырная лепешка",
+          170,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/eaf5b859ecea6507e7b8bc1de0c22368.WEBP"
+        ]
+      ]
+    },
+    {
+      "category": "Горячее",
+      "items": [
+        [
+          "Печень индейки с пюре",
+          540,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/b0eed35ba64927054de3e34b48e83faa.WEBP"
+        ],
+        [
+          "Джизз из печени индейки",
+          580,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/e5732e222165dbb0ca36d4ecc0414bc0.WEBP"
+        ],
+        [
+          "Бешбармак",
+          650,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/86974f918d5662c604d5ce559bf34719.WEBP"
+        ],
+        [
+          "Карын с грибами в чесночном соусе",
+          620,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/ee2f0641a445b5a43e3f4dd48362357d.WEBP"
+        ],
+        [
+          "Кебаб из говядины с овощами",
+          690,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/8b88103de7a53dc5dba210f59696c44d.WEBP"
+        ],
+        [
+          "Кебаб из курицы с овощами",
+          590,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/8b88103de7a53dc5dba210f59696c44d.WEBP"
+        ],
+        [
+          "Карын с овощами",
+          590,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/d9e61dd700acd1811b2eaff825584578.WEBP"
+        ],
+        [
+          "Тюбетейка",
+          730,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/b549dac19314db2809d88c465e93cbec.WEBP"
+        ],
+        [
+          "Тюбетейка с лососем",
+          760,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/25c7c5b5e6039e4f8b87a4b201007552.WEBP"
+        ],
+        [
+          "Каурма Лагман",
+          540,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/19ecb6127032f1e53976bc98ca5a8acb.WEBP"
+        ],
+        [
+          "Ханум",
+          490,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/79e4e0f3965ecb4c6f91aa887eb6daa3.WEBP"
+        ],
+        [
+          "Манты с говядиной",
+          530,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/28a45038a0b7905b1184ee4d1b7a9ff2.WEBP"
+        ],
+        [
+          "Джизз-бызз",
+          750,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/dbee991ce218d89fcc539e15433d16bc.WEBP"
+        ],
+        [
+          "Шаммур",
+          690,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/b5029dc3ea53ecf04f3a657c9d671b70.WEBP"
+        ],
+        [
+          "Заравшан",
+          680,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/45f35fb286705a9c7b650b0532622898.WEBP"
+        ],
+        [
+          "Жаркое с креветками Том Ям",
+          780,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/9e9f99f3dd607271e2e8c369cd1a3f4b.WEBP"
+        ],
+        [
+          "Свинина в томатном соусе",
+          580,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/a9a422cac366b7e1e4937da8b1086b5e.WEBP"
+        ],
+        [
+          "Сочная куриная котлета",
+          540,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/94a66cbcb14e3953ae0b9768a1de08fe.WEBP"
+        ]
+      ]
+    },
+    {
+      "category": "Плов",
+      "items": [
+        [
+          "Плов чайханский (Чайхона Оши) 300 гр",
+          490,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/4623707874e0537841a4d019f699e3f8.WEBP"
+        ],
+        [
+          "Плов чайханский (Чайхона Оши) 500 гр",
+          760,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/f5effb6fe0fac63c70be9de482c7f8da.WEBP"
+        ],
+        [
+          "Плов чайханский (Чайхона Оши) 1 кг",
+          1490,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/0496a6fbf98679625fd0d817ec190d1e.WEBP"
+        ]
+      ]
+    },
+    {
+      "category": "Мангал",
+      "items": [
+        [
+          "Крылья куринные",
+          490,
+          null
+        ],
+        [
+          "Шашлык куринный рулет",
+          420,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/bc16b5afef73a802ed14af0ac4075493.WEBP"
+        ],
+        [
+          "Овощи на мангале",
+          450,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/48ca6891ee9e1daddfedf4e4db41e76c.WEBP"
+        ],
+        [
+          "Пистолет",
+          2480,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/3a10171da9b52e3c0457cc77818a03db.WEBP"
+        ],
+        [
+          "Шашлык из мякоти баранины",
+          950,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/66deebd47499bc3432f41ac0dff99e72.WEBP"
+        ],
+        [
+          "Шашлык из мякоти свинины",
+          560,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/d351f065b3ff75e2270ad74285aaf049.WEBP"
+        ],
+        [
+          "Шашлык из куриного филе бедра",
+          560,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/db1e0721103f627b5b8fb6e332f131d1.WEBP"
+        ],
+        [
+          "Ассорти шашлыков",
+          1790,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/e3ac968daf5c64222de734c8b70b3494.WEBP"
+        ],
+        [
+          "Люля-кебаб из говядины",
+          640,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/865fabf8a6f8a3b9783ddf36a83b111f.WEBP"
+        ],
+        [
+          "Люля кебаб из баранины",
+          640,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/95fb295a26b01d1a846254184100311d.WEBP"
+        ],
+        [
+          "Люля-кебаб из куриного филе бедра",
+          450,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/cd7e274b07c89c33cacf69ae6e247930.WEBP"
+        ],
+        [
+          "Ассорти люля-кебабов",
+          1620,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/284628ddb4cc71e68e34459b5ceac2aa.WEBP"
+        ],
+        [
+          "Чалагач",
+          340,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/9a417dfd2d794533428f85b2d81dd634.WEBP"
+        ],
+        [
+          "Стейк лосось 200 гр",
+          1100,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/797827bd86a1ed69e4cd4211f6d93f17.WEBP"
+        ],
+        [
+          "Стейк лосось 250 гр",
+          1380,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/797827bd86a1ed69e4cd4211f6d93f17.WEBP"
+        ],
+        [
+          "Стейк лосось 300 гр",
+          1650,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/797827bd86a1ed69e4cd4211f6d93f17.WEBP"
+        ],
+        [
+          "Стейк лосось 350 гр",
+          1930,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/797827bd86a1ed69e4cd4211f6d93f17.WEBP"
+        ],
+        [
+          "Креветки на мангале",
+          510,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/ef845f8d30ed8d3e0e60e31a312e6f1c.WEBP"
+        ],
+        [
+          "Сыр на мангале",
+          340,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/2d7b0d30640b159848b3a73c95d2452a.WEBP"
+        ],
+        [
+          "Шампиньоны на мангале",
+          320,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/6f98605f30167b52d69a420a3f1bdb2a.WEBP"
+        ]
+      ]
+    },
+    {
+      "category": "Гарниры",
+      "items": [
+        [
+          "Картофельное пюре",
+          230,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/c31f36b1ed543deb6401e214ea6a41a8.WEBP"
+        ],
+        [
+          "Картофель фри",
+          310,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/6870fd4937c2755b1a21b2b3b4925e40.WEBP"
+        ],
+        [
+          "Рис отварной",
+          220,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/6d984c29a2e75daa5d50b98ab807a3e0.WEBP"
+        ]
+      ]
+    },
+    {
+      "category": "Соусы",
+      "items": [
+        [
+          "Чесночно-сметанный",
+          70,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/04ba146bc670bc849036c72651392645.WEBP"
+        ],
+        [
+          "Наршараб",
+          70,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/659794b6a9ecf4849ed5e36c27f30739.WEBP"
+        ],
+        [
+          "Йогуртовый",
+          70,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/24ad17ad2b5a7d7e1dc7e3bc989ab694.WEBP"
+        ],
+        [
+          "Лаззат",
+          70,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/64429171bb102606e7035ab43d857227.WEBP"
+        ],
+        [
+          "Бей Кебаб",
+          70,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/d21700e2063f2d2db96b6c59ed7a489d.WEBP"
+        ],
+        [
+          "Кайла",
+          70,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/0abbcb6d4fad9a9314f1976fd5898eca.WEBP"
+        ],
+        [
+          "Аджика",
+          70,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/2608dd6c7173f6ab96fd45d2c8910aba.WEBP"
+        ],
+        [
+          "Лозы",
+          70,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/06d77a6d52cec2d79baea4cf5a608098.WEBP"
+        ],
+        [
+          "Сметана",
+          70,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/6fdc57304410fe37aa5356d1ae34daf9.WEBP"
+        ]
+      ]
+    },
+    {
+      "category": "Десерты",
+      "items": [
+        [
+          "Волга",
+          290,
+          null
+        ],
+        [
+          "Слоеный пирог с яблоком и творогом",
+          490,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/9a5158623a9a147887b798c822e6b947.WEBP"
+        ],
+        [
+          "Вишневый пирог",
+          430,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/85b13bf2b6244cd7e020056b024e4787.WEBP"
+        ],
+        [
+          "Медовый ковер",
+          1890,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/a1e8d5cd85b0d7e02892c5dca6e93896.WEBP"
+        ],
+        [
+          "Чизкейк классический",
+          320,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/c32734f9bfe17e97d1eb978fcfb3f244.WEBP"
+        ],
+        [
+          "Молочная девочка",
+          460,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/f91ad8b481b556954a7cdae964b297de.WEBP"
+        ],
+        [
+          "Медовое",
+          390,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/d5a07d5f3724d089a2f3a43d20c30f67.WEBP"
+        ],
+        [
+          "Шоколадный брауни",
+          460,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/11702f766c9708ac3ab2ab14ac0cecf8.WEBP"
+        ],
+        [
+          "Наполеон",
+          420,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/ba993d46719046369474df49f1cc1ecf.WEBP"
+        ],
+        [
+          "Клубничный крамбл",
+          350,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/9e77abfdfd267d0be7e211d1b7d88d52.WEBP"
+        ],
+        [
+          "Тирамису",
+          360,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/db1fc0d14eb5400f0e39b7e857a474d8.WEBP"
+        ],
+        [
+          "Мороженое",
+          290,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/c5f5e290d7a10cc80c6d2b333a7881d8.WEBP"
+        ],
+        [
+          "Варенье из белой черешни",
+          240,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/d5612eb3b9cf7f903948e577972990c8.WEBP"
+        ]
+      ]
+    },
+    {
+      "category": "Детское меню",
+      "items": [
+        [
+          "Хачапурик",
+          510,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/76bcebd1c83b5a4f989f21e759e83723.WEBP"
+        ],
+        [
+          "Шашлык-Малышик",
+          390,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/533a7ea02b7f1e2b21311ac02e8f915b.WEBP"
+        ],
+        [
+          "Мантыши - не малыши",
+          310,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/1ac93d6b2994b90f497be8925a217749.WEBP"
+        ],
+        [
+          "Куриная котлетка с картофельным пюре",
+          290,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/8c3a1059c3eb4c2f8bcfc6650a073662.WEBP"
+        ],
+        [
+          "Самоцветы",
+          320,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/716677b8423f4e264a54b4054cad2ebc.WEBP"
+        ],
+        [
+          "Самоцветы в сливочках",
+          320,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/c98d048c73734ee57193a48bd23eceda.WEBP"
+        ],
+        [
+          "Подводные самоцветы",
+          290,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/134ead315987bb553b27c7f30c4d9068.WEBP"
+        ],
+        [
+          "Цыпчик",
+          310,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/ab097d0a7faee1b1795c894f7d89ee4d.WEBP"
+        ],
+        [
+          "Сырная котлетка",
+          240,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/5190a5d52398f15f0fbf06c7eccef4f9.WEBP"
+        ],
+        [
+          "Картофельное пюре",
+          230,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/d9fd004f36e0b751399462af83b83e56.WEBP"
+        ],
+        [
+          "Вкусный рис",
+          220,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/74a4c64170d289bed4695e7c1c8cd758.WEBP"
+        ],
+        [
+          "Медовичок",
+          390,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/d5a07d5f3724d089a2f3a43d20c30f67.WEBP"
+        ],
+        [
+          "Ванильный пломбир",
+          250,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/c5f5e290d7a10cc80c6d2b333a7881d8.WEBP"
+        ]
+      ]
+    },
+    {
+      "category": "Чай классический",
+      "items": [
+        [
+          "Ассам",
+          360,
+          null
+        ],
+        [
+          "Сенча",
+          340,
+          null
+        ],
+        [
+          "Молочный Улун",
+          340,
+          null
+        ],
+        [
+          "Травяной чай",
+          390,
+          null
+        ]
+      ]
+    },
+    {
+      "category": "Чай фруктовый",
+      "items": [
+        [
+          "Вишня саган-дайля",
+          570,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/60d011d7f4b676781f150b6b4019f424.WEBP"
+        ],
+        [
+          "Ройбуш с грушей и мандарином",
+          570,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/431d6eb4fc7663e90bc881de39691a88.WEBP"
+        ],
+        [
+          "Облепиховый чай",
+          570,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/f687cfc58c0c77736c9beaa9287517b1.WEBP"
+        ],
+        [
+          "Брусничный чай с апельсином",
+          570,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/819a7c77e749c135103a7fe8d9733be5.WEBP"
+        ],
+        [
+          "Малиновый чай",
+          570,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/257928f59c6d89b58c93f4b177aac6d0.WEBP"
+        ],
+        [
+          "Ташкентский чай",
+          570,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/06706bc60c8290392d5227ae066ea8e5.WEBP"
+        ],
+        [
+          "Грейпфрутовый чай с маракуйей",
+          570,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/41b9521904e7db0030ced4b8919f04e4.WEBP"
+        ]
+      ]
+    },
+    {
+      "category": "Кофе",
+      "items": [
+        [
+          "Эспрессо",
+          290,
+          null
+        ],
+        [
+          "Американо",
+          310,
+          null
+        ],
+        [
+          "Капучино",
+          310,
+          null
+        ],
+        [
+          "Латте",
+          310,
+          null
+        ]
+      ]
+    },
+    {
+      "category": "Лимонады и б/а коктейли",
+      "items": [
+        [
+          "Глинтвейн белый б/а",
+          290,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/e8b4a3d4bda36c95012ead633d0b75bf.WEBP"
+        ],
+        [
+          "Глинтвейн красный б/а",
+          290,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/80073318db9156694e95807a867d3520.WEBP"
+        ],
+        [
+          "Лимонад киви-крыжовник",
+          690,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/7d0f2f2d265fe681b60cc970c9c117d1.JPEG"
+        ],
+        [
+          "Лимонад киви-крыжовник",
+          290,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/7d0f2f2d265fe681b60cc970c9c117d1.JPEG"
+        ],
+        [
+          "Лимонад вишня-барбарис",
+          690,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/76461cafc3c6fa17d1cb4dd84e552718.WEBP"
+        ],
+        [
+          "Лимонад вишня-барбарис",
+          290,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/7f73c0e155cb0d3809e1e1d97d8abc45.WEBP"
+        ],
+        [
+          "Лимонад Маракуйя-клубника",
+          690,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/916bfcb8a7a30c2d0a742102dbd6c1c6.WEBP"
+        ],
+        [
+          "Лимонад Маракуйя-клубника",
+          290,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/cd5d1aeff8206071acd7e6a4409cd9bb.WEBP"
+        ],
+        [
+          "Лимонад Мандариновый",
+          690,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/502849b68c4ed1568ab04c6963d0d715.WEBP"
+        ],
+        [
+          "Лимонад Мандариновый",
+          290,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/6e1d10242d3dfe09b604b3c249d19199.WEBP"
+        ],
+        [
+          "Лимонад яблоко-тархун",
+          690,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/7a9c80606f134dd2e1c3bdddae7849b6.WEBP"
+        ],
+        [
+          "Лимонад яблоко-тархун",
+          290,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/129b47dc5be8e3664c90b0c515f1d302.WEBP"
+        ],
+        [
+          "Милкшейк классический",
+          410,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/9a41223a9ae8a38cd515581576701d14.WEBP"
+        ],
+        [
+          "Милкшейк клубничный",
+          410,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/c4404e2b83a5103d6149525318f574d7.WEBP"
+        ],
+        [
+          "Милкшейк карамельный",
+          410,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/a5fbfa7b23d11f666e5048580f13751e.WEBP"
+        ]
+      ]
+    },
+    {
+      "category": "Б/а напитки",
+      "items": [
+        [
+          "Кола Rich",
+          230,
+          null
+        ],
+        [
+          "Тоник Rich",
+          230,
+          null
+        ],
+        [
+          "Сок томатный IL Primo",
+          150,
+          null
+        ],
+        [
+          "Сок апельсиновый",
+          620,
+          null
+        ],
+        [
+          "Сок апельсиновый",
+          150,
+          null
+        ],
+        [
+          "Сок вишневый",
+          620,
+          null
+        ],
+        [
+          "Сок вишневый",
+          150,
+          null
+        ],
+        [
+          "Сок яблочный",
+          620,
+          null
+        ],
+        [
+          "Сок яблочный",
+          150,
+          null
+        ],
+        [
+          "Морс ягодный",
+          660,
+          null
+        ],
+        [
+          "Морс ягодный",
+          150,
+          null
+        ],
+        [
+          "Вода Аква дью без газа",
+          290,
+          null
+        ],
+        [
+          "Вода Аква дью с газом",
+          290,
+          null
+        ]
+      ]
+    },
+    {
+      "category": "Вино",
+      "items": [
+        [
+          "Винью Верде Маре&Грильбел. / Португалия",
+          2520,
+          null
+        ],
+        [
+          "Ежевичное вино кр/псл Армения",
+          390,
+          null
+        ],
+        [
+          "Домашнее вино белое сухое / Россия",
+          190,
+          null
+        ],
+        [
+          "Домашнее вино белое сухое / Россия",
+          850,
+          null
+        ],
+        [
+          "Домашнее вино красное сухое / Россия",
+          190,
+          null
+        ],
+        [
+          "Домашнее вино красное сухое / Россия",
+          850,
+          null
+        ],
+        [
+          "Мускат Эд Ноуз бел. / Республика Молдова",
+          1790,
+          null
+        ],
+        [
+          "Мускат Эд Ноуз бел. / Республика Молдова",
+          430,
+          null
+        ],
+        [
+          "Каберне Совиньон Эд ноуз кр. / Республика Молдова",
+          1790,
+          null
+        ],
+        [
+          "Домашнее вино красное полусладкое / Россия",
+          850,
+          null
+        ],
+        [
+          "Домашнее вино красное полусладкое / Россия",
+          190,
+          null
+        ],
+        [
+          "Домашнее вино белое полусладкое / Россия",
+          850,
+          null
+        ],
+        [
+          "Домашнее вино белое полусладкое / Россия",
+          190,
+          null
+        ],
+        [
+          "Красное полусладкое Киндзмараули / Грузия",
+          2390,
+          null
+        ],
+        [
+          "Красное полусладкое Киндзмараули / Грузия",
+          560,
+          null
+        ],
+        [
+          "Белое полусладкое Гевюрцтраминер Зонненталь / Германия",
+          2180,
+          null
+        ],
+        [
+          "Ежевичное вино красное полусладкое / Армения",
+          1640,
+          null
+        ],
+        [
+          "Гранатовое вино красное полусладкое / Армения",
+          1640,
+          null
+        ],
+        [
+          "Гранатовое вино красное полусладкое / Армения",
+          390,
+          null
+        ],
+        [
+          "Белое сухое Пино Гриджио / Италия",
+          2290,
+          null
+        ],
+        [
+          "Белое сухое Пино Гриджио / Италия",
+          510,
+          null
+        ],
+        [
+          "Делиссимо бел. п/сл.",
+          1860,
+          null
+        ],
+        [
+          "Игристое Просекко белое сухое / Италия",
+          3490,
+          null
+        ]
+      ]
+    },
+    {
+      "category": "Алкогольные коктейли",
+      "items": [
+        [
+          "Глинтвейн белый",
+          450,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/e8b4a3d4bda36c95012ead633d0b75bf.WEBP"
+        ],
+        [
+          "Глинтвейн красный",
+          450,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/80073318db9156694e95807a867d3520.WEBP"
+        ],
+        [
+          "Сангрия гранатовая",
+          520,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/99c8ec4a8e421480c182b16e6203a79f.WEBP"
+        ],
+        [
+          "Физз яблоко-саган дайля",
+          490,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/7a32c103186c28c3b94caf393e87860d.WEBP"
+        ],
+        [
+          "Апероль шприц",
+          530,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/b1b69d6376d5dbfea5a7c0b7f816821c.WEBP"
+        ],
+        [
+          "Сангрия красная",
+          470,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/144643726dfa51cf8e634a3a5a252874.WEBP"
+        ],
+        [
+          "Сангрия манго-маракуйя",
+          490,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/f777eaca9751e4cb5da3fbae9ec1953b.PNG"
+        ],
+        [
+          "Брусничный шприц",
+          460,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/4d6af55d610ae5a8876374cf22dda81c.WEBP"
+        ],
+        [
+          "Клубничный коллинз",
+          420,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/ec2f0ba4b91077e0424cd702debd1026.WEBP"
+        ]
+      ]
+    },
+    {
+      "category": "Крепкий алкоголь",
+      "items": [
+        [
+          "Джек Дэниелс",
+          540,
+          null
+        ],
+        [
+          "Макалан дабл каск 12лет",
+          2040,
+          null
+        ],
+        [
+          "Гленфидик 12лет",
+          1200,
+          null
+        ],
+        [
+          "Чистые росы",
+          360,
+          null
+        ],
+        [
+          "Мартель ВС",
+          690,
+          null
+        ],
+        [
+          "Мартель ВСОП",
+          1190,
+          null
+        ],
+        [
+          "Гордонс",
+          350,
+          null
+        ],
+        [
+          "Гавана клаб 3 года",
+          380,
+          null
+        ],
+        [
+          "Закапа 23",
+          1290,
+          null
+        ],
+        [
+          "Ольмека силвер",
+          390,
+          null
+        ],
+        [
+          "Джим бим",
+          440,
+          null
+        ],
+        [
+          "Егермейстер",
+          390,
+          null
+        ],
+        [
+          "Бехеровка",
+          350,
+          null
+        ],
+        [
+          "Виски Джемесон",
+          410,
+          null
+        ],
+        [
+          "Виски Чивас Ригал 12",
+          620,
+          null
+        ],
+        [
+          "Виски Балантайнс Файнест",
+          390,
+          null
+        ],
+        [
+          "Водка Белая березка",
+          210,
+          null
+        ],
+        [
+          "Бренди Арарат 3*",
+          320,
+          null
+        ],
+        [
+          "Бренди Арарат 5*",
+          350,
+          null
+        ]
+      ]
+    },
+    {
+      "category": "Пиво",
+      "items": [
+        [
+          "Пиво светлое Фирменное",
+          290,
+          null
+        ],
+        [
+          "Стелла Артуа",
+          390,
+          null
+        ],
+        [
+          "Аббе Брюн темное",
+          390,
+          null
+        ],
+        [
+          "Стелла Артуа Б/А",
+          340,
+          null
+        ]
+      ]
+    },
+    {
+      "category": "Домашние настойки",
+      "items": [
+        [
+          "Брусничная",
+          100,
+          null
+        ],
+        [
+          "Брусничная",
+          1420,
+          null
+        ],
+        [
+          "Мандарин-облепиха",
+          100,
+          null
+        ],
+        [
+          "Мандарин-облепиха",
+          1420,
+          null
+        ],
+        [
+          "Грушевая",
+          100,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/bc42d17a5edb69be3e380108defe8687.WEBP"
+        ],
+        [
+          "Грушевая",
+          1420,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/bc42d17a5edb69be3e380108defe8687.WEBP"
+        ],
+        [
+          "Черная смородина",
+          100,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/6842734f78320f8a46865026f6db7324.WEBP"
+        ],
+        [
+          "Черная смородина",
+          1420,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/6842734f78320f8a46865026f6db7324.WEBP"
+        ],
+        [
+          "Вишневая",
+          100,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/63a5f4d84f0d28f06e46d0e775e52c39.PNG"
+        ],
+        [
+          "Вишневая",
+          1420,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/9e834473766edf9ef9479d42cffaa5e6.WEBP"
+        ],
+        [
+          "Малиновая",
+          100,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/eaefb1945f840baeba875b9935680e03.PNG"
+        ],
+        [
+          "Малиновая",
+          1420,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/719da284ffc2dad3ff0d4e1f85d24ec9.WEBP"
+        ],
+        [
+          "Ассорти настоек",
+          540,
+          "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru/ro-mne-nravitsya-co/65965/images/items/293c7d2afc6002514ef1fefe398efb40.WEBP"
+        ]
+      ]
+    }
+  ]
+}
