@@ -132,6 +132,7 @@ function overviewMeter(label, amount, max, value) {
 }
 
 function renderOverview() {
+  renderLayoutSummary();
   const stages = menus[selectedMenu]?.[0] ?? [];
   const metrics = selectedMenu == null ? null :
     orderMetrics(stages.map((_, i) => rowsFor(selectedMenu, i)), rowsFor(selectedMenu, 6), drafts[selectedMenu].fee);
@@ -151,7 +152,7 @@ function renderOverview() {
     if (pending.length) money.append(element("p", "Нет отметки об оплате · " + pending.map(record => nameOf(record.guest_id)).join(", "), "muted"));
   }
   const cards = [
-    ["Гостей", String(guestCount), (planDraft?.tables ?? snapshot.plan.table_count) === 1 ? "Один стол · 13 мест" : "Два стола · 7 и 6 мест"],
+    ["Гостей", String(guestCount), visibleTables() ? layoutLabel(visibleTables()) : "Формат рассадки ещё не выбран"],
     ["Бюджет", rubles(budget), rubles(budget / guestCount) + " с участника"],
     ["Смета", metrics ? rubles(metrics.total) : "—", metrics ? menuLabel(selectedMenu) : "Меню ещё не выбрано"],
     ["Еда на гостя", metrics ? currency.format(metrics.weight / guestCount) + " г" : "—", "По указанным граммовкам"]
@@ -369,7 +370,6 @@ function renderMenu() {
   }));
   updateProgramClock();
   renderServingTimeline();
-  setText("program-menu", "План подачи для всех гостей");
   setText("menu-note", menuNotes[selectedMenu] ?? "");
   const plan = snapshot?.plan;
   setText("plan-status", plan?.menu != null
@@ -419,6 +419,11 @@ function servingDrinks(stage) {
 
 function renderServingTimeline() {
   const tables = visibleTables();
+  if (!tables) {
+    timelineKey = "";
+    get("serving-timeline").replaceChildren();
+    return;
+  }
   const key = JSON.stringify([selectedMenu, tables, [...(drafts[selectedMenu]?.adjustments.values() ?? [])]]);
   if (timelineKey === key) return;
   timelineKey = key;
@@ -511,12 +516,49 @@ function setOptions(select, options, current, empty = "Любое") {
 }
 
 const publishedTables = () => snapshot?.plan.table_count ?? 2;
-const visibleTables = () => planDraft?.tables ?? previewTables ?? publishedTables();
+const visibleTables = () => planDraft?.tables ?? previewTables;
 const seatTable = index => visibleTables() === 2 && index >= 7 ? 1 : 0;
+const layoutLabel = count => count === 1 ? "Один стол · 13 мест" : "Два стола · 7 и 6 мест";
+
+function renderLayoutSummary() {
+  const tableCount = visibleTables();
+  get("layout-start-actions").hidden = !tableCount;
+  get("start-layout-one").setAttribute("aria-pressed", String(tableCount === 1));
+  get("start-layout-two").setAttribute("aria-pressed", String(tableCount === 2));
+  setText("layout-start-hint", tableCount ? "Предпочтения гостей по напиткам для этой схемы." :
+    "После выбора откроются меню, программа подачи и схема столов.");
+  setText("menu-layout-label", tableCount ? layoutLabel(tableCount) : "");
+  setText("program-menu", tableCount ? "План подачи · " + layoutLabel(tableCount) : "План подачи для всех гостей");
+  for (const id of ["layout-start-summary", "menu-layout-summary"]) {
+    const box = get(id);
+    box.replaceChildren();
+    if (!snapshot || !tableCount) continue;
+    const order = planDraft?.seats ?? snapshot.plan.seats;
+    const groups = new Map(snapshot.guests.map(guest => [guest.id, guest.drink_group]));
+    for (const [index, [start, , end]] of seatingRows(tableCount).entries()) {
+      const table = element("article");
+      const counts = { strong: 0, other: 0, none: 0, unknown: 0 };
+      for (const guest of order.slice(start, end)) {
+        const group = groups.get(guest);
+        counts[Object.hasOwn(counts, group) ? group : "unknown"]++;
+      }
+      table.append(element("strong", tableCount === 1 ? "Общий стол" : "Стол " + (index + 1)),
+        element("p", Object.entries(counts).map(([group, count]) => drinkGroups[group] + " · " + count).join(" / ")));
+      box.append(table);
+    }
+  }
+}
 
 function renderSeating() {
   const order = planDraft?.seats || snapshot?.plan.seats || defaultSeats;
   const tableCount = visibleTables();
+  if (!tableCount) {
+    get("seats").replaceChildren();
+    get("seating-review").replaceChildren();
+    get("table-detail").replaceChildren();
+    get("guest-card").replaceChildren();
+    return;
+  }
   const isPreview = !planDraft && tableCount !== publishedTables();
   selectedTable = Math.min(selectedTable, tableCount - 1);
   get("seats").dataset.tables = tableCount;
@@ -664,6 +706,7 @@ function renderSeating() {
       [order[index], order[selectedSeat]] = [order[selectedSeat], order[index]];
       selectedSeat = index;
       selectedTable = seatTable(index);
+      renderLayoutSummary();
       renderSeating();
     });
     label.append(swap);
@@ -730,6 +773,7 @@ function renderSeatingReview(order, tableCount) {
     panel.append(button("Примерить рассадку с учётом пожеланий", () => {
       if (!planDraft) editPlan();
       planDraft.seats = next;
+      renderLayoutSummary();
       renderSeating();
       get("seats").scrollIntoView({ block: "start" });
     }));
@@ -856,9 +900,12 @@ function showView(scroll = true) {
     && (raw !== "organizer" || snapshot?.admin) ? raw : "overview";
   const panel = get(target);
   const view = target === "beverage-editor" ? "menu" : panel.dataset.view;
+  const needsLayout = !visibleTables() && (view === "menu" || view === "seating");
+  const layoutStart = get("layout-start");
+  layoutStart.hidden = !snapshot || (!needsLayout && view !== "overview");
   if (target === "beverage-editor") panel.open = true;
   document.querySelectorAll("[data-view]").forEach(section => {
-    section.classList.toggle("view-off", section.dataset.view !== view);
+    section.classList.toggle("view-off", needsLayout || section.dataset.view !== view);
   });
   document.querySelectorAll("[data-nav]").forEach(link => {
     if (link.dataset.nav === view) link.setAttribute("aria-current", "location");
@@ -866,7 +913,8 @@ function showView(scroll = true) {
   });
   if (snapshot && view === "catalog") void setCatalogAccess(true);
   if (snapshot && scroll) {
-    if (raw && target !== "overview") panel.scrollIntoView({ block: "start" });
+    if (needsLayout) layoutStart.scrollIntoView({ block: "start" });
+    else if (raw && target !== "overview") panel.scrollIntoView({ block: "start" });
     else window.scrollTo({ top: 0, behavior: "instant" });
     if (raw) animateChange(panel);
   }
@@ -892,6 +940,7 @@ function renderOnline() {
   get("publish").disabled = !planDraft || publishing || selectedMenu == null;
   if (!member) {
     void setCatalogAccess(false);
+    get("layout-start").hidden = true;
     get("review").replaceChildren();
     get("events").replaceChildren();
     get("seating-rules").replaceChildren();
@@ -903,7 +952,7 @@ function renderOnline() {
   }
   if (entering) {
     showView();
-    if (!location.hash) get("workspace-title").focus({ preventScroll: true });
+    if (!location.hash) get("layout-start-title").focus({ preventScroll: true });
   }
 
   if (!wishDirty) loadWish();
@@ -1159,9 +1208,14 @@ wish.addEventListener("submit", async event => {
 function editPlan() {
   if (!snapshot?.admin) return;
   if (planDraft) return;
+  if (!visibleTables()) {
+    location.hash = "seating";
+    showView();
+    get("layout-start-title").focus({ preventScroll: true });
+    return;
+  }
   const plan = snapshot.plan;
   planDraft = { revision: plan.revision, seats: [...plan.seats], tables: visibleTables(), assignments: {} };
-  previewTables = null;
   if (plan.menu != null) planDraft.assignments[plan.menu] = structuredClone(plan.assignments);
   renderOnline();
   renderMenu();
@@ -1257,16 +1311,28 @@ get("copy-menu").addEventListener("click", async () => {
   }
 });
 get("print").addEventListener("click", () => window.print());
+function chooseLayout(tableCount) {
+  previewTables = tableCount;
+  if (planDraft) planDraft.tables = tableCount;
+  selectedTable = seatTable(selectedSeat);
+  renderOverview();
+  renderSeating();
+  renderServingTimeline();
+}
+
 for (const [id, tableCount] of [["layout-one", 1], ["layout-two", 2]]) {
   get(id).addEventListener("click", () => {
-    if (planDraft) {
-      planDraft.tables = tableCount;
-      renderOverview();
-    } else previewTables = tableCount === publishedTables() ? null : tableCount;
-    selectedTable = seatTable(selectedSeat);
-    renderSeating();
-    renderServingTimeline();
+    chooseLayout(tableCount);
     animateChange(get("seats"));
+  });
+}
+for (const [id, tableCount] of [["start-layout-one", 1], ["start-layout-two", 2]]) {
+  get(id).addEventListener("click", () => {
+    chooseLayout(tableCount);
+    const target = location.hash.slice(1);
+    showView(Boolean(target && target !== "overview"));
+    const destination = { menu: "menu-title", program: "program-title", seating: "seats-title", "beverage-editor": "beverage-editor" }[target];
+    if (destination) get(destination).focus({ preventScroll: true });
   });
 }
 get("table-serving").addEventListener("change", event => selectServing(Number(event.currentTarget.value)));

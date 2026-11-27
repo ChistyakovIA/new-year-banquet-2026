@@ -9,8 +9,8 @@
   <title>🎄 Новогодний корпоратив 2027 · Моя узбечка</title>
   <link rel="stylesheet" href="vendor/glisse-0.6.0.css">
   <link rel="stylesheet" href="styles.css?v=20261127-calendar">
-  <link rel="stylesheet" href="dashboard.css?v=5">
-  <script type="module" src="app.js?v=2027-2"></script>
+  <link rel="stylesheet" href="dashboard.css?v=6">
+  <script type="module" src="app.js?v=2027-3"></script>
 </head>
 <body>
   <main id="entrance" class="entrance">
@@ -54,6 +54,19 @@
       <a href="#wishes" data-nav="wishes">Пожелания</a>
       <a href="#catalog" data-nav="catalog">Каталог</a>
     </nav>
+    <section id="layout-start" class="panel layout-start" aria-labelledby="layout-start-title" hidden>
+      <h2 id="layout-start-title" tabindex="-1">Выберите формат рассадки</h2>
+      <div class="layout-picker" role="group" aria-label="Формат рассадки для просмотра">
+        <button id="start-layout-one" type="button" aria-pressed="false">Один стол <small>13 гостей</small></button>
+        <button id="start-layout-two" type="button" aria-pressed="false">Два стола <small>7 и 6 гостей</small></button>
+      </div>
+      <p id="layout-start-hint" class="muted">После выбора откроются меню, программа подачи и схема столов.</p>
+      <div id="layout-start-summary" class="table-preferences" aria-label="Предпочтения по напиткам"></div>
+      <div id="layout-start-actions" class="actions" hidden>
+        <a class="compare-shortcut" href="#menu">Перейти к сравнению меню</a>
+        <a class="compare-shortcut" href="#seating">Посмотреть места</a>
+      </div>
+    </section>
     <section id="overview" data-view="overview" aria-labelledby="workspace-title">
       <header class="overview-hero">
         <div>
@@ -65,7 +78,6 @@
         </div>
       </header>
       <div id="overview-facts" class="overview-facts" aria-label="Ключевые показатели"></div>
-      <a class="compare-shortcut" href="#menu">Сравнить 4 варианта меню</a>
       <div class="overview-grid">
         <section class="panel" aria-labelledby="money-title">
           <h2 id="money-title">Деньги</h2>
@@ -96,7 +108,12 @@
       </div>
     </section>
     <section id="menu" data-view="menu" class="panel" aria-labelledby="menu-title">
-      <h2 id="menu-title">Четыре варианта меню</h2>
+      <h2 id="menu-title" tabindex="-1">Четыре варианта меню</h2>
+      <div class="menu-layout-context">
+        <p id="menu-layout-label"></p>
+        <a href="#seating">Изменить формат</a>
+        <div id="menu-layout-summary" class="table-preferences" aria-label="Предпочтения по напиткам"></div>
+      </div>
       <p class="muted">Отметьте варианты, которые хотите сравнить. Из карточки можно открыть программу подачи.</p>
       <div class="menu-compare">
         <div id="menu-compare-options" class="variant-controls" role="group" aria-label="Варианты для сравнения"></div>
@@ -171,10 +188,10 @@
       </details>
     </section>
     <section id="seating" data-view="seating" class="panel" aria-labelledby="seats-title">
-      <h2 id="seats-title">Рассадка на 13 гостей</h2>
+      <h2 id="seats-title" tabindex="-1">Рассадка на 13 гостей</h2>
       <div class="layout-picker" role="group" aria-label="Количество столов">
         <button id="layout-one" type="button" aria-pressed="false" aria-controls="seats">Один стол <small>13 мест</small></button>
-        <button id="layout-two" type="button" aria-pressed="true" aria-controls="seats">Два стола <small>7 и 6 мест</small></button>
+        <button id="layout-two" type="button" aria-pressed="false" aria-controls="seats">Два стола <small>7 и 6 мест</small></button>
       </div>
       <p id="seats-status">Выберите место, чтобы открыть карточку. Имена участников доступны после входа.</p>
       <p id="seating-edit" hidden><button id="edit-seating" type="button">Изменить план</button></p>

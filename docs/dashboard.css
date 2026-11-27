@@ -373,6 +373,15 @@ button:active:not(:disabled) { box-shadow: inset 0 2px 5px #142b252e; }
 }
 
 .menu-compare { margin: .75rem 0; }
+.layout-start { scroll-margin-top: 104px; }
+.layout-start .layout-picker { margin-bottom: .5rem; }
+.layout-start .actions { align-items: center; gap: .45rem 1.25rem; }
+.table-preferences { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(15rem,100%),1fr)); gap: .5rem; }
+.table-preferences article { padding: .55rem .7rem; border: 1px solid var(--line); border-radius: 8px; background: #f1f6ed; }
+.table-preferences p { margin: .22rem 0 0; font-size: .85rem; color: var(--muted); }
+.menu-layout-context { padding: .65rem 0 .85rem; }
+.menu-layout-context > p { display: inline-block; margin: .2rem .7rem .35rem 0; font-weight: 680; }
+.menu-layout-context > a { display: inline-flex; align-items: center; min-height: 44px; }
 .variant-controls { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .35rem; }
 .variant-controls button { min-height: 44px; padding-inline: .28rem; line-height: 1.1; }
 .program-switcher {
