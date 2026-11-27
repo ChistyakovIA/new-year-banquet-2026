@@ -24,9 +24,6 @@ const priceNotes = {
   "Вода, 1 л (условно бесплатно)": "Нулевая цена при согласовании с рестораном. Вода «Аква дью» стоит 290 ₽ за позицию каталога."
 };
 const currency = new Intl.NumberFormat("ru-RU", { maximumFractionDigits: 0 });
-const eventTime = new Intl.DateTimeFormat("ru-RU", {
-  dateStyle: "short", timeStyle: "short", timeZone: "Europe/Saratov"
-});
 const get = id => document.getElementById(id);
 const rubles = value => currency.format(value) + " ₽";
 const costs = rows => rows.reduce((total, row) => total + row[1] * row[2], 0);
@@ -740,7 +737,7 @@ function renderSeatingReview(order, tableCount) {
   panel.replaceChildren();
   panel.hidden = !snapshot?.admin;
   if (panel.hidden) return;
-  const requests = [...(snapshot.seating_rules || []), ...snapshot.wishes];
+  const requests = snapshot.wishes;
   const { checks, adjacent, strong } = seatingReview(order, tableCount, requests, snapshot.guests);
   panel.append(element("h3", "Как учтены пожелания"),
     element("p", "Учтено " + checks.filter(check => check.met).length + " из " + checks.length + " пожеланий о месте и соседе."),
@@ -763,9 +760,6 @@ function renderSeatingReview(order, tableCount) {
       get("seats").scrollIntoView({ block: "start" });
     }));
   }
-  const history = element("a", "Открыть историю пожеланий");
-  history.href = "#history";
-  panel.append(history);
 }
 
 function loadWish() {
@@ -917,25 +911,6 @@ get("wish-picker-search").addEventListener("input", renderWishPicker);
 get("wish-picker-close").addEventListener("click", () => get("wish-picker").close());
 
 
-function describeChanges(before, after) {
-  const changes = [];
-  if (before.menu !== after.menu) changes.push("Меню · " + menuNames[after.menu]);
-  if ((before.table_count ?? 2) !== (after.table_count ?? 2)) {
-    changes.push(after.table_count === 1 ? "Рассадка за одним столом" : "Рассадка за двумя столами");
-  }
-  if (before.fee !== after.fee) changes.push("Сервисный сбор · " + rubles(before.fee) + " → " + rubles(after.fee));
-  after.seats.forEach((id, i) => {
-    if (id !== before.seats[i]) changes.push("Место " + (i + 1) + " · " + nameOf(before.seats[i]) + " → " + nameOf(id));
-  });
-  if (JSON.stringify(before.adjustments) !== JSON.stringify(after.adjustments)) {
-    changes.push("Порции и цены · " + after.adjustments.length + " изменённых позиций");
-  }
-  if (JSON.stringify(before.assignments) !== JSON.stringify(after.assignments)) {
-    changes.push("Обновлено распределение блюд");
-  }
-  return changes.length ? changes : ["План утверждён повторно с теми же параметрами."];
-}
-
 function describeWish(wish) {
   return [
     wish.seat == null ? "" : "Место " + wish.seat,
@@ -948,15 +923,11 @@ function describeWish(wish) {
   ].filter(Boolean);
 }
 
-function describeSeatingRule(rule) {
-  if (rule.seat != null) return nameOf(rule.guest_id) + " · место " + rule.seat;
-  return nameOf(rule.guest_id) + (rule.apart ? " · отдельно от гостя " : " · рядом с гостем ") + nameOf(rule.neighbor);
-}
-
 function showView(scroll = true) {
-  const raw = location.hash.slice(1);
+  const fragment = location.hash.slice(1);
+  const raw = fragment === "history" ? "wishes" : fragment;
   const servingAnchor = /^serving-step-[0-4]$/.test(raw);
-  const known = ["overview", "menu", "program", "beverage-editor", "seating", "wishes", "organizer", "history", "catalog"].includes(raw)
+  const known = ["overview", "menu", "program", "beverage-editor", "seating", "wishes", "organizer", "catalog"].includes(raw)
     && (raw !== "organizer" || snapshot?.admin);
   const target = servingAnchor ? "program" : known ? raw : "overview";
   const panel = get(target);
@@ -996,7 +967,6 @@ function renderOnline() {
   get("wishes").hidden = !member;
   get("organizer").hidden = !snapshot?.admin;
   get("organizer-link").hidden = !snapshot?.admin;
-  get("history").hidden = !member;
   get("edit-plan").disabled = Boolean(planDraft);
   get("discard-plan").disabled = !planDraft || publishing;
   get("publish").disabled = !planDraft || publishing || selectedMenu == null;
@@ -1004,8 +974,6 @@ function renderOnline() {
     void setCatalogAccess(false);
     get("layout-start").hidden = true;
     get("review").replaceChildren();
-    get("events").replaceChildren();
-    get("seating-rules").replaceChildren();
     get("votes").replaceChildren();
     get("payments").replaceChildren();
     get("drink-analytics").replaceChildren();
@@ -1020,41 +988,12 @@ function renderOnline() {
   if (!wishDirty) loadWish();
   renderOverview();
   const wishes = snapshot.admin ? snapshot.wishes : [];
-  const rules = snapshot.admin ? (snapshot.seating_rules || []) : [];
-  get("seating-rules").hidden = !rules.length;
-  const rulesList = element("ul");
-  rulesList.append(...rules.map(rule => element("li", describeSeatingRule(rule))));
-  get("seating-rules").replaceChildren(element("h3", "Исходные договорённости по рассадке"), rulesList);
   get("votes").replaceChildren(...(snapshot.admin ? menuNames.map((name, i) =>
     element("p", "Вариант " + (i + 1) + " · " + name + " — " + wishes.filter(item => item.menu === i).length)) : []));
   get("review").replaceChildren(...wishes.map(item => {
     const info = describeWish(item).join(" · ");
     return element("li", nameOf(item.guest_id) + (info ? " — " + info : " — без пожеланий"));
   }));
-  get("events").replaceChildren(...snapshot.events.map(event => {
-    const action = event.kind === "plan" ? "Утверждён план № " + event.revision
-      : event.kind === "layout" ? "Обновлена предварительная схема столов" : "Сохранены пожелания · редакция " + event.revision;
-    const label = eventTime.format(new Date(event.at)) + " · " + action + (event.actor ? " · " + event.actor : "");
-    if (!event.after || (event.kind !== "wish" && !event.before)) return element("li", label);
-    const entry = element("li");
-    const details = element("details");
-    const list = element("ul");
-    const changes = event.kind === "wish" ? describeWish(event.after) : describeChanges(event.before, event.after);
-    list.append(...(changes.length ? changes : ["Поля пожелания оставлены пустыми."]).map(change => element("li", change)));
-    if (event.kind === "wish" && event.before) {
-      const previous = element("details");
-      const beforeList = element("ul");
-      beforeList.append(...describeWish(event.before).map(change => element("li", change)));
-      previous.append(element("summary", "Предыдущая редакция"), beforeList);
-      const previousItem = element("li");
-      previousItem.append(previous);
-      list.append(previousItem);
-    }
-    details.append(element("summary", label), list);
-    entry.append(details);
-    return entry;
-  }));
-  if (!snapshot.events.length) get("events").append(element("li", "Изменений пока нет."));
 }
 
 function usePlan(plan) {

@@ -9,8 +9,8 @@
   <title>🎄 Новогодний корпоратив 2027 · Моя узбечка</title>
   <link rel="stylesheet" href="vendor/glisse-0.6.0.css">
   <link rel="stylesheet" href="styles.css?v=20261127-calendar">
-  <link rel="stylesheet" href="dashboard.css?v=8">
-  <script type="module" src="app.js?v=2027-5"></script>
+  <link rel="stylesheet" href="dashboard.css?v=9">
+  <script type="module" src="app.js?v=2027-6"></script>
 </head>
 <body>
   <main id="entrance" class="entrance">
@@ -107,7 +107,6 @@
           <ul id="overview-checks" class="overview-checks"></ul>
           <div class="actions">
             <a id="organizer-link" href="#organizer" hidden>Перейти к утверждению</a>
-            <a href="#history">История изменений</a>
             <button id="refresh" type="button" hidden>Обновить данные</button>
           </div>
         </section>
@@ -236,11 +235,6 @@
         <button id="discard-plan" type="button" disabled>Отменить редактирование</button>
       </div>
       <p id="publish-status" role="status"></p>
-    </section>
-    <section id="history" data-view="wishes" class="panel" hidden aria-labelledby="history-title">
-      <h2 id="history-title">История изменений</h2>
-      <ol id="events"></ol>
-      <div id="seating-rules" hidden></div>
     </section>
     <section id="catalog" data-view="catalog" class="panel catalog" aria-labelledby="catalog-title">
       <h2 id="catalog-title">Каталог ресторана</h2>
