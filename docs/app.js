@@ -1,4 +1,5 @@
 import { accountEmail, loginPassword } from "./login.js";
+import { catalogPhoto, setCatalogAccess } from "./catalog.js";
 import { menus, photos } from "./menu-data.js";
 import { supabaseUrl, supabasePublishableKey } from "./config.js";
 
@@ -27,6 +28,10 @@ const rubles = value => currency.format(value) + " ₽";
 const costs = rows => rows.reduce((total, row) => total + row[1] * row[2], 0);
 const bounded = (value, max) => Math.max(0, Math.min(Math.round(Number(value) || 0), max));
 const setText = (id, value) => { get(id).textContent = value; };
+function setConnectionStatus(value) {
+  setText("status", value);
+  setText("session-status", value);
+}
 const nameOf = id => snapshot?.guests.find(guest => guest.id === id)?.name || "Гость " + (id + 1);
 const blankDraft = () => ({ adjustments: new Map(), fee: 0 });
 const drafts = menus.map(blankDraft);
@@ -111,14 +116,21 @@ function changeDish(stage, index, quantity, price) {
 function dishRow(row, stage, i) {
   const [name, quantity, price, grams] = row;
   const container = element("div", null, "dish");
-  const visual = photos[name] ? element("img") : element("span", "·", "dish-placeholder");
-  if (photos[name]) {
-    visual.src = photos[name];
+  const source = photos[name] || catalogPhoto(name);
+  const placeholder = () => {
+    const node = element("span", "·", "dish-placeholder");
+    node.setAttribute("aria-hidden", "true");
+    return node;
+  };
+  const visual = source ? element("img") : placeholder();
+  if (source) {
+    visual.src = source;
     visual.alt = name;
     visual.loading = "lazy";
     visual.width = 72;
     visual.height = 72;
-  } else visual.setAttribute("aria-hidden", "true");
+    visual.addEventListener("error", () => visual.replaceWith(placeholder()), { once: true });
+  }
   const info = element("div");
   info.append(element("strong", name), element("div", rubles(price) + " за порцию" + (grams ? " · ≈ " + grams + " г" : ""), "muted"));
   if (priceNotes[name]) info.append(element("small", priceNotes[name], "muted"));
@@ -330,8 +342,11 @@ function describeChanges(before, after) {
 
 function renderOnline() {
   const member = Boolean(snapshot);
+  const entering = member && get("workspace").hidden;
+  get("entrance").hidden = member;
+  get("workspace").hidden = !member;
   get("login").hidden = Boolean(userId);
-  get("login-help").hidden = Boolean(userId);
+  get("switch-account").hidden = !userId || member;
   get("logout").hidden = !userId;
   get("refresh").hidden = !userId;
   get("wishes").hidden = !member;
@@ -340,12 +355,19 @@ function renderOnline() {
   get("edit-plan").disabled = Boolean(planDraft);
   get("discard-plan").disabled = !planDraft || publishing;
   get("publish").disabled = !planDraft || publishing;
+  void setCatalogAccess(member).then(loaded => { if (loaded && snapshot) renderMenu(); });
   if (!member) {
     get("review").replaceChildren();
     get("events").replaceChildren();
     get("votes").replaceChildren();
     wish.reset();
     return;
+  }
+  if (entering) {
+    const target = location.hash.slice(1);
+    if (["menu", "program", "seating", "catalog", "wishes"].includes(target)) {
+      get(target).scrollIntoView();
+    } else get("workspace-title").focus();
   }
 
   if (!wishDirty) loadWish();
@@ -397,20 +419,20 @@ async function sync() {
     snapshot = null;
     planDraft = null;
     wishDirty = false;
-    setText("status", "Доступ к банкету не подтверждён. Выйдите и войдите снова или свяжитесь с организатором.");
+    setConnectionStatus("Доступ к банкету не подтверждён. Войдите снова или свяжитесь с организатором.");
     renderOnline();
     renderMenu();
     renderSeating();
     return;
   }
   if (error) {
-    setText("status", "Связь с базой прервана. Проверьте подключение и нажмите «Обновить данные».");
+    setConnectionStatus("Связь с базой прервана. Проверьте подключение и обновите страницу.");
     return;
   }
   const previous = snapshot;
   snapshot = data;
   if (!snapshot.admin) planDraft = null;
-  setText("status", (snapshot.admin ? "Организатор" : "Участник") + " · " + nameOf(snapshot.member));
+  setConnectionStatus((snapshot.admin ? "Организатор" : "Участник") + " · " + nameOf(snapshot.member));
   if (JSON.stringify(previous) === JSON.stringify(data)) return;
   if (!previous) usePlan(snapshot.plan);
   renderOnline();
@@ -433,7 +455,7 @@ function switchUser(session) {
   channel = null;
   setText("wish-status", "");
   setText("publish-status", "");
-  setText("status", userId ? "Загружаем данные банкета…" : "Введите фамилию и пароль.");
+  setConnectionStatus(userId ? "Загружаем данные банкета…" : "Введите фамилию и пароль.");
   if (!userId) {
     drafts.splice(0, drafts.length, ...menus.map(blankDraft));
     localExtras.length = 0;
@@ -460,44 +482,60 @@ function configReady() {
 
 function startOnline() {
   const login = get("login");
+  const toggle = get("toggle-password");
+  const password = login.elements.password;
+  const showPassword = visible => {
+    password.type = visible ? "text" : "password";
+    toggle.textContent = visible ? "Скрыть" : "Показать";
+    toggle.setAttribute("aria-pressed", String(visible));
+  };
+  toggle.addEventListener("click", () => showPassword(password.type === "password"));
   login.hidden = false;
   if (!configReady() || !globalThis.supabase?.createClient) {
-    setText("status", "Онлайн-доступ ещё подключается. Меню, программа и смета доступны для просмотра.");
+    setConnectionStatus("Вход временно недоступен. Свяжитесь с организатором.");
     for (const control of login.elements) control.disabled = true;
     return;
   }
   client = globalThis.supabase.createClient(supabaseUrl, supabasePublishableKey, {
     auth: { storage: sessionStorage, persistSession: true, detectSessionInUrl: false, autoRefreshToken: true }
   });
-  setText("status", "Введите фамилию и пароль.");
+  setConnectionStatus("");
   client.auth.onAuthStateChange((_event, session) => setTimeout(() => switchUser(session), 0));
   login.addEventListener("submit", async event => {
     event.preventDefault();
-    const { surname, password } = login.elements;
+    const { surname } = login.elements;
+    setConnectionStatus("Входим…");
     for (const control of login.elements) control.disabled = true;
     try {
       const email = await accountEmail(surname.value);
       if (!email) {
-        setText("status", "Введите фамилию.");
+        setConnectionStatus("Введите фамилию.");
         return;
       }
       const { error } = await client.auth.signInWithPassword({ email, password: loginPassword(password.value) });
       if (error) {
-        setText("status", error.status === 429 ? "Слишком много попыток. Попробуйте позже."
+        setConnectionStatus(error.status === 429 ? "Слишком много попыток. Попробуйте позже."
           : "Войти не удалось. Проверьте фамилию и пароль или свяжитесь с организатором.");
       } else login.reset();
     } catch {
-      setText("status", "Связь с базой прервана. Попробуйте снова.");
+      setConnectionStatus("Связь с базой прервана. Попробуйте снова.");
     } finally {
       password.value = "";
+      showPassword(false);
       for (const control of login.elements) control.disabled = false;
     }
   });
-  get("logout").addEventListener("click", async () => {
+  const signOut = async () => {
     const { error } = await client.auth.signOut({ scope: "local" });
-    if (error) setText("status", "Завершить сеанс не удалось. Повторите попытку.");
-    else switchUser(null);
-  });
+    if (error) setConnectionStatus("Завершить сеанс не удалось. Повторите попытку.");
+    else {
+      switchUser(null);
+      window.scrollTo(0, 0);
+      login.elements.surname.focus({ preventScroll: true });
+    }
+  };
+  get("logout").addEventListener("click", signOut);
+  get("switch-account").addEventListener("click", signOut);
   get("refresh").addEventListener("click", () => void sync());
   setInterval(() => { if (!document.hidden) void sync(); }, 20000);
   document.addEventListener("visibilitychange", () => { if (!document.hidden) void sync(); });

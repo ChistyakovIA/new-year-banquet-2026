@@ -5,44 +5,62 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="referrer" content="no-referrer">
   <meta name="robots" content="noindex, nofollow">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src https://*.supabase.co wss://*.supabase.co; base-uri 'none'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru; connect-src 'self' https://*.supabase.co wss://*.supabase.co; base-uri 'none'; form-action 'none'">
   <title>Новогодний вечер · Моя узбечка</title>
   <link rel="stylesheet" href="styles.css">
   <script src="vendor/supabase.js" defer></script>
   <script type="module" src="app.js"></script>
 </head>
 <body>
-  <main>
-    <header class="invitation">
-      <p>25 декабря 2026 · 18:00–00:00</p>
-      <h1>Новогодний вечер</h1>
-      <p>«Моя узбечка», Саратов, Соколовая, 10/16</p>
-      <nav aria-label="Разделы сайта">
-        <a href="#menu">Меню</a>
-        <a href="#program">Программа</a>
-        <a href="#seating">Рассадка</a>
-        <a href="#account">Вход</a>
-      </nav>
-    </header>
-    <section id="account" class="panel" aria-labelledby="account-title">
+  <main id="entrance" class="entrance">
+    <div class="entrance-cover">
+      <p class="entrance-date">25 декабря 2026 · 18:00</p>
+      <h1>Новогодний<br>вечер</h1>
+      <p class="entrance-venue">«Моя узбечка»<br>Саратов, Соколовая, 10/16</p>
+    </div>
+    <section id="account" class="entrance-form" aria-labelledby="account-title">
       <h2 id="account-title">Вход участников</h2>
-      <p id="status" role="status">Проверяем подключение…</p>
       <form id="login" hidden>
         <label>Фамилия<input name="surname" type="text" autocomplete="username" maxlength="80" required></label>
-        <label>Пароль<input name="password" type="password" autocomplete="current-password" maxlength="128" required></label>
-        <button class="primary">Войти</button>
+        <div class="password-field">
+          <label for="login-password">Пароль</label>
+          <div class="password-entry">
+            <input id="login-password" name="password" type="password" autocomplete="current-password" maxlength="128" required aria-describedby="login-help">
+            <button id="toggle-password" type="button" aria-controls="login-password" aria-pressed="false">Показать</button>
+          </div>
+        </div>
+        <p class="muted" id="login-help">Используйте номер телефона или личный код, который назначил организатор.</p>
+        <button class="primary" type="submit">Войти</button>
       </form>
-      <p class="muted" id="login-help">Используйте номер телефона или личный код, который назначил организатор.</p>
-      <button id="logout" type="button" hidden>Выйти</button>
-      <button id="refresh" type="button" hidden>Обновить данные</button>
+      <p id="status" role="status">Проверяем подключение…</p>
+      <button id="switch-account" type="button" hidden>Войти под другим именем</button>
     </section>
+  </main>
+  <main id="workspace" hidden>
+    <header class="invitation">
+      <p>25 декабря 2026 · 18:00–00:00</p>
+      <h1 id="workspace-title" tabindex="-1">Новогодний вечер</h1>
+      <p>«Моя узбечка», Саратов, Соколовая, 10/16</p>
+      <nav aria-label="Разделы сайта">
+        <a href="#menu">Варианты меню</a>
+        <a href="#catalog">Каталог</a>
+        <a href="#program">Программа</a>
+        <a href="#seating">Рассадка</a>
+        <a href="#wishes">Пожелания</a>
+      </nav>
+      <div class="session-bar">
+        <p id="session-status" role="status"></p>
+        <button id="refresh" type="button" hidden>Обновить данные</button>
+        <button id="logout" type="button" hidden>Выйти</button>
+      </div>
+    </header>
     <section id="menu" class="panel" aria-labelledby="menu-title">
       <h2 id="menu-title">Четыре варианта меню</h2>
       <div id="choices" class="choices"></div>
       <p id="plan-status"></p>
       <p id="menu-note" class="muted"></p>
       <p class="muted">Цены сверены 27 ноября по каталогу на Соколовой. У непроверенных позиций указана рабочая цена.</p>
-      <p><a href="https://banquets.uzbechka.rest/menu" target="_blank" rel="noopener noreferrer">Официальное меню ресторана</a></p>
+      <p><a href="#catalog">Посмотреть полный каталог ресторана</a></p>
       <div class="budget">
         <div><span>Бюджет</span><strong>39 000 ₽</strong></div>
         <div><span>Общий заказ</span><strong id="total"></strong></div>
@@ -116,7 +134,29 @@
       <h2 id="history-title">История изменений</h2>
       <ol id="events"></ol>
     </section>
+    <section id="catalog" class="panel catalog" aria-labelledby="catalog-title">
+      <h2 id="catalog-title">Каталог ресторана</h2>
+      <p class="muted">Соколовая, 10/16 · <a href="https://banquets.uzbechka.rest/menu" target="_blank" rel="noopener noreferrer">Официальное меню</a></p>
+      <div class="catalog-controls">
+        <label>Поиск по меню<input id="catalog-search" type="search" placeholder="Например, плов" maxlength="100"></label>
+        <label>Категория<select id="catalog-category"><option value="">Все категории</option></select></label>
+        <label>Сортировка<select id="catalog-sort">
+          <option value="">Как в меню</option>
+          <option value="asc">По возрастанию цены</option>
+          <option value="desc">По убыванию цены</option>
+        </select></label>
+      </div>
+      <p class="muted" id="catalog-status" role="status"></p>
+      <button id="catalog-retry" type="button" hidden>Загрузить снова</button>
+      <div id="catalog-results"></div>
+    </section>
   </main>
+  <dialog id="catalog-photo" aria-labelledby="photo-title">
+    <button class="photo-close" id="photo-close" type="button">Закрыть</button>
+    <h2 id="photo-title"></h2>
+    <img id="photo-image" alt="">
+    <p id="photo-price"></p>
+  </dialog>
 </body>
 </html>
 
