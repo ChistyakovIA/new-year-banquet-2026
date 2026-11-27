@@ -312,3 +312,62 @@ button:active:not(:disabled) { box-shadow: inset 0 2px 5px #142b252e; }
   .workspace-nav, .workspace-bar { display: none !important; }
   .panel { box-shadow: none; }
 }
+
+.new-year-edition {
+  width: fit-content;
+  margin-block: .15rem .55rem;
+  padding: .2rem .62rem;
+  border: 1px solid #f3d69d8c;
+  border-radius: 20px;
+  color: #fce3b7;
+  font-weight: 720;
+}
+#program-title { margin-bottom: .3rem; }
+#program-menu { color: #fff5df; }
+#program {
+  background: var(--ivory);
+}
+#program-title, #program-menu {
+  position: relative;
+}
+#program-menu {
+  padding: .8rem 1rem;
+  border-radius: 10px;
+  background-color: #15362b;
+  background-image: linear-gradient(95deg, #143429 8%, #143429ca 62%, #20382c3b), url("dishes/winter-detail.webp");
+  background-size: cover;
+  background-position: right center;
+}
+.serving-timeline { list-style: none; padding: 0 0 0 1.2rem; margin: 1.15rem 0; border-inline-start: 2px solid #bb9463; }
+.serving-step { position: relative; padding: .7rem 0 1rem; margin: 0; scroll-margin-top: 110px; }
+.serving-step + .serving-step { border-top: 1px solid var(--line); }
+.serving-step::before { content: ""; width: .58rem; height: .58rem; border-radius: 50%; border: 2px solid var(--ivory); background: #a67541; position: absolute; left: -1.57rem; top: 1.03rem; }
+.serving-time { color: #654922; font-weight: 750; margin: 0 0 .22rem; font-variant-numeric: tabular-nums; }
+.serving-table { display: inline-block; width: min(49%, 29rem); vertical-align: top; padding: .65rem; margin: 0 1% .6rem 0; border: 1px solid var(--line); background: #f0f4ec; border-radius: 10px; }
+.serving-step:not(:has(.serving-table + .serving-table)) .serving-table { width: min(100%, 40rem); }
+.serving-table h4 { margin: 0 0 .35rem; }
+.serving-items { list-style: none; padding: 0; margin: 0; }
+.serving-items li { display: flex; align-items: center; gap: .6rem; min-height: 2.55rem; padding: .28rem 0; margin: 0; }
+.serving-items li + li { border-top: 1px solid #d8e3da; }
+.serving-items img { width: 48px; height: 48px; object-fit: cover; border-radius: 7px; }
+.serving-items strong { display: block; line-height: 1.22; }
+.serving-items small { display: block; color: var(--muted); }
+.serving-step .actions, .wish-picker-actions { align-items: center; }
+.serving-step .actions a, .wish-picker-actions a { display: inline-flex; align-items: center; min-height: 44px; }
+#beverage-editor, #serving-editor, #seats { scroll-margin-top: 110px; }
+#seating-review { border-top: 1px solid var(--line); margin-top: 1rem; padding-top: .9rem; }
+#seating-review a { margin: .65rem 0; display: block; }
+.seating-checks { padding-inline-start: 1.2rem; }
+#wish-picker { width: min(calc(100% - 1.5rem), 32rem); max-height: 85svh; padding: 1rem; border-radius: 14px; border: 1px solid var(--line); background: var(--ivory); color: var(--ink); }
+#wish-picker::backdrop { background: #10281cd1; }
+#wish-picker label { display: grid; gap: .35rem; }
+#wish-picker-results { display: grid; gap: 6px; margin-block: .65rem; }
+#wish-picker-results button { text-align: left; }
+#wish-picker-results small { display: block; }
+#wish-items { padding: 0; list-style: none; }
+#wish-items li { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+@media (max-width: 620px) {
+  .serving-table, .serving-step:not(:has(.serving-table + .serving-table)) .serving-table { display: block; width: 100%; }
+  .serving-timeline { padding-left: .75rem; }
+  .serving-step::before { left: -1.12rem; }
+}

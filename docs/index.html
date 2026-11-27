@@ -6,17 +6,18 @@
   <meta name="referrer" content="no-referrer">
   <meta name="robots" content="noindex, nofollow">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru; connect-src 'self' https://*.supabase.co wss://*.supabase.co; base-uri 'none'; form-action 'none'">
-  <title>🎄 Новогодний корпоратив · Моя узбечка</title>
+  <title>🎄 Новогодний корпоратив 2027 · Моя узбечка</title>
   <link rel="stylesheet" href="vendor/glisse-0.6.0.css">
   <link rel="stylesheet" href="styles.css?v=20261127-calendar">
-  <link rel="stylesheet" href="dashboard.css?v=3">
-  <script type="module" src="app.js?v=dashboard-2"></script>
+  <link rel="stylesheet" href="dashboard.css?v=4">
+  <script type="module" src="app.js?v=2027-1"></script>
 </head>
 <body>
   <main id="entrance" class="entrance">
     <div class="entrance-cover">
       <p class="entrance-date">25 декабря 2026 · 18:00</p>
       <h1>Новогодний<br>корпоратив</h1>
+      <p class="new-year-edition">Встречаем 2027</p>
       <p class="entrance-venue">«Моя узбечка»<br>Саратов, Соколовая, 10/16</p>
       <a class="calendar-action" href="banquet.ics" data-calendar>Сохранить в календарь</a>
     </div>
@@ -58,6 +59,7 @@
         <div>
           <p>25 декабря 2026 · 18:00–00:00</p>
           <h1 id="workspace-title" tabindex="-1">Новогодний<br>корпоратив</h1>
+          <p class="new-year-edition">Встречаем 2027</p>
           <p>«Моя узбечка», Саратов, Соколовая, 10/16</p>
           <a class="calendar-action lg-glass" href="banquet.ics" data-calendar>Сохранить в календарь</a>
         </div>
@@ -133,9 +135,13 @@
         <p><strong>23:00–00:00</strong> Дискотека</p>
       </div>
       <div id="stages" class="stages event-timeline" role="group" aria-label="Этапы программы"></div>
-      <div id="stage"></div>
-      <p><a href="#seating">Посмотреть эту подачу на столе</a></p>
-      <details>
+      <p class="muted">Ниже план подачи по времени. Количества на столах рассчитаны по выбранному меню и формату рассадки.</p>
+      <ol id="serving-timeline" class="serving-timeline" aria-label="Подача по времени"></ol>
+      <details id="serving-editor">
+        <summary>Порции и цены выбранной подачи</summary>
+        <div id="stage"></div>
+      </details>
+      <details id="beverage-editor">
         <summary>Напитки</summary>
         <div id="drinks"></div>
       </details>
@@ -174,6 +180,7 @@
         <div id="guest-card" class="guest-card"></div>
       </div>
       <div id="allocation"></div>
+      <div id="seating-review" hidden></div>
     </section>
     <section id="wishes" data-view="wishes" class="panel" hidden aria-labelledby="wish-title">
       <h2 id="wish-title">Мои пожелания</h2>
@@ -182,12 +189,21 @@
         <div class="form-grid">
           <label>Желаемое место<select name="seat"></select></label>
           <label>Хотелось бы сидеть рядом с<select name="neighbor"></select></label>
+          <label>Формат рассадки<select name="layout"><option value="">Любой формат</option><option value="1">Один стол</option><option value="2">Два стола</option></select></label>
           <label>Вариант меню<select name="variant"></select></label>
           <label>Салат<select name="salad"></select></label>
           <label>Первое горячее<select name="hot"></select></label>
         </div>
+        <div class="actions wish-picker-actions">
+          <button id="pick-wish-dish" type="button">Выбрать блюдо</button>
+          <button id="pick-wish-drink" type="button">Выбрать напиток</button>
+          <a href="#menu">Общее меню</a>
+          <a href="#beverage-editor">Напитки и алкоголь</a>
+          <a href="#catalog">Весь каталог</a>
+        </div>
+        <ul id="wish-items" aria-label="Выбранные блюда и напитки"></ul>
         <label>Напитки, ограничения и личный дозаказ<textarea name="note" maxlength="1200" rows="4"></textarea></label>
-        <button class="primary">Сохранить пожелания</button>
+        <button id="save-wish" class="primary" type="submit">Сохранить пожелания</button>
       </form>
       <p id="wish-status" role="status"></p>
     </section>
@@ -208,6 +224,7 @@
     <section id="history" data-view="wishes" class="panel" hidden aria-labelledby="history-title">
       <h2 id="history-title">История изменений</h2>
       <ol id="events"></ol>
+      <div id="seating-rules" hidden></div>
     </section>
     <section id="catalog" data-view="catalog" class="panel catalog" aria-labelledby="catalog-title">
       <h2 id="catalog-title">Каталог ресторана</h2>
@@ -231,6 +248,12 @@
     <h2 id="photo-title"></h2>
     <img id="photo-image" alt="">
     <p id="photo-price"></p>
+  </dialog>
+  <dialog id="wish-picker" aria-labelledby="wish-picker-title">
+    <h2 id="wish-picker-title">Выбрать блюдо</h2>
+    <label>Поиск<input id="wish-picker-search" type="search" maxlength="80"></label>
+    <div id="wish-picker-results"></div>
+    <button id="wish-picker-close" type="button">Готово</button>
   </dialog>
 </body>
 </html>

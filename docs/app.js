@@ -4,6 +4,8 @@ import { menus, photos } from "./menu-data.js";
 import { programStatus, googleCalendarUrl, calendarHref, animateChange, drinkGroups, tableZones } from "./event.js?v=dashboard-1";
 import { supabaseUrl, supabasePublishableKey } from "./config.js?v=20261127-catalog";
 import { drinkPreferences, orderMetrics, tablePortions } from "./overview.js?v=layouts";
+import { seatingRows, seatingReview, suggestSeats } from "./planning.js";
+import { servingPhotos } from "./serving-photos.js";
 
 const budget = 39000;
 const guestCount = 13;
@@ -46,6 +48,9 @@ let selectedSeat = 0;
 let selectedZone = 1;
 let selectedTable = 0;
 let previewTables = null;
+let wishItems = [];
+let pickerDrinks = false;
+let timelineKey = "";
 let seatFilter = "";
 let snapshot = null;
 let planDraft = null;
@@ -207,7 +212,7 @@ function changeDish(stage, index, quantity, price) {
 function dishRow(row, stage, i) {
   const [name, quantity, price, grams] = row;
   const container = element("div", null, "dish");
-  const source = photos[name] || catalogPhoto(name);
+  const source = photos[name] || servingPhotos[name] || catalogPhoto(name);
   const placeholder = () => {
     const node = element("span", "·", "dish-placeholder");
     node.setAttribute("aria-hidden", "true");
@@ -294,6 +299,7 @@ function renderMenu() {
     return choice;
   }));
   updateProgramClock();
+  renderServingTimeline();
   setText("program-menu", "Вариант " + (selectedMenu + 1) + " · " + menuNames[selectedMenu]);
   setText("menu-note", menuNotes[selectedMenu]);
   const plan = snapshot?.plan;
@@ -330,12 +336,77 @@ function updateProgramClock() {
   });
 }
 
+function servingDrinks(stage) {
+  const drinks = rowsFor(selectedMenu, 6);
+  const hotDrinks = ([name]) => /чай|кофе|американо/i.test(name);
+  return stage === 0 ? drinks.filter(row => !hotDrinks(row)) : stage === 4 ? drinks.filter(hotDrinks) : [];
+}
+
+function renderServingTimeline() {
+  const tables = visibleTables();
+  const key = JSON.stringify([selectedMenu, tables, [...drafts[selectedMenu].adjustments.values()]]);
+  if (timelineKey === key) return;
+  timelineKey = key;
+  get("serving-timeline").replaceChildren(...menus[selectedMenu][0].map(([time, name], i) => {
+    const step = element("li", null, "serving-step");
+    step.id = "serving-step-" + i;
+    step.append(element("p", time, "serving-time"),
+      element("h3", i === 0 ? "К сбору гостей · столы уже накрыты" : name));
+    const food = rowsFor(selectedMenu, i);
+    const rows = [...food, ...servingDrinks(i)].filter(row => row[1] > 0);
+    if (!rows.length) step.append(element("p", i === 4 ? "Чай и десерты по желанию." : "По выбранному меню отдельной подачи нет.", "muted"));
+    for (let table = 0; table < tables && rows.length; table++) {
+      const portions = tablePortions(rows, table, tables).filter(row => row[1] > 0);
+      if (!portions.length) continue;
+      const group = element("div", null, "serving-table");
+      group.append(element("h4", tables === 1 ? "Общий стол" : "Стол " + (table + 1)));
+      const list = element("ul", null, "serving-items");
+      for (const [dish, quantity, , grams] of portions) {
+        const item = element("li");
+        const source = photos[dish] || servingPhotos[dish] || catalogPhoto(dish);
+        if (source) {
+          const image = element("img");
+          image.src = source;
+          image.alt = "";
+          image.loading = "lazy";
+          image.decoding = "async";
+          image.width = 56;
+          image.height = 56;
+          image.addEventListener("error", () => image.remove(), { once: true });
+          item.append(image);
+        }
+        const text = element("div");
+        text.append(element("strong", dish), element("small", "× " + quantity + (grams ? " · " + grams + " г за порцию" : "")));
+        item.append(text);
+        list.append(item);
+      }
+      group.append(list);
+      step.append(group);
+    }
+    const actions = element("div", null, "actions");
+    const link = element("a", "Показать на столе");
+    link.href = "#seating";
+    link.addEventListener("click", () => selectServing(i));
+    const edit = button("Порции и цены", () => {
+      selectServing(i);
+      const editor = get("serving-editor");
+      editor.open = true;
+      editor.scrollIntoView({ block: "start" });
+      editor.querySelector("summary")?.focus({ preventScroll: true });
+    });
+    actions.append(link, edit);
+    step.append(actions);
+    return step;
+  }));
+}
+
 function selectServing(index, focusGroup) {
   selectedStage = index;
   selectedZone = 1;
   renderMenu();
   renderSeating();
   focusGroup?.children[index].focus({ preventScroll: true });
+  if (focusGroup === get("stages")) get("serving-step-" + index)?.scrollIntoView({ block: "start" });
   animateChange(focusGroup === get("stages") ? get("stage") : get("table-detail"));
 }
 
@@ -423,9 +494,9 @@ function renderSeating() {
     control.append(number, element("strong", nameOf(id)));
     return control;
   });
-  const zones = tableZones(rowsFor(selectedMenu, selectedStage), rowsFor(selectedMenu, 6));
+  const zones = tableZones(rowsFor(selectedMenu, selectedStage), servingDrinks(selectedStage));
   const zoneLabels = ["Без алкоголя", "Блюда", "Другие напитки"];
-  const splits = tableCount === 1 ? [[0, 7, 13]] : [[0, 4, 7], [7, 10, 13]];
+  const splits = seatingRows(tableCount);
   const tables = splits.map(([start, middle, end], table) => {
     const room = element("section", null, "seating-table");
     const top = element("div", null, "seat-row seat-row-top");
@@ -446,7 +517,7 @@ function renderSeating() {
       control.className = "platter";
       control.dataset.zone = table + "-" + index;
       control.setAttribute("aria-label", "Стол " + (table + 1) + " · " + zone.name);
-      const source = rows.map(([name]) => photos[name] || catalogPhoto(name)).find(Boolean);
+      const source = rows.map(([name]) => photos[name] || servingPhotos[name] || catalogPhoto(name)).find(Boolean);
       if (source) {
         const image = element("img");
         image.src = source;
@@ -547,6 +618,39 @@ function renderSeating() {
     }
   }
   if (!Object.keys(assignmentSet).length) allocation.append(element("p", "Распределение ожидает утверждения."));
+  renderSeatingReview(order, tableCount);
+}
+
+function renderSeatingReview(order, tableCount) {
+  const panel = get("seating-review");
+  panel.replaceChildren();
+  panel.hidden = !snapshot?.admin;
+  if (panel.hidden) return;
+  const requests = [...(snapshot.seating_rules || []), ...snapshot.wishes];
+  const { checks, adjacent, strong } = seatingReview(order, tableCount, requests, snapshot.guests);
+  panel.append(element("h3", "Как учтены пожелания"),
+    element("p", "Учтено " + checks.filter(check => check.met).length + " из " + checks.length + " пожеланий о месте и соседе."),
+    element("p", "Рядом с другим гостем, выбравшим крепкие напитки · " + adjacent + " из " + strong + "."));
+  const list = element("ul", null, "seating-checks");
+  for (const { wish, type, met } of checks) {
+    const label = type === "seat" ? "место " + wish.seat
+      : (type === "apart" ? "отдельно от гостя " : "рядом с гостем ") + nameOf(wish.neighbor);
+    list.append(element("li", nameOf(wish.guest_id) + " · " + label + " · " + (met ? "учтено" : "пока не учтено"),
+      met ? "" : "warn"));
+  }
+  panel.append(list);
+  const next = suggestSeats(order, tableCount, requests, snapshot.guests);
+  if (next.some((id, i) => id !== order[i])) {
+    panel.append(button("Примерить рассадку с учётом пожеланий", () => {
+      if (!planDraft) editPlan();
+      planDraft.seats = next;
+      renderSeating();
+      get("seats").scrollIntoView({ block: "start" });
+    }));
+  }
+  const history = element("a", "Открыть историю пожеланий");
+  history.href = "#history";
+  panel.append(history);
 }
 
 function dishWishOptions(salad, hot) {
@@ -567,7 +671,63 @@ function loadWish() {
   setOptions(fields.variant, menuNames.map((name, i) => [i, (i + 1) + " · " + name]), current?.menu);
   dishWishOptions(current?.salad, current?.hot);
   fields.note.value = current?.note || "";
+  fields.layout.value = current?.details?.layout ?? "";
+  wishItems = [...(current?.details?.items || [])];
+  renderWishItems();
 }
+
+function renderWishItems() {
+  get("wish-items").replaceChildren(...wishItems.map((item, i) => {
+    const line = element("li");
+    const remove = button("Убрать", () => {
+      wishItems.splice(i, 1);
+      wishDirty = true;
+      renderWishItems();
+      get(item.kind === "drink" ? "pick-wish-drink" : "pick-wish-dish").focus({ preventScroll: true });
+    });
+    remove.setAttribute("aria-label", "Убрать " + item.name);
+    line.append(element("span", item.name), remove);
+    return line;
+  }));
+}
+
+function renderWishPicker() {
+  const variant = fields.variant.value;
+  const choices = variant === "" ? menus : [menus[Number(variant)]];
+  const search = get("wish-picker-search").value.trim().toLocaleLowerCase("ru-RU");
+  const rows = choices.flatMap(([steps, drinks]) => pickerDrinks ? drinks : steps.flatMap(step => step[3]));
+  const items = new Map(rows.map(row => [row[0], row]));
+  const kind = pickerDrinks ? "drink" : "dish";
+  const results = [...items.entries()].filter(([name]) => name.toLocaleLowerCase("ru-RU").includes(search));
+  get("wish-picker-results").replaceChildren(...results.map(([name, [, , price, grams]]) => {
+    const selected = wishItems.some(item => item.name === name && item.kind === kind);
+    const control = button(null, () => {
+      if (wishItems.length >= 15) return;
+      wishItems.push({ kind, name });
+      wishDirty = true;
+      renderWishItems();
+      renderWishPicker();
+      get("wish-picker-search").focus({ preventScroll: true });
+    });
+    control.disabled = selected || wishItems.length >= 15;
+    control.append(element("strong", name),
+      element("small", rubles(price) + (grams ? " · " + grams + " г" : "") + (selected ? " · добавлено" : "")));
+    return control;
+  }));
+  if (!results.length) get("wish-picker-results").append(element("p", "По этому запросу в выбранном меню ничего нет."));
+}
+
+for (const [id, drinks] of [["pick-wish-dish", false], ["pick-wish-drink", true]]) {
+  get(id).addEventListener("click", () => {
+    pickerDrinks = drinks;
+    setText("wish-picker-title", drinks ? "Выбрать напиток" : "Выбрать блюдо");
+    get("wish-picker-search").value = "";
+    renderWishPicker();
+    get("wish-picker").showModal();
+  });
+}
+get("wish-picker-search").addEventListener("input", renderWishPicker);
+get("wish-picker-close").addEventListener("click", () => get("wish-picker").close());
 
 function describeChanges(before, after) {
   const changes = [];
@@ -593,16 +753,24 @@ function describeWish(wish) {
     wish.seat == null ? "" : "Место " + wish.seat,
     wish.neighbor == null ? "" : "Сосед · " + nameOf(wish.neighbor),
     wish.menu == null ? "" : "Вариант меню " + (wish.menu + 1),
-    wish.salad, wish.hot, wish.note
+    wish.details?.layout ? (wish.details.layout === 1 ? "Для одного стола" : "Для двух столов") : "",
+    wish.salad, wish.hot, ...(wish.details?.items || []).map(item => (item.kind === "drink" ? "Напиток · " : "Блюдо · ") + item.name),
+    wish.note
   ].filter(Boolean);
+}
+
+function describeSeatingRule(rule) {
+  if (rule.seat != null) return nameOf(rule.guest_id) + " · место " + rule.seat;
+  return nameOf(rule.guest_id) + (rule.apart ? " · отдельно от гостя " : " · рядом с гостем ") + nameOf(rule.neighbor);
 }
 
 function showView(scroll = true) {
   const raw = location.hash.slice(1);
-  const target = ["overview", "menu", "program", "seating", "wishes", "organizer", "history", "catalog"].includes(raw)
+  const target = ["overview", "menu", "program", "beverage-editor", "seating", "wishes", "organizer", "history", "catalog"].includes(raw)
     && (raw !== "organizer" || snapshot?.admin) ? raw : "overview";
   const panel = get(target);
-  const view = panel.dataset.view;
+  const view = target === "beverage-editor" ? "menu" : panel.dataset.view;
+  if (target === "beverage-editor") panel.open = true;
   document.querySelectorAll("[data-view]").forEach(section => {
     section.classList.toggle("view-off", section.dataset.view !== view);
   });
@@ -640,6 +808,7 @@ function renderOnline() {
     void setCatalogAccess(false);
     get("review").replaceChildren();
     get("events").replaceChildren();
+    get("seating-rules").replaceChildren();
     get("votes").replaceChildren();
     get("payments").replaceChildren();
     get("drink-analytics").replaceChildren();
@@ -654,14 +823,15 @@ function renderOnline() {
   if (!wishDirty) loadWish();
   renderOverview();
   const wishes = snapshot.admin ? snapshot.wishes : [];
+  const rules = snapshot.admin ? (snapshot.seating_rules || []) : [];
+  get("seating-rules").hidden = !rules.length;
+  const rulesList = element("ul");
+  rulesList.append(...rules.map(rule => element("li", describeSeatingRule(rule))));
+  get("seating-rules").replaceChildren(element("h3", "Исходные договорённости по рассадке"), rulesList);
   get("votes").replaceChildren(...(snapshot.admin ? menuNames.map((name, i) =>
     element("p", "Вариант " + (i + 1) + " · " + name + " — " + wishes.filter(item => item.menu === i).length)) : []));
   get("review").replaceChildren(...wishes.map(item => {
-    const info = [
-      item.seat == null ? "" : "место " + item.seat,
-      item.neighbor == null ? "" : "рядом с " + nameOf(item.neighbor),
-      item.menu == null ? "" : "меню " + (item.menu + 1), item.salad, item.hot, item.note
-    ].filter(Boolean).join(" · ");
+    const info = describeWish(item).join(" · ");
     return element("li", nameOf(item.guest_id) + (info ? " — " + info : " — без пожеланий"));
   }));
   get("events").replaceChildren(...snapshot.events.map(event => {
@@ -744,6 +914,8 @@ function switchUser(session) {
   snapshot = null;
   planDraft = null;
   previewTables = null;
+  wishItems = [];
+  timelineKey = "";
   publishing = false;
   wishDirty = false;
   wishRevision = 0;
@@ -867,12 +1039,13 @@ wish.addEventListener("submit", async event => {
   event.preventDefault();
   if (!snapshot) return;
   const owner = userId;
-  const submit = wish.querySelector("button");
+  const submit = get("save-wish");
   const number = field => field.value === "" ? null : Number(field.value);
   const parameters = {
     expected_revision: wishRevision, wanted_seat: number(fields.seat), wanted_neighbor: number(fields.neighbor),
     wanted_menu: number(fields.variant), wanted_salad: fields.salad.value || null,
-    wanted_hot: fields.hot.value || null, wanted_note: fields.note.value.trim()
+    wanted_hot: fields.hot.value || null, wanted_note: fields.note.value.trim(),
+    wanted_details: { layout: number(fields.layout), items: wishItems }
   };
   submit.disabled = true;
   for (const field of fields) field.disabled = true;
@@ -997,6 +1170,7 @@ for (const [id, tableCount] of [["layout-one", 1], ["layout-two", 2]]) {
     } else previewTables = tableCount === publishedTables() ? null : tableCount;
     selectedTable = seatTable(selectedSeat);
     renderSeating();
+    renderServingTimeline();
     animateChange(get("seats"));
   });
 }
