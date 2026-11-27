@@ -1197,12 +1197,26 @@ wish.addEventListener("submit", async event => {
   openingWishChallenge = true;
   submit.disabled = true;
   try {
-    const { openGrinch } = await import("./grinch.mjs");
+    const { openGrinch } = await import("./grinch.mjs?v=2");
     if (owner !== userId || !snapshot) return;
     wishDirty = true;
     const challenge = openGrinch({
       participant,
       onBack: () => { location.hash = "menu"; showView(); },
+      loadRanking: async () => {
+        if (owner !== userId) throw new Error("Сеанс завершён.");
+        const { data, error } = await client.rpc("banquet_grinch_ranking");
+        if (error) throw error;
+        return data;
+      },
+      recordResult: async ({ centiseconds, friendly, misses }) => {
+        if (owner !== userId) throw new Error("Сеанс завершён.");
+        const { data, error } = await client.rpc("banquet_grinch_record", {
+          game_centiseconds: centiseconds, game_friendly: friendly, game_misses: misses
+        });
+        if (error) throw error;
+        return data;
+      },
       onVictory: async () => {
         if (owner !== userId || !snapshot) {
           throw Object.assign(new Error("Сеанс завершён. Войдите снова."), { retryable: false });

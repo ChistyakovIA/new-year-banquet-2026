@@ -1,0 +1,1431 @@
+<!doctype html>
+<html lang="ru"><head><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src https://chistyakovia.github.io data:; connect-src 'none'; base-uri 'none'; form-action 'none'"><meta name="robots" content="noindex, nofollow"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Операция «Гринч» — интерактивный радар с авиацией, ПВО и кинематографическими эффектами."><title>Операция «Гринч»</title><style>:root{--bg:#f7f8fa;--ink:#172d3b;--muted:#647783;--line:#dce3e8;--green:#147d67;--pale:#e8f3ef}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:30px}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.55}a{color:inherit;text-decoration:none}button,input,select{font:inherit}button,a,input,select{touch-action:manipulation}button{cursor:pointer}button:disabled{opacity:.5;cursor:default}a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,.table-wrap:focus-visible{outline:3px solid #34a68b;outline-offset:4px}header{height:92px;display:flex;align-items:center;justify-content:space-between;padding:0 5%;border-bottom:1px solid var(--line);background:#fff}.brand{display:flex;align-items:center;gap:10px;font-size:22px;font-weight:700}.brand-icon{font-size:38px;color:var(--green)}.brand-sub{font-size:9px;letter-spacing:1.5px;border-left:1px solid var(--line);padding-left:15px;margin-left:8px;color:var(--muted)}nav{display:flex;gap:32px;font-size:14px}nav a:hover{color:var(--green)}.header-label{font-size:9px;letter-spacing:1.2px;color:var(--muted)}main{max-width:1440px;padding:0 5%;margin:auto}.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:45px;align-items:center;padding:75px 0 60px}.eyebrow{font-size:10px;font-weight:700;letter-spacing:1.7px;color:var(--green);display:flex;align-items:center;gap:10px}.eyebrow>span{width:7px;height:7px;border-radius:50%;background:var(--green)}h1{font-size:clamp(42px,4.7vw,68px);letter-spacing:-3px;line-height:1.08;margin:22px 0}h1>span{display:block;color:var(--green)}.hero-copy>p{max-width:540px;color:var(--muted);font-size:16px;margin:25px 0 30px}.primary{display:inline-flex;align-items:center;gap:45px;background:var(--green);color:#fff;padding:14px 22px;border-radius:7px;font-size:14px;font-weight:700}.primary:hover{background:#10624f}.hero-meta{display:flex;align-items:center;gap:12px;margin-top:24px;font-size:11px;color:var(--muted)}.hero-meta i{height:3px;width:3px;background:#a3b1b9;border-radius:50%}.radar{position:relative;height:400px;border:1px solid #ccdcd8;border-radius:12px;background:#eef4f1;overflow:hidden}.radar-grid{position:absolute;width:370px;height:370px;top:15px;left:50%;transform:translateX(-50%);border:1px solid #aac6bc;border-radius:50%;background:repeating-radial-gradient(circle,transparent 0,transparent 44px,#bdd2ca 45px,transparent 46px),linear-gradient(0deg,transparent 49.8%,#b6cdc4 50%,transparent 50.2%),linear-gradient(90deg,transparent 49.8%,#b6cdc4 50%,transparent 50.2%)}.sweep{position:absolute;left:50%;top:200px;width:170px;height:170px;transform-origin:0 0;background:linear-gradient(135deg,#58ad8d44,transparent 60%);clip-path:polygon(0 0,100% 0,80% 70%);animation:sweep 14s linear infinite}.radar-center{position:absolute;top:184px;left:calc(50% - 8px);font-size:25px;color:var(--green)}.radar-label,.radar-coordinate{position:absolute;top:20px;font-size:9px;letter-spacing:1px;color:#588172}.radar-label{left:20px}.radar-coordinate{right:20px}.radar-caption{position:absolute;bottom:18px;left:20px;right:20px;background:#fffffff0;border:1px solid #dce7e1;border-radius:6px;display:flex;align-items:center;gap:15px;padding:13px 18px;font-size:24px;color:var(--green)}.radar-caption div{font-size:13px;color:var(--ink);font-weight:700}.radar-caption small{display:block;color:var(--muted);font-size:10px;font-weight:400;margin-top:3px}@keyframes sweep{to{transform:rotate(360deg)}}.stats{display:grid;grid-template-columns:repeat(4,1fr);padding:28px 0;border-block:1px solid var(--line);gap:24px}.stats>div{padding-left:24px;border-left:1px solid var(--line)}.stats>div:first-child{border:0;padding:0}.stats b{display:block;font-size:23px;letter-spacing:-.5px}.stats span{font-size:12px;color:var(--muted)}section#catalog,section#comparison{padding-top:65px}.section-heading{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:25px}h2{font-size:30px;letter-spacing:-1px;line-height:1.25;margin:10px 0}.section-heading p{font-size:12px;color:var(--muted)}.toolbar{display:flex;gap:12px;background:#fff;border:1px solid var(--line);padding:14px;border-radius:9px}.search{display:flex;gap:10px;align-items:center;flex:1;min-width:180px;padding:0 10px}.search span{font-size:25px;color:var(--muted)}input{width:100%;border:none;outline:none;font-size:13px;background:transparent;color:var(--ink)}select{padding:9px 12px;border:1px solid var(--line);border-radius:5px;background:#fff;color:var(--ink);font-size:12px}.text-button{background:none;border:0;color:var(--green);font-size:12px;padding:5px 8px}.text-button:hover{text-decoration:underline}.catalog-meta{display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:12px;margin:16px 0}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:#fff;border:1px solid var(--line);border-radius:9px;padding:24px;display:flex;flex-direction:column;transition:border-color .2s,box-shadow .2s}.card:hover{border-color:#8dbbae;box-shadow:0 4px 20px #203c3510}.card-top{display:flex;justify-content:space-between;align-items:center}.year{font-size:20px;font-weight:700;letter-spacing:-.5px}.badge{font-size:10px;color:var(--green);background:var(--pale);padding:4px 8px;border-radius:4px}.card h3{font-size:17px;line-height:1.4;margin:18px 0 12px}.authors{font-size:11px;color:var(--muted)}.journal{font-size:11px;color:var(--muted);margin-top:6px}.card-properties{border-block:1px solid #e9edf0;padding:15px 0;margin:18px 0;font-size:12px}.property{display:grid;grid-template-columns:74px 1fr;gap:8px;margin:7px 0}.property>span:first-child{color:var(--muted)}.card-bottom{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}.check{display:flex;align-items:center;gap:7px;font-size:11px;cursor:pointer}.check input{width:16px;height:16px;accent-color:var(--green)}.details-button{border:0;background:none;color:var(--green);font-size:12px}.secondary{background:#fff;border:1px solid var(--line);border-radius:6px;padding:11px 15px;font-size:12px;color:var(--ink)}.secondary:hover{border-color:var(--green)}.comparison-info{display:flex;gap:15px;align-items:center;font-size:12px;margin-bottom:15px;color:var(--muted)}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:8px;background:#fff}table{border-collapse:collapse;min-width:1650px;width:100%;font-size:12px}th{text-align:left;background:#edf1f4;padding:16px;color:#526774;font-size:10px;text-transform:uppercase;letter-spacing:.5px}td{padding:18px 16px;vertical-align:top;border-top:1px solid var(--line);min-width:180px;max-width:300px}td:first-child{min-width:270px;max-width:300px;font-weight:700;position:sticky;left:0;background:#fff;box-shadow:2px 0 3px #172d3b08}th:first-child{position:sticky;left:0;background:#edf1f4;z-index:1}td small{display:block;font-weight:400;color:var(--muted);margin-top:8px}td a:hover{color:var(--green)}.table-note{font-size:11px;color:var(--muted);margin-top:12px}.empty{padding:40px;text-align:center;color:var(--muted)}.methodology{display:grid;grid-template-columns:1fr 1.4fr;gap:70px;padding:45px;background:#edf3f0;border-radius:12px;margin:65px 0}.methodology>div>p{font-size:13px;color:var(--muted);max-width:350px}.principles article{display:flex;gap:18px;padding:18px 0;border-bottom:1px solid #d5e2dc}.principles article:last-child{border:0}.principles article>span{font-size:11px;color:var(--green);padding-top:3px}.principles h3{font-size:15px;margin:0}.principles p{font-size:12px;color:var(--muted);margin:5px 0 0}footer{margin:auto;max-width:1440px;padding:0 5% 35px;display:flex;justify-content:space-between;align-items:center;gap:15px;font-size:11px;color:var(--muted)}footer .brand{font-size:16px;color:var(--ink)}dialog{border:1px solid var(--line);border-radius:12px;padding:35px;max-width:760px;width:calc(100% - 30px);max-height:85vh;color:var(--ink)}dialog::backdrop{background:#122b3b88;backdrop-filter:blur(3px)}.close{position:absolute;top:12px;right:15px;border:0;background:none;font-size:28px;color:var(--muted)}dialog h2{font-size:24px;margin:20px 0}dialog dl{display:grid;grid-template-columns:140px 1fr;font-size:13px;gap:15px}dialog dt{color:var(--muted)}dialog dd{margin:0}.detail-note{background:var(--pale);padding:16px;font-size:12px;border-radius:6px}.detail-links{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}@media(max-width:1000px){.header-label{display:none}.cards{grid-template-columns:repeat(2,1fr)}.hero{gap:25px}.radar{height:350px}.radar-grid{top:-10px}.radar-center{top:159px}.sweep{top:175px}.stats b{font-size:18px}.methodology{gap:30px;padding:30px}}@media(max-width:680px){header{height:auto;min-height:80px;padding:18px 5%;gap:15px;flex-wrap:wrap}.brand-sub{display:none}nav{gap:18px;font-size:12px}.hero{grid-template-columns:1fr;padding-top:40px;gap:30px}h1{letter-spacing:-2px}.radar{height:300px}.radar-grid{width:290px;height:290px;top:5px}.radar-center{top:134px}.sweep{top:150px;width:130px;height:130px}.stats{grid-template-columns:1fr 1fr;gap:20px}.stats>div{padding-left:0;border:0}.stats b{font-size:18px}.cards{grid-template-columns:1fr}.toolbar{flex-wrap:wrap}.search{flex-basis:100%;padding-block:5px}.toolbar select{flex:1}.section-heading{align-items:flex-start;flex-wrap:wrap}.section-heading p{margin:0}h2{font-size:26px}.comparison-info{flex-wrap:wrap;gap:5px}.methodology{grid-template-columns:1fr;gap:10px;margin-top:40px;padding:25px}footer{flex-wrap:wrap}footer p{order:3;flex-basis:100%}dialog{padding:25px}dialog dl{grid-template-columns:1fr;gap:5px}dialog dd{margin-bottom:10px}.hero-meta{font-size:10px;gap:8px}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.sweep{animation:none}}
+
+.plane-field{position:absolute;width:370px;height:370px;top:15px;left:50%;transform:translateX(-50%);pointer-events:none}.radar-plane{position:absolute;width:23px;height:23px;fill:var(--green);transform:translate(-50%,-50%) rotate(var(--heading));filter:drop-shadow(0 2px 3px #147d6725)}@media(max-width:1000px){.plane-field{top:-10px}}@media(max-width:680px){.plane-field{width:290px;height:290px;top:5px}.radar-plane{width:20px;height:20px}}
+.sweep{animation:none;background:linear-gradient(135deg,#39b99155,transparent 65%)}.radar-plane{--echo:0;opacity:calc(.68 + var(--echo)*.32);filter:drop-shadow(0 0 calc(1px + var(--echo)*8px) rgba(235,55,55,var(--echo)));transition:fill .25s ease}.radar-plane.is-lit{fill:#eb3737}
+.radar-plane{--crash-opacity:1;--crash-scale:1;--crash-turn:0deg;opacity:calc((.68 + var(--echo)*.32)*var(--crash-opacity));transform:translate(-50%,-50%) rotate(calc(var(--heading) + var(--crash-turn))) scale(var(--crash-scale))}.radar-plane.is-crashing{fill:#eb3737}.crash-effect{position:absolute;width:0;height:0;z-index:2;pointer-events:none}.crash-effect span{position:absolute;display:block}.crash-flash{font-size:46px;color:#ff7535;line-height:1;transform:translate(-50%,-50%);text-shadow:0 0 14px #ff4040;animation:crash-flash 1.6s ease-out forwards}.crash-ring{width:18px;height:18px;border:2px solid #eb3737;border-radius:50%;transform:translate(-50%,-50%);animation:crash-ring 2s ease-out forwards}.crash-sparks{font-size:56px;line-height:1;color:#eb3737;transform:translate(-50%,-50%);animation:crash-sparks 2.5s ease-out forwards}@keyframes crash-flash{0%{opacity:0;transform:translate(-50%,-50%) scale(.2)}12%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-50%) scale(.3)}}@keyframes crash-ring{0%{opacity:.9;transform:translate(-50%,-50%) scale(.3)}100%{opacity:0;transform:translate(-50%,-50%) scale(4)}}@keyframes crash-sparks{0%{opacity:1;transform:translate(-50%,-50%) rotate(0deg) scale(.2)}100%{opacity:0;transform:translate(-50%,-50%) rotate(90deg) scale(1.6)}}@media(prefers-reduced-motion:reduce){.crash-effect{display:none}}
+.crash-smoke{width:var(--smoke-size);height:var(--smoke-size);border-radius:50%;background:radial-gradient(circle at 35% 35%,#7b808a 0%,#535b66 45%,#343d4988 70%,transparent 75%);filter:blur(2px);opacity:0;transform:translate(-50%,-50%);animation:crash-smoke 3.6s ease-out both}.crash-flame{width:var(--flame-size);height:calc(var(--flame-size)*1.35);border-radius:70% 25% 55% 45%;background:radial-gradient(ellipse at 55% 80%,#fff3a6 0%,#ffcd39 25%,#ff7a16 50%,#e52e16 75%,transparent 90%);filter:drop-shadow(0 0 5px #ff6b24);opacity:0;transform-origin:50% 90%;animation:crash-flame 2.4s ease-out both}.crash-flame::after{content:'';position:absolute;left:35%;bottom:12%;width:35%;height:50%;border-radius:75% 25% 60% 40%;background:#ffe989aa;filter:blur(1px)}@keyframes crash-smoke{0%{opacity:0;transform:translate(-50%,-50%) scale(.2)}18%{opacity:.65}55%{opacity:.45;transform:translate(calc(-50% + var(--smoke-x)*.5),-170%) scale(1.2)}100%{opacity:0;transform:translate(calc(-50% + var(--smoke-x)),-350%) scale(1.8)}}@keyframes crash-flame{0%{opacity:0;transform:translate(calc(-50% + var(--flame-x)),-65%) scale(.15) rotate(-10deg)}12%{opacity:1;transform:translate(calc(-50% + var(--flame-x)),-75%) scale(1) rotate(8deg)}27%{transform:translate(calc(-50% + var(--flame-x)),-75%) scale(.85,1.15) rotate(-8deg)}43%{opacity:1;transform:translate(calc(-50% + var(--flame-x)),-80%) scale(1.1,.95) rotate(5deg)}60%{transform:translate(calc(-50% + var(--flame-x)),-85%) scale(.8,1.1) rotate(-6deg)}78%{opacity:.7;transform:translate(calc(-50% + var(--flame-x)),-95%) scale(.7) rotate(8deg)}100%{opacity:0;transform:translate(calc(-50% + var(--flame-x)),-120%) scale(.1)}}
+.theme-toggle{border:1px solid var(--line);background:var(--pale);color:var(--ink);font-size:12px;padding:9px 12px;border-radius:7px;white-space:nowrap}.header-label{display:none}.radar-trails{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}.radar-trail{fill:none;stroke:var(--green);stroke-width:.45;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}.crash-debris,.crash-ember{left:0;top:0;opacity:0;animation:crash-particle 2.6s ease-out both}.crash-debris{width:7px;height:4px;background:#8a929c;border:1px solid #f7b26e;border-radius:1px;box-shadow:0 0 3px #ff7840}.crash-ember{width:3px;height:3px;background:#ffdb78;border-radius:50%;box-shadow:0 0 7px 2px #ff5e26}.crash-ember:nth-child(even){height:7px;border-radius:2px}@keyframes crash-particle{0%{opacity:0;transform:translate(-50%,-50%) rotate(0deg) scale(.3)}8%{opacity:1}55%{opacity:.9;transform:translate(calc(-50% + var(--particle-x)*.7),calc(-50% + var(--particle-y)*.7)) rotate(calc(var(--particle-spin)*.6)) scale(1)}100%{opacity:0;transform:translate(calc(-50% + var(--particle-x)),calc(-50% + var(--particle-y) + 25px)) rotate(var(--particle-spin)) scale(.2)}}
+html[data-theme="night"]{color-scheme:dark;--bg:#09131d;--ink:#e4edf3;--muted:#96aab9;--line:#263746;--green:#57d6af;--pale:#15372f}html[data-theme="night"] header,html[data-theme="night"] .toolbar,html[data-theme="night"] .card,html[data-theme="night"] .secondary,html[data-theme="night"] select,html[data-theme="night"] .table-wrap,html[data-theme="night"] td:first-child,html[data-theme="night"] dialog{background:#111f2c}html[data-theme="night"] th,html[data-theme="night"] th:first-child{background:#1a2b3a;color:#b8cbd8}html[data-theme="night"] .card-properties{border-color:var(--line)}html[data-theme="night"] .methodology{background:#102820}html[data-theme="night"] .principles article{border-color:#284539}html[data-theme="night"] .primary{color:#09251c}html[data-theme="night"] .primary:hover{background:#7ce8c3}html[data-theme="night"] .radar{background:radial-gradient(circle at 50% 48%,#11322c,#081b23 75%);border-color:#275244}html[data-theme="night"] .radar-grid{border-color:#30604e;background:repeating-radial-gradient(circle,transparent 0,transparent 44px,#275242 45px,transparent 46px),linear-gradient(0deg,transparent 49.8%,#30604e 50%,transparent 50.2%),linear-gradient(90deg,transparent 49.8%,#30604e 50%,transparent 50.2%)}html[data-theme="night"] .radar-caption{background:#10251ff0;border-color:#2d5145}html[data-theme="night"] .radar-label,html[data-theme="night"] .radar-coordinate{color:#86b8a6}html[data-theme="night"] .sweep{background:linear-gradient(135deg,#39dca577,transparent 65%)}html[data-theme="night"] .radar-trail{stroke:#50dfaf;stroke-width:.8}html[data-theme="night"] .crash-smoke{background:radial-gradient(circle at 35% 35%,#a3aab6 0%,#737d88 45%,#59636e66 70%,transparent 75%)}@media(max-width:680px){.theme-toggle{font-size:11px;padding:7px 10px}header nav{order:3;flex-basis:100%;justify-content:center}.radar-trail{stroke-width:.65}}@media(prefers-reduced-motion:reduce){.radar-trails{display:none}}
+
+.radar{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23eb3737' stroke-width='1.5'/%3E%3Cpath d='M16 1v10M16 21v10M1 16h10M21 16h10' stroke='%23eb3737' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='1.5' fill='%23eb3737'/%3E%3C/svg%3E") 16 16,crosshair}.radar-plane{pointer-events:auto;cursor:inherit;outline:none}.radar-plane:not(.is-crashing):hover,.radar-plane:focus-visible{fill:#ff684b;filter:drop-shadow(0 0 7px #ff4a40);outline:none}.radar-plane.is-crashing{pointer-events:none}.radar-grid,.sweep,.radar-center{pointer-events:none}
+.radar-panel{min-width:0}.radar-score{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:14px 18px;margin-top:12px;border:1px solid var(--line);border-radius:9px;background:var(--pale)}.score-label{display:flex;align-items:center;gap:14px;color:var(--muted);font-size:12px}.score-label strong{color:var(--green);font-size:25px;line-height:1;font-variant-numeric:tabular-nums}.radar-score button{border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);padding:8px 11px;font-size:11px;white-space:nowrap}.radar-score button:not(:disabled):hover{border-color:var(--green);color:var(--green)}@media(max-width:380px){.radar-score{padding:12px;gap:8px}.score-label{gap:8px;font-size:11px}.radar-score button{padding:7px;font-size:10px}}
+/* Операция «Гринч»: charcoal, crimson and firelight. */
+:root,html[data-theme="night"]{--bg:#100b0e;--ink:#fff0e8;--muted:#b7a0a1;--line:#45242b;--green:#ff675f;--pale:#35171f}
+body{background:radial-gradient(ellipse at 85% 10%,#6e17151c,transparent 40%),var(--bg)}
+html[data-theme="night"] header,html[data-theme="night"] .toolbar,html[data-theme="night"] .card,html[data-theme="night"] .secondary,html[data-theme="night"] select,html[data-theme="night"] .table-wrap,html[data-theme="night"] td:first-child,html[data-theme="night"] dialog{background:#1c1116}
+header{border-bottom-color:var(--line)}.brand-icon{color:#ff5b40;text-shadow:0 0 18px #ff401d44}.brand-sub{color:var(--muted)}.hero{position:relative}.hero-copy{position:relative;z-index:1}.hero::before{content:'';position:absolute;inset:0 -3% 0 40%;pointer-events:none;background:radial-gradient(ellipse at 55% 45%,#ae27151c,transparent 65%)}
+h1,h1>span{color:#ff8a3c;background:linear-gradient(180deg,#fff0b4 0%,#ffbd52 28%,#ff7131 65%,#e82e32 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 14px #ff57283b);animation:fire-title 4s ease-in-out infinite alternate}h1>span{animation:none;filter:none}.eyebrow{color:#ff7863}.eyebrow>span{background:#ff5546;box-shadow:0 0 10px #ff403d88}.primary,html[data-theme="night"] .primary{background:linear-gradient(135deg,#e93635,#be202f);color:#fff7ef;box-shadow:0 4px 24px #d4262d30}.primary:hover,html[data-theme="night"] .primary:hover{background:linear-gradient(135deg,#fa543b,#d32b35)}.card:hover{border-color:#b44a45;box-shadow:0 5px 28px #e3392114}.badge{border:1px solid #9c3b4033}.theme-toggle{background:var(--pale)}.score-label strong{color:#ff9758;text-shadow:0 0 16px #ff4e2922}
+html[data-theme="night"] .methodology{background:#23121a}html[data-theme="night"] .principles article{border-color:#4a2730}html[data-theme="night"] th,html[data-theme="night"] th:first-child{background:#2c1820;color:#d9b7b8}html[data-theme="night"] .radar{background:radial-gradient(circle at 50% 48%,#381616,#140e15 75%);border-color:#78312f;box-shadow:inset 0 0 45px #ec30200c,0 0 30px #e62c2112}html[data-theme="night"] .radar-grid{border-color:#6d302d;background:repeating-radial-gradient(circle,transparent 0,transparent 44px,#592723 45px,transparent 46px),linear-gradient(0deg,transparent 49.8%,#70332d 50%,transparent 50.2%),linear-gradient(90deg,transparent 49.8%,#70332d 50%,transparent 50.2%)}html[data-theme="night"] .radar-caption{background:#251217f0;border-color:#5f2b30}html[data-theme="night"] .radar-label,html[data-theme="night"] .radar-coordinate{color:#d99383}html[data-theme="night"] .sweep{background:linear-gradient(135deg,#ff573c88,transparent 65%)}html[data-theme="night"] .radar-trail{stroke:#ff775b;stroke-width:1}.radar-plane{fill:#ff8f69}.radar-plane.is-lit{fill:#ff3737}.radar-center{color:#ff875e;text-shadow:0 0 15px #ff5a38}.radar-score{background:linear-gradient(110deg,#32171f,#241117)}.text-button:hover,.details-button:hover{color:#ffae79}
+@keyframes fire-title{0%{filter:drop-shadow(0 0 9px #ff572833)}100%{filter:drop-shadow(0 0 19px #ff4b355e)}}
+html[data-theme="day"]{--bg:#fff6f1;--ink:#37151d;--muted:#84616a;--line:#e9c6c6;--green:#c82d3c;--pale:#ffe4df;color-scheme:light}html[data-theme="day"] h1,html[data-theme="day"] h1>span{background-image:linear-gradient(180deg,#b92631,#ef5b25);filter:none}html[data-theme="day"] .radar{background:radial-gradient(circle,#fce3d6,#fff3ed);border-color:#d59484}html[data-theme="day"] .radar-grid{border-color:#dcb09f;background:repeating-radial-gradient(circle,transparent 0,transparent 44px,#e9bdaa 45px,transparent 46px),linear-gradient(0deg,transparent 49.8%,#dfaa99 50%,transparent 50.2%),linear-gradient(90deg,transparent 49.8%,#dfaa99 50%,transparent 50.2%)}html[data-theme="day"] .radar-caption{background:#fff6f1f0;border-color:#e8b5a5}html[data-theme="day"] .radar-score{background:#ffe8df}html[data-theme="day"] .methodology{background:#ffebe5}html[data-theme="day"] .radar-label,html[data-theme="day"] .radar-coordinate{color:#a85348}html[data-theme="day"] .radar-plane{fill:#bd3f39}html[data-theme="day"] .radar-plane.is-lit{fill:#eb3737}html[data-theme="day"] .radar-center{color:#ba392f}html[data-theme="day"] .sweep{background:linear-gradient(135deg,#ec573744,transparent 65%)}html[data-theme="day"] .score-label strong{color:#bc3435}
+@media(prefers-reduced-motion:reduce){h1,h1>span{animation:none}}
+/* motion-design: energetic impact, decelerating debris, slow gas dispersion. */
+.radar-plane{left:50%!important;top:50%!important;transform:translate(-50%,-50%) translate(var(--flight-x,0px),var(--flight-y,0px)) rotate(calc(var(--heading) + var(--crash-turn))) scale(var(--crash-scale));filter:none;will-change:transform,opacity;transition:fill 120ms cubic-bezier(.2,0,0,1)}.radar-plane.is-lit{filter:drop-shadow(0 0 4px #ef493d88)}.crash-debris,.crash-ember{animation:none;opacity:1;transform-origin:center;will-change:transform,opacity}.crash-flash{width:24px;height:24px;border-radius:50%;background:radial-gradient(circle,#ffd978 0%,#ff7535 35%,#e82e3255 65%,transparent 75%);text-shadow:none;animation:impact-light 240ms cubic-bezier(.2,0,0,1) both}.crash-ring{animation:impact-ring 460ms cubic-bezier(.2,0,0,1) both;border-width:1px}.crash-flame{animation:flame-settle 1.8s cubic-bezier(.2,0,0,1) both;filter:drop-shadow(0 0 3px #ff6b24)}.crash-smoke{animation:smoke-rise 3.2s cubic-bezier(.4,0,.2,1) both;filter:blur(1.5px)}.radar-score{flex-wrap:wrap}.radar-score .score-label{margin-right:auto}.radar-panel.is-paused .crash-effect *{animation-play-state:paused}.radar-panel.is-paused .radar-plane{pointer-events:none}
+@keyframes impact-light{0%{opacity:0;transform:translate(-50%,-50%) scale(.25)}22%{opacity:.85;transform:translate(-50%,-50%) scale(1.1)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.65)}}@keyframes impact-ring{0%{opacity:.7;transform:translate(-50%,-50%) scale(.5)}100%{opacity:0;transform:translate(-50%,-50%) scale(2.4)}}@keyframes flame-settle{0%{opacity:0;transform:translate(calc(-50% + var(--flame-x)),-60%) scale(.3)}15%{opacity:.9;transform:translate(calc(-50% + var(--flame-x)),-75%) scale(1)}38%{opacity:.8;transform:translate(calc(-50% + var(--flame-x)),-85%) scale(.85,1.08)}65%{opacity:.6;transform:translate(calc(-50% + var(--flame-x)),-95%) scale(.7,.85)}100%{opacity:0;transform:translate(calc(-50% + var(--flame-x)),-115%) scale(.25,.4)}}@keyframes smoke-rise{0%{opacity:0;transform:translate(-50%,-40%) scale(.35)}20%{opacity:.45;transform:translate(calc(-50% + var(--smoke-x)*.15),-75%) scale(.8)}55%{opacity:.35;transform:translate(calc(-50% + var(--smoke-x)*.55),-150%) scale(1.25)}100%{opacity:0;transform:translate(calc(-50% + var(--smoke-x)),-250%) scale(1.7)}}@media(prefers-reduced-motion:reduce){.radar-plane{will-change:auto}}
+.defense-controls{display:flex;align-items:center;gap:14px;margin-top:10px;padding:12px 16px;border:1px solid var(--line);border-radius:9px;background:var(--bg)}.defense-controls button{border:1px solid #bb453d;border-radius:6px;background:var(--pale);color:var(--ink);padding:9px 13px;font-size:12px;white-space:nowrap;transition:background 150ms cubic-bezier(.2,0,0,1),transform 150ms cubic-bezier(.2,0,0,1)}.defense-controls button[aria-pressed="true"]{background:#b92f32;color:#fff0e8;box-shadow:0 0 14px #ed403b22}.defense-controls button:active{transform:scale(.97)}.defense-controls span{font-size:11px;color:var(--muted)}.defense-lock{position:absolute;left:50%;top:50%;width:34px;height:34px;border:1px solid #ff6952;border-radius:50%;pointer-events:none;box-shadow:0 0 8px #ef463c44;z-index:1}.defense-lock::before,.defense-lock::after{content:'';position:absolute;background:#ff8c66}.defense-lock::before{width:44px;height:1px;left:-6px;top:16px}.defense-lock::after{height:44px;width:1px;left:16px;top:-6px}.defense-missile{position:absolute;left:50%;top:50%;width:12px;height:20px;pointer-events:none;z-index:2;filter:drop-shadow(0 0 4px #ff6b2b99);will-change:transform}.defense-missile[hidden]{display:none}.defense-trail{fill:none;stroke:#ffb14e;stroke-width:1.2;stroke-linecap:round;opacity:.55;vector-effect:non-scaling-stroke}@media(max-width:380px){.defense-controls{gap:10px;padding:10px}.defense-controls button{padding:8px;font-size:11px}.defense-controls span{font-size:10px}}
+.aircraft-civil,html[data-theme="night"] .aircraft-civil,html[data-theme="day"] .aircraft-civil{fill:#79bfff!important;cursor:not-allowed}.aircraft-civil.is-lit{fill:#b2e6ff!important;filter:drop-shadow(0 0 4px #64bfff66)}.aircraft-civil:hover,.aircraft-civil:focus-visible{fill:#b2e6ff!important;filter:drop-shadow(0 0 4px #64bfff66)}.aircraft-bomber{width:26px;height:26px}.trail-civil,html[data-theme="night"] .trail-civil{stroke:#79bfff!important}.aircraft-legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px;font-size:11px;color:var(--muted)}.aircraft-legend span{display:flex;align-items:center;gap:6px}.aircraft-legend i{width:8px;height:8px;border-radius:50%;background:#ff9567}.aircraft-legend .civil-key{background:#79bfff}.aircraft-legend .bomber-key{border-radius:1px;background:#ff675f}
+.civil-warning{position:absolute;left:18px;right:18px;top:48px;z-index:5;padding:12px 14px;border:1px solid #558ab1;border-radius:8px;background:#112a39f5;color:#c7e7ff;font-size:12px;line-height:1.5;box-shadow:0 5px 20px #0005;pointer-events:none}.civil-warning[hidden]{display:none}html[data-theme="day"] .civil-warning{background:#eaf6fff5;color:#184667}
+.radar{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%234bea85' stroke-width='1.5'/%3E%3Cpath d='M16 1v10M16 21v10M1 16h10M21 16h10' stroke='%234bea85' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='1.5' fill='%234bea85'/%3E%3C/svg%3E") 16 16,crosshair}.radar-plane,.aircraft-civil{cursor:inherit!important}.aircraft-helicopter{width:25px;height:25px;color:#ffc37c}.helicopter-rotor{transform-origin:12px 8px;animation:helicopter-rotor 550ms linear infinite}.radar-panel.is-paused .helicopter-rotor{animation-play-state:paused}.aircraft-helicopter.is-crashing .helicopter-rotor{animation-duration:1.3s}.aircraft-legend .helicopter-key{background:#ffc37c}@keyframes helicopter-rotor{to{transform:rotate(360deg)}}@media(prefers-reduced-motion:reduce){.helicopter-rotor{animation:none}}
+.category-scores{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px;padding:13px 15px;border:1px solid var(--line);border-radius:9px;background:var(--bg);font-size:11px}.category-scores>div{display:flex;align-items:center;justify-content:space-between;gap:8px}.category-scores strong{font-size:22px;font-variant-numeric:tabular-nums;display:inline-block}.category-scores small{grid-column:1/-1;color:var(--muted);font-size:10px}.category-scores small[hidden]{display:none}.score-fighter{color:#ff5a64}.score-bomber{color:#b88dff}.score-helicopter{color:#60ddb2}.radar-plane.aircraft-fighter{fill:#ff5a64!important}.radar-plane.aircraft-bomber{fill:#b88dff!important}.radar-plane.aircraft-helicopter{fill:#60ddb2!important;color:#60ddb2}.radar-plane.aircraft-fighter.is-lit{fill:#ffa3ab!important;filter:drop-shadow(0 0 4px #ff5a6488)}.radar-plane.aircraft-bomber.is-lit{fill:#decaff!important;filter:drop-shadow(0 0 4px #b88dff88)}.radar-plane.aircraft-helicopter.is-lit{fill:#b4ffe0!important;filter:drop-shadow(0 0 4px #60ddb288)}.radar-plane.is-crashing{fill:#ff6948!important}.trail-fighter,html[data-theme="night"] .trail-fighter{stroke:#ff5a64!important}.trail-bomber,html[data-theme="night"] .trail-bomber{stroke:#b88dff!important}.trail-helicopter,html[data-theme="night"] .trail-helicopter{stroke:#60ddb2!important}.aircraft-legend i{background:#ff5a64}.aircraft-legend .civil-key{background:#79bfff}.aircraft-legend .bomber-key{background:#b88dff}.aircraft-legend .helicopter-key{background:#60ddb2}html[data-theme="day"] .score-fighter{color:#b92837}html[data-theme="day"] .score-bomber{color:#7340b0}html[data-theme="day"] .score-helicopter{color:#147755}@media(max-width:480px){.category-scores{grid-template-columns:1fr;padding:12px 15px}.category-scores>div{justify-content:space-between}.category-scores strong{font-size:20px}}
+.difficulty-controls{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:9px 14px;margin-top:10px;padding:12px 16px;border:1px solid var(--line);border-radius:9px;background:var(--bg)}.difficulty-controls label{font-size:12px;font-weight:600}.difficulty-controls select{min-width:0;width:100%;padding:8px 10px;color:var(--ink);background:var(--pale);border:1px solid var(--line);border-radius:6px;font:inherit;font-size:12px}.difficulty-controls small{grid-column:1/-1;color:var(--muted);font-size:11px;line-height:1.5}.difficulty-controls select:focus-visible{outline:2px solid #60ddb2;outline-offset:3px}
+.personal-score{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;margin-top:9px;font-size:12px;color:var(--ink)}.personal-score strong{font-variant-numeric:tabular-nums}.personal-score small{font-size:10px;color:var(--muted);line-height:1.5}.radar-score .score-label{font-size:11px}.radar-score #shot-score{font-size:26px}
+.evasion-info{display:block;margin-top:8px;font-size:10px;line-height:1.6;color:var(--muted)}.radar-plane{transform:translate(-50%,-50%) translate(var(--flight-x,0px),var(--flight-y,0px)) rotate(calc(var(--heading) + var(--crash-turn))) scale(var(--crash-scale)) scaleX(var(--bank-scale,1))}.radar-plane.is-evading{filter:drop-shadow(0 0 5px #ffd57c99)}.flare-effect,.missile-miss{position:absolute;width:0;height:0;pointer-events:none;z-index:2}.heat-flare{position:absolute;width:5px;height:5px;border-radius:50%;background:#fff3bc;box-shadow:0 0 6px 2px #ffb84b,0 0 15px #ff632766}.heat-flare::after{content:"";position:absolute;left:1px;top:3px;width:2px;height:11px;background:linear-gradient(#ffb647aa,transparent);border-radius:50%}.evasion-tag,.miss-label{position:absolute;white-space:nowrap;color:#ffdc96;font-size:9px;letter-spacing:1px;font-weight:700;text-shadow:0 1px 4px #000;background:#241913bb;border-radius:3px;padding:2px 4px}.defense-lock.lock-lost{border-color:#ffcf75;box-shadow:0 0 9px #ffce5544}.defense-lock.lock-lost::before,.defense-lock.lock-lost::after{background:#ffcf75}.miss-burst{position:absolute;width:18px;height:18px;border:1px solid #ffd084;border-radius:50%;background:radial-gradient(circle,#ffdfad99,transparent 70%);animation:miss-burst 650ms cubic-bezier(.2,0,0,1) both}.miss-label{animation:miss-label 1.5s cubic-bezier(.2,0,0,1) both}.radar-panel.is-paused .missile-miss *{animation-play-state:paused}@keyframes miss-burst{0%{opacity:0;transform:translate(-50%,-50%) scale(.25)}20%{opacity:.8;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-50%) scale(2.1)}}@keyframes miss-label{0%{opacity:0;transform:translate(-50%,-8px) scale(.85)}20%{opacity:1;transform:translate(-50%,-20px) scale(1)}100%{opacity:0;transform:translate(-50%,-28px) scale(.95)}}@media(prefers-reduced-motion:reduce){.flare-effect,.missile-miss{display:none}.radar-plane{--bank-scale:1!important}}
+.cinema-camera{position:absolute;inset:0;transform-origin:50% 50%;pointer-events:none}.cinema-defs{position:absolute;width:0;height:0;pointer-events:none;overflow:hidden}.cinematic-active .radar-grid{filter:url(#impact-grid-ripple)}.cinema-hud{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:var(--cinema-envelope,0);background:radial-gradient(ellipse at center,transparent 35%,#08030644 100%)}.cinema-bar{position:absolute;left:0;right:0;height:14px;background:#070407;transform:scaleY(var(--cinema-envelope,0))}.cinema-bar-top{top:0;transform-origin:top}.cinema-bar-bottom{bottom:0;transform-origin:bottom}.cinema-hit-label{position:absolute;top:34px;left:50%;white-space:nowrap;transform:translate(-50%,calc((1 - var(--cinema-envelope,0))*6px)) scale(calc(.95 + var(--cinema-envelope,0)*.05));color:#ffd99c;font-size:10px;font-weight:700;letter-spacing:2px;text-shadow:0 0 8px #ff943b77}.cinema-shockwave{position:absolute;width:0;height:0;pointer-events:none;z-index:3}.cinema-shockwave>span{position:absolute;display:block;width:24px;height:24px;border-radius:50%;opacity:0;transform:translate(-50%,-50%) scale(.15);will-change:transform,opacity}.shockwave-ring{border:1px solid #ffc274;box-shadow:0 0 5px #ff7c3e66,inset 0 0 4px #ffa14544}.shockwave-ring.shockwave-echo{border-color:#ff6639;border-width:.6px;box-shadow:none}.shockwave-halo{background:radial-gradient(circle,transparent 42%,#ffad4533 60%,transparent 73%)}@media(prefers-reduced-motion:reduce){.cinema-hud,.cinema-shockwave{display:none}.cinema-camera{transform:none!important}.cinematic-active .radar-grid{filter:none}}
+html[data-theme] .radar-panel .radar{background:radial-gradient(ellipse at 50% 48%,#082215 0%,#020c07 73%);border:1px solid #2d8551;box-shadow:inset 0 0 45px #2bff6d09,0 0 24px #0dde4c10}html[data-theme] .radar-panel .radar-grid{border-color:#39734b;background:linear-gradient(0deg,transparent 49.8%,#37825566 50%,transparent 50.2%),linear-gradient(90deg,transparent 49.8%,#37825566 50%,transparent 50.2%),linear-gradient(45deg,transparent 49.85%,#245f3933 50%,transparent 50.15%),linear-gradient(-45deg,transparent 49.85%,#245f3933 50%,transparent 50.15%)}.radar-panel .radar-grid .sweep{inset:0;width:100%;height:100%;border-radius:50%;clip-path:none;transform-origin:50% 50%;animation:none;mix-blend-mode:screen;background:conic-gradient(from 90deg,#c6ffd599 0deg,transparent .6deg,transparent 335deg,#18f74305 339deg,#28ff6433 351deg,#53ff9280 359.6deg,#d4ffdd 360deg)}.radar-panel .sweep::after{content:"";position:absolute;left:50%;top:calc(50% - .5px);width:50%;height:1px;background:#a2ffb3;box-shadow:0 0 4px #4bff83,0 0 10px #36ff7277}.radar-scale{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;fill:none;stroke:#397850;stroke-width:.7}.radar-scale text{fill:#72b68a;stroke:none;font:9px monospace;text-anchor:middle;letter-spacing:.3px}html[data-theme] .radar-panel .radar-center{color:#72ffa2;text-shadow:0 0 8px #48ff8277}html[data-theme] .radar-panel .radar-label,html[data-theme] .radar-panel .radar-coordinate{color:#71b98a;font-family:monospace}.radar-panel .radar-plane{opacity:calc(var(--echo,0)*var(--crash-opacity,1));stroke:#6eff99;stroke-width:.25;transition:fill 120ms cubic-bezier(.2,0,0,1)}.radar-panel .radar-plane:not(.is-detected){opacity:0!important;pointer-events:none!important}.radar-panel .radar-plane.is-lit{filter:drop-shadow(0 0 3px #48ff7177)}html[data-theme] .radar-panel .radar-caption{bottom:5px;left:12px;right:12px;padding:3px 8px;border:0;background:#031009aa;color:#7fffb0;font-size:16px}html[data-theme] .radar-panel .radar-caption div{font:10px monospace;color:#85cfa0}html[data-theme] .radar-panel .radar-caption small{font:8px monospace;color:#6a9c7d;margin-top:2px}
+
+header{height:80px;gap:20px}header .brand{font-size:23px}header .theme-toggle{margin-left:auto}.hero{align-items:start;grid-template-columns:minmax(260px,.85fr) minmax(360px,1.15fr);padding:44px 0;gap:48px}.hero-copy{height:400px;display:flex;align-items:center}.hero-copy h1{margin:0;font-size:clamp(48px,5.6vw,80px)}@media(max-width:1000px){.hero-copy{height:350px}.hero{gap:26px;grid-template-columns:minmax(240px,.85fr) minmax(320px,1.15fr)}}@media(max-width:680px){header{height:76px;padding:0 5%;gap:12px}header .brand{font-size:18px}.theme-toggle{font-size:11px;padding:8px 10px}.hero{grid-template-columns:1fr;gap:25px;padding:32px 0}.hero-copy{height:auto;justify-content:center;text-align:center}.hero-copy h1{font-size:48px;letter-spacing:-2px}}
+.defense-controls{display:block}.control-modes{display:flex;gap:8px;margin-bottom:10px}.control-modes button{flex:1}.control-modes button[aria-pressed="true"]{background:#17432b;border-color:#55b47c;color:#d5ffe3;box-shadow:0 0 10px #3be77618}.defense-controls>span{display:block;line-height:1.5}.radar.automatic-control,.radar.automatic-control .radar-plane{cursor:default!important}
+main{max-width:1440px;padding:0 24px}.hero{display:block;padding:24px 0}.radar-panel{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:18px;align-items:stretch}.game-controls{display:flex;flex-direction:column;gap:12px;min-width:0}.game-controls>*{margin-top:0}.game-controls .category-scores{grid-template-columns:1fr;gap:10px}.game-controls .category-scores strong{font-size:25px}.game-controls .radar-score{padding:14px;gap:10px}.game-controls .radar-score .score-label{width:100%;display:flex;justify-content:space-between;align-items:center;margin:0}.game-controls .radar-score #shot-score{font-size:36px}.game-controls .radar-score button{flex:1}.game-controls .personal-score{padding:0 4px}.game-controls .defense-controls{padding:14px}.game-controls .control-modes{gap:8px;margin-bottom:12px}.game-controls .control-modes button{min-height:42px;font-size:12px}.game-controls .difficulty-controls{padding:14px}.game-controls .evasion-info{padding:0 4px;line-height:1.6}.game-controls .aircraft-legend{gap:10px;padding:12px;border:1px solid var(--line);border-radius:9px;font-size:10px}.radar-panel>.radar{height:auto;min-height:560px}.radar-panel .radar-grid,.radar-panel .plane-field{width:min(calc(100% - 36px),560px);height:auto;aspect-ratio:1;top:50%;left:50%;transform:translate(-50%,-50%)}.radar-panel .radar-center{top:calc(50% - 19px);left:calc(50% - 8px)}.radar-panel .radar-coordinate,.radar-panel .radar-label{top:16px}.game-title{font-size:26px;line-height:1.1;letter-spacing:-.7px;margin:0}.game-title .brand{font-size:inherit;background:linear-gradient(180deg,#ffe7a0,#ff7046);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent}header{height:72px;padding:0 24px}.manual-missile{filter:drop-shadow(0 0 5px #ffd986)}@media(max-width:1000px){.radar-panel{grid-template-columns:minmax(0,1fr) 310px;gap:14px}.radar-panel>.radar{min-height:520px}}@media(max-width:760px){main{padding:0 14px}header{padding:0 16px;height:68px}.game-title{font-size:23px}.hero{padding:16px 0}.radar-panel{grid-template-columns:1fr;gap:14px}.radar-panel>.radar{height:360px;min-height:360px}.radar-panel .radar-grid,.radar-panel .plane-field{width:min(calc(100% - 28px),330px)}.game-controls{gap:10px}.game-controls .category-scores{grid-template-columns:repeat(3,minmax(0,1fr));font-size:10px;padding:12px;gap:8px}.game-controls .category-scores>div{flex-direction:column;align-items:flex-start;gap:3px}.game-controls .category-scores strong{font-size:24px}.game-controls .control-modes button{min-height:44px;font-size:12px}.game-controls .radar-score .score-label{width:auto;flex:1;gap:14px}.game-controls .radar-score button{flex:0 1 auto}.game-controls .aircraft-legend{justify-content:space-between}}@media(max-width:420px){.game-controls .radar-score .score-label{width:100%;flex-basis:100%}.game-title{font-size:21px}.theme-toggle{font-size:10px}.game-controls .category-scores{font-size:9px}}
+.game-controls .control-modes button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:62px;padding:9px 7px;white-space:normal}.control-modes button span{font-weight:600;line-height:1.3}.control-modes button small{font-size:11px;font-weight:400;line-height:1.4;opacity:.86;letter-spacing:0}html[data-theme="day"]{--bg:#cbd2d8;--ink:#151c22;--muted:#46545f;--line:#929fa9;--green:#963a2b;--pale:#dbe2e7;background:#cbd2d8}html[data-theme="day"] body{background:linear-gradient(135deg,#d3dae0,#bdc7ce)}html[data-theme="day"] header{background:#dce2e7;border-bottom-color:#8f9aa4}html[data-theme="day"] .hero::before{background:none}html[data-theme="day"] .game-controls .radar-score{background:linear-gradient(120deg,#e0e5e9,#c3ccd3);border-color:#929fa9}html[data-theme="day"] .game-controls .category-scores,html[data-theme="day"] .game-controls .difficulty-controls,html[data-theme="day"] .game-controls .defense-controls,html[data-theme="day"] .game-controls .aircraft-legend{background:#dce3e8;border-color:#929fa9}html[data-theme="day"] .game-controls select,html[data-theme="day"] .theme-toggle,html[data-theme="day"] .radar-score button,html[data-theme="day"] .control-modes button{background:#cbd4db;border-color:#7e8d99;color:#18232c}html[data-theme="day"] .control-modes button[aria-pressed="true"]{background:#263f32;border-color:#326447;color:#d9f6e1;box-shadow:none}html[data-theme="day"] .score-label strong{color:#943528;text-shadow:none}html[data-theme="day"] .theme-toggle:hover,html[data-theme="day"] .radar-score button:hover{background:#b9c5ce}html[data-theme="day"] .game-controls .evasion-info{color:#3d4b56}.game-controls .evasion-info{font-size:11px}
+.difficulty-controls #radar-pause{grid-column:1/-1;border:1px solid var(--line);border-radius:6px;padding:8px;background:var(--pale);color:var(--ink);font-size:12px;min-height:36px}.difficulty-controls #radar-pause[aria-pressed="true"]{background:#244632;color:#d8ffe1;border-color:#4e9965}html[data-theme="day"] .difficulty-controls #radar-pause{background:#cbd4db;color:#18232c;border-color:#7e8d99}html[data-theme="day"] .difficulty-controls #radar-pause[aria-pressed="true"]{background:#263f32;color:#d9f6e1}
+.game-controls .control-modes button span{font-size:15px;font-weight:700;line-height:1.3}.game-controls .control-modes button small{font-size:11px;line-height:1.45;font-weight:400}.radar-stats{position:absolute;top:66px;z-index:4;width:120px;pointer-events:none;font-family:monospace;color:#94d8a8}.radar-stats-left{left:16px}.radar-stats-right{right:16px}.radar-stats .radar-score{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:0;margin:0;border:0!important;background:transparent!important;border-radius:0;box-shadow:none}.radar-stats .score-label{font:10px/1.6 monospace;color:#78b68b;margin:0}.radar-stats #shot-score{display:block;font:32px/1.15 monospace;color:#b0f2bf;text-shadow:0 0 8px #4eff7922;margin-top:5px}.radar-stats #reset-score{pointer-events:auto;font:9px/1.4 monospace;padding:5px 6px;background:#0b2518!important;color:#8ac49b!important;border:1px solid #315d40!important;min-height:30px}.radar-stats .personal-score{display:block;font:10px/1.6 monospace;color:#92c8a2;margin-top:12px}.radar-stats .personal-score small{display:block;font:8px/1.6 monospace;color:#668c74;margin-top:6px}.radar-stats .category-scores{display:flex;flex-direction:column;gap:12px;padding:0;margin:0;border:0!important;background:transparent!important;border-radius:0}.radar-stats .category-scores>div{display:block;font:9px/1.5 monospace}.radar-stats .category-scores strong{display:block;font:26px/1.4 monospace;margin-top:3px}.radar-stats .category-scores #legacy-score{font:8px/1.6 monospace;color:#668c74}.radar-panel>.radar{min-height:600px}.radar-panel .radar-grid,.radar-panel .plane-field{width:min(calc(100% - 280px),560px)}@media(max-width:760px){.radar-panel>.radar{height:460px;min-height:460px}.radar-stats{top:43px;width:calc(50% - 32px)}.radar-stats-left{left:16px}.radar-stats-right{right:16px}.radar-stats .radar-score{gap:4px}.radar-stats .score-label{font-size:9px}.radar-stats #shot-score{font-size:26px;margin-top:0;display:inline-block;margin-left:7px}.radar-stats #reset-score{font-size:8px;padding:3px 5px;min-height:24px}.radar-stats .personal-score{margin-top:4px;font-size:9px}.radar-stats .personal-score small{display:none}.radar-stats .category-scores{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}.radar-stats .category-scores>div{font-size:8px;overflow-wrap:anywhere}.radar-stats .category-scores strong{font-size:21px;line-height:1.3}.radar-stats .category-scores #legacy-score{grid-column:1/-1;font-size:7px}.radar-panel .radar-grid,.radar-panel .plane-field{width:min(calc(100% - 28px),330px);top:calc(50% + 36px)}.radar-panel .radar-center{top:calc(50% + 17px)}.game-controls .control-modes button span{font-size:15px}.game-controls .control-modes button small{font-size:11px}}html[data-theme] .radar-stats #shot-score{color:#b0f2bf}html[data-theme] .radar-stats .score-fighter{color:#ff7b84}html[data-theme] .radar-stats .score-bomber{color:#c9a8ff}html[data-theme] .radar-stats .score-helicopter{color:#7be8bd}
+.game-controls .control-modes button span{color:inherit}html[data-theme="day"] .game-title .brand{background-image:linear-gradient(180deg,#73271e,#ac4721)}
+header{position:relative;height:84px}.game-title{position:absolute;left:50%;transform:translateX(-50%);font-size:36px;white-space:nowrap;text-align:center;letter-spacing:-1px}.game-title .brand{font-size:inherit}header .theme-toggle{margin-left:auto}@media(max-width:680px){header{height:108px}.game-title{top:15px;font-size:30px;letter-spacing:-.8px}header .theme-toggle{position:absolute;right:16px;bottom:12px;margin:0;font-size:11px;padding:7px 10px}}
+
+html[data-theme] .radar-panel .radar-center.s300-launcher{position:absolute;left:50%;top:50%;width:62px;height:62px;transform:translate(-50%,-50%);color:#8ee9a7;filter:drop-shadow(0 0 3px #58ff8855);text-shadow:none;pointer-events:none;z-index:2;overflow:visible}@media(max-width:760px){html[data-theme] .radar-panel .radar-center.s300-launcher{top:calc(50% + 36px);width:52px;height:52px}}
+
+html[data-theme] .radar-panel .radar-center.s300-launcher{width:44px;height:44px;color:#89b89a;filter:drop-shadow(0 1px 2px #000a)}.s300-muzzle{transform-box:fill-box;transform-origin:center}@media(max-width:760px){html[data-theme] .radar-panel .radar-center.s300-launcher{width:36px;height:36px}}.creators-card{width:100%;display:flex;align-items:center;gap:13px;padding:10px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink);text-align:left}.creators-card>img{width:96px;height:64px;object-fit:cover;border-radius:5px;display:block}.creators-card>span{display:flex;flex-direction:column;gap:3px}.creators-card strong{font-size:12px;font-weight:600}.creators-card small{font-size:11px;color:var(--muted)}.creators-card .creators-open{margin-left:auto;font-size:18px;color:var(--muted)}.creators-card:hover{border-color:#709981}.creators-dialog{width:min(900px,94vw);max-height:94vh;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink)}.creators-dialog::backdrop{background:#030708c9}.creators-dialog>img{display:block;width:100%;height:auto;max-height:78vh;object-fit:contain;border-radius:6px}.creators-dialog p{font-size:12px;color:var(--muted);margin:10px 4px 0}.creators-close{position:absolute;right:20px;top:20px;z-index:1;width:32px;height:32px;border:1px solid #768076;border-radius:50%;background:#0d181ce8;color:white;font-size:22px;line-height:1}html[data-theme="day"] .creators-card{background:#dce3e8;border-color:#929fa9}
+
+/* Arcade motion: playful pursuit and a heavy, staged launcher arrival. */
+.radar-pacman{position:absolute;left:50%;top:50%;width:34px;height:34px;overflow:visible;pointer-events:none;z-index:5;filter:drop-shadow(0 0 5px #ffd74d88);will-change:transform}.radar-pacman[hidden]{display:none}.control-modes{flex-wrap:wrap}.game-controls .control-modes button{min-width:90px}.control-modes #pacman-mode[aria-pressed="true"]{background:#554513;border-color:#f2cf55;color:#fff0a8}.radar[data-launcher-state="eaten"] .s300-launcher{visibility:hidden}.radar[data-launcher-state="arriving"] .s300-launcher{will-change:transform}.radar[data-control-mode="pacman"] .radar-plane{cursor:default!important}html[data-theme="day"] .control-modes #pacman-mode[aria-pressed="true"]{background:#58491d;color:#fff0a8}@media(max-width:420px){.game-controls .control-modes button span{font-size:13px}.game-controls .control-modes button{min-width:75px;padding:8px 4px}}
+
+.aviation-header-art{position:absolute;inset:0;overflow:hidden;pointer-events:none;color:#b65d46;opacity:.48}.header-aircraft{position:absolute;top:0;height:84px;width:calc((100% - 390px)/2);max-width:440px}.header-aircraft-left{left:0}.header-aircraft-right{right:0;transform:scaleX(-1)}header .game-title,header .theme-toggle{z-index:1}.header-aircraft-right{padding-left:110px;box-sizing:content-box;width:calc((100% - 590px)/2)}html[data-theme="day"] .aviation-header-art{color:#3c505a;opacity:.42}.pacman-dropping{position:absolute;display:block;pointer-events:none;z-index:3;font-size:22px;line-height:1;opacity:0;filter:drop-shadow(0 2px 3px #0009);transform:translate(-50%,-50%) scale(.35);will-change:transform,opacity}@media(max-width:900px){.header-aircraft-right{display:none}.header-aircraft-left{width:calc((100% - 340px)/2);min-width:100px}.aviation-header-art{opacity:.3}}@media(max-width:680px){.header-aircraft-left{width:100%;height:108px;max-width:none;opacity:.38}.header-aircraft-left use:last-child{display:none}.game-title{z-index:1}.pacman-dropping{font-size:19px}}
+
+.aviation-header-art{opacity:.88}.header-aircraft{filter:drop-shadow(0 3px 2px #0008)}html[data-theme="day"] .aviation-header-art{opacity:.93}.header-aircraft-left use:last-child{opacity:.65}@media(max-width:900px){.aviation-header-art{opacity:.72}}@media(max-width:680px){.header-aircraft-left{opacity:.55}}.radar-interference{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;border-radius:50%;overflow:hidden;opacity:0;mix-blend-mode:screen;filter:drop-shadow(0 0 3px #3aff7270)}@media(prefers-reduced-motion:reduce){.radar-interference{display:none}}
+/* Keep the mode controls compact; announce game feedback without a prose panel. */
+.game-controls .evasion-info,.game-controls #difficulty-description{display:none}
+.game-controls #defense-status{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+.game-controls .control-modes{margin-bottom:0}
+
+ .rank-results{overflow:auto;margin-top:16px}.rank-results table{min-width:0;width:100%;font-size:12px}.rank-results td,.rank-results th{min-width:0!important;padding:8px!important;position:static!important}.festive-intro select{display:block;width:100%;margin:12px 0;padding:12px} </style><style>.expansion{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:16px;font-size:12px;color:var(--ink)}.expansion section{padding:13px 0;border-bottom:1px solid var(--line)}.exp-heading,.exp-metrics,.exp-mission-line{display:flex;align-items:center;justify-content:space-between;gap:12px}.exp-heading>span{font-size:9px;letter-spacing:1.5px;color:var(--muted)}.exp-heading>strong{color:var(--green);font-size:16px}.exp-metrics{margin-top:12px;padding:9px 0;color:var(--muted)}.exp-metrics b{color:var(--ink);margin-left:4px}.expansion h2{margin:0 0 6px;font-size:14px;letter-spacing:0}.expansion p{font-size:11px;line-height:1.6;margin:7px 0;color:var(--muted)}.expansion button,.mission-results button{border:1px solid var(--line);border-radius:6px;background:var(--pale);color:var(--ink);padding:9px 11px;font-size:12px;min-height:36px}.expansion button:disabled{opacity:.45}.expansion #mission-start,.mission-results #mission-again{background:var(--green);color:var(--bg);font-weight:bold}.expansion [hidden]{display:none!important}.exp-actions{display:flex;gap:8px}.exp-mission-line{margin-top:12px;font-variant-numeric:tabular-nums}.exp-mission-line strong{font:26px monospace;color:var(--green)}.expansion progress{width:100%;height:7px;accent-color:var(--green);margin:8px 0}.expansion details{padding:13px 0}.expansion summary{cursor:pointer;font-weight:bold;min-height:32px}.expansion details button{display:block;width:100%;text-align:left;margin-top:8px}.exp-audio{display:flex;align-items:center;gap:8px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:12px}.exp-audio label{font-size:10px;color:var(--muted)}.exp-audio input{width:100px;accent-color:var(--green)}.mission-results{max-width:400px;width:calc(100% - 32px);background:var(--bg);color:var(--ink);border:1px solid var(--green);border-radius:14px;padding:28px}.mission-results h2{font-size:24px;margin-top:0}.mission-results::backdrop{background:#001309cc;backdrop-filter:blur(4px)}.mission-results button{margin:6px 5px 0 0}.radar-panel .radar-plane.aircraft-boss{width:38px;height:38px;fill:#ffda62!important;stroke:#fff0b8!important;stroke-width:.7;filter:drop-shadow(0 0 5px #ffd04f)!important}.game-controls{align-content:start}html,body{max-width:100%;overflow-x:hidden}@media(max-width:760px){.expansion{padding:13px}.exp-audio input{flex:1}.mission-results{padding:22px}}
+@media(min-width:761px){.radar-panel{align-items:start}.radar-panel>.radar{position:sticky;top:16px;height:600px;min-height:600px}}
+@media(max-width:760px){.radar-panel>.radar{position:relative;top:auto;height:460px;min-height:460px}}
+</style><style>.grinch-final img{width:min(100%,260px);max-height:38vh;object-fit:cover;border-radius:12px}.grinch-final{text-align:center}.mission-results{overflow:auto}.expansion>section:not(.exp-mission),.expansion>details,.creators-card,.exp-metrics,.exp-heading,.personal-score,#reset-score{display:none!important}.festive-intro button{padding:12px 24px;background:#176c43;color:white;border:0;border-radius:8px}.festive-intro{max-width:480px}</style><style>.grinch-final:not([hidden]) img{animation:grinch-in .65s cubic-bezier(.2,.8,.2,1.25) both;aspect-ratio: 1;object-fit:cover;object-position:center 25%}@keyframes grinch-in{from{transform:translateY(90px) scale(.65);opacity:0}to{transform:none;opacity:1}}.game-title{font-size:clamp(22px,4vw,36px)}</style><style>.grinch-final img{object-fit:contain!important;border-radius:0!important;animation:grinchRise .65s ease-out both}@keyframes grinchRise{from{transform:translateY(100px);opacity:0}to{transform:translateY(0);opacity:1}}.aircraft-civil{cursor:crosshair!important}</style><style>.grinch-final img{aspect-ratio:auto!important;max-height:38vh}.grinch-final .save-status{font-weight:700;color:#a8edb2}.mission-results{max-height:90vh}.festive-intro{padding:24px}.festive-intro p{line-height:1.6}.exp-mission #mission-best,.exp-mission #mission-start,.exp-mission #mission-cancel,.mission-results #mission-close{display:none!important} .control-modes,#radar-difficulty,.difficulty-controls>label{display:none!important}</style><style>
+.radar-stats-left,.radar-stats-right,.radar-score,.category-scores,.personal-score{display:none!important}
+body.mission-briefing>header,body.mission-briefing>main,body.mission-briefing>footer{display:none!important}
+body.mission-briefing{min-height:100vh;min-height:100dvh}
+.festive-intro{width:min(560px,calc(100% - 32px));max-width:560px;padding:clamp(24px,5vw,44px);border:1px solid #78312f;box-shadow:0 20px 90px #0009;background:#1c1116;color:#fff0e8}
+.festive-intro h2{font-size:clamp(28px,5vw,40px);color:#ffad72;line-height:1.15;margin:12px 0 22px}.festive-intro .brief-tag{color:#d99383;font-size:11px;letter-spacing:2px}.festive-intro li{margin:10px 0}.festive-intro ul{padding-left:22px}.festive-intro button{width:100%;margin:18px 0 0;background:#b82d35;font-weight:bold;font-size:16px;padding:15px}.festive-intro::backdrop{background:#100b0e}
+</style><style>.current-player{font-weight:700}.rank-results table{margin-top:8px}.brief-player{color:#ffad72}.festive-intro{max-height:calc(100dvh - 24px);overflow:auto} @media(max-width:420px){.rank-results td,.rank-results th{padding:4px!important}.rank-results table{font-size:11px}}</style></head>
+<body>
+<header><div class="aviation-header-art" aria-hidden="true"><svg class="header-aircraft header-aircraft-left" viewBox="0 0 420 84" fill="none"><defs><linearGradient id="header-metal" x2="0" y2="1"><stop stop-color="currentColor" stop-opacity=".55"/><stop offset="1" stop-color="currentColor" stop-opacity=".08"/></linearGradient><symbol id="header-jet" viewBox="0 0 260 84"><defs><linearGradient id="jet-body" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#c2ccd0"/><stop offset=".35" stop-color="#8d9b9e"/><stop offset=".56" stop-color="#5c6b70"/><stop offset=".77" stop-color="#38474c"/><stop offset="1" stop-color="#17292f"/></linearGradient><linearGradient id="jet-wing" x2=".3" y2="1"><stop stop-color="#a8b5b8"/><stop offset="1" stop-color="#354b53"/></linearGradient><linearGradient id="jet-glass" x2=".2" y2="1"><stop stop-color="#bcdfde"/><stop offset=".3" stop-color="#6b9aa6"/><stop offset="1" stop-color="#172f3a"/></linearGradient><linearGradient id="jet-nozzle"><stop stop-color="#17232a"/><stop offset=".5" stop-color="#819093"/><stop offset="1" stop-color="#172127"/></linearGradient></defs><g stroke="#25373e" stroke-width=".7" stroke-linejoin="round"><path d="M53 47 25 11 45 14 88 43Z" fill="url(#jet-wing)"/><path d="M106 40 90 8 106 11 152 41Z" fill="url(#jet-wing)"/><path d="M108 45 91 23 107 24 143 42Z" fill="#5c737a"/><path d="M37 48 81 36 157 34 173 31 197 33 222 41 250 49 256 52 239 55 192 57 151 61 89 62 43 57Z" fill="url(#jet-body)"/><path d="M150 36Q162 21 179 22Q190 22 201 35Z" fill="url(#jet-glass)"/><path d="M159 29Q171 23 181 25M177 23 181 35" fill="none" stroke="#cfdfd8" stroke-width="1.2" opacity=".65"/><path d="M51 44 67 43 66 57 48 56Z" fill="url(#jet-nozzle)"/><path d="M49 44 45 56M53 43 50 57M57 43 55 58M61 43 60 58" stroke="#b5b4a3" opacity=".6"/><path d="M76 49 115 42 165 45 195 53 149 54 114 71 97 70 110 53Z" fill="url(#jet-wing)"/><path d="M102 69 148 53 182 52M80 50 117 45" stroke="#d3dcd5" fill="none" opacity=".48"/><path d="M72 55 54 69 29 68 45 54Z" fill="url(#jet-wing)"/><path d="M116 53 139 53 135 60 117 61Z" fill="#172b32"/><path d="M140 53 159 53 153 59 136 60Z" fill="#263e46"/><path d="M207 42 221 43 250 50M80 38 151 37M190 38 197 51M172 38 174 45M94 38 92 46M207 54 206 44M159 56 160 60M69 59 96 59" stroke="#d2d9d1" fill="none" opacity=".35"/><path d="M230 46 238 49 235 52 225 51Z" fill="#40545b"/><path d="M27 48 44 49 43 54 28 53Z" fill="#23363c"/><path d="M51 28 62 31 58 35 52 32Z" fill="#ad5a49"/><circle cx="212" cy="49" r="1" fill="#e4b886"/><path d="M84 61 121 62M165 59 199 57" stroke="#152930" fill="none"/><path d="M19 51H4M17 55H9" stroke="#cb7951" opacity=".3"/></g></symbol></defs><path d="M0 68H390M0 73H280" stroke="currentColor" stroke-opacity=".12"/><use href="#header-jet" x="0" y="-1" width="290" height="87"/><use href="#header-jet" x="278" y="5" width="140" height="43" opacity=".55"/></svg><svg class="header-aircraft header-aircraft-right" viewBox="0 0 420 84" fill="none"><path d="M0 68H420M100 73H420" stroke="currentColor" stroke-opacity=".12"/><use href="#header-jet" x="4" y="2" width="275" height="83"/><use href="#header-jet" x="285" y="0" width="130" height="42" opacity=".4"/></svg></div><h1 class="game-title"><a class="brand" href="#">Операция «Гринч»</a></h1></header>
+<main>
+<section class="hero"><div class="radar" aria-hidden="true"><div class="radar-grid"></div><div class="sweep"></div><div class="plane-field"><svg class="radar-plane" viewBox="0 0 24 24" style="left:37%;top:18%;--heading:25deg"><path d="M12 2c-.8 0-1.3 1-1.3 2.1v5.1L3 14v2l7.7-2.3v4.7L8 20v1.4l4-1 4 1V20l-2.7-1.6v-4.7L21 16v-2l-7.7-4.8V4.1C13.3 3 12.8 2 12 2Z"/></svg><svg class="radar-plane" viewBox="0 0 24 24" style="left:62%;top:23%;--heading:70deg"><path d="M12 2c-.8 0-1.3 1-1.3 2.1v5.1L3 14v2l7.7-2.3v4.7L8 20v1.4l4-1 4 1V20l-2.7-1.6v-4.7L21 16v-2l-7.7-4.8V4.1C13.3 3 12.8 2 12 2Z"/></svg><svg class="radar-plane" viewBox="0 0 24 24" style="left:79%;top:37%;--heading:120deg"><path d="M12 2c-.8 0-1.3 1-1.3 2.1v5.1L3 14v2l7.7-2.3v4.7L8 20v1.4l4-1 4 1V20l-2.7-1.6v-4.7L21 16v-2l-7.7-4.8V4.1C13.3 3 12.8 2 12 2Z"/></svg><svg class="radar-plane" viewBox="0 0 24 24" style="left:22%;top:33%;--heading:-35deg"><path d="M12 2c-.8 0-1.3 1-1.3 2.1v5.1L3 14v2l7.7-2.3v4.7L8 20v1.4l4-1 4 1V20l-2.7-1.6v-4.7L21 16v-2l-7.7-4.8V4.1C13.3 3 12.8 2 12 2Z"/></svg><svg class="radar-plane" viewBox="0 0 24 24" style="left:48%;top:38%;--heading:15deg"><path d="M12 2c-.8 0-1.3 1-1.3 2.1v5.1L3 14v2l7.7-2.3v4.7L8 20v1.4l4-1 4 1V20l-2.7-1.6v-4.7L21 16v-2l-7.7-4.8V4.1C13.3 3 12.8 2 12 2Z"/></svg><svg class="radar-plane" viewBox="0 0 24 24" style="left:31%;top:57%;--heading:-65deg"><path d="M12 2c-.8 0-1.3 1-1.3 2.1v5.1L3 14v2l7.7-2.3v4.7L8 20v1.4l4-1 4 1V20l-2.7-1.6v-4.7L21 16v-2l-7.7-4.8V4.1C13.3 3 12.8 2 12 2Z"/></svg><svg class="radar-plane" viewBox="0 0 24 24" style="left:67%;top:57%;--heading:150deg"><path d="M12 2c-.8 0-1.3 1-1.3 2.1v5.1L3 14v2l7.7-2.3v4.7L8 20v1.4l4-1 4 1V20l-2.7-1.6v-4.7L21 16v-2l-7.7-4.8V4.1C13.3 3 12.8 2 12 2Z"/></svg><svg class="radar-plane" viewBox="0 0 24 24" style="left:16%;top:65%;--heading:-100deg"><path d="M12 2c-.8 0-1.3 1-1.3 2.1v5.1L3 14v2l7.7-2.3v4.7L8 20v1.4l4-1 4 1V20l-2.7-1.6v-4.7L21 16v-2l-7.7-4.8V4.1C13.3 3 12.8 2 12 2Z"/></svg><svg class="radar-plane" viewBox="0 0 24 24" style="left:51%;top:75%;--heading:195deg"><path d="M12 2c-.8 0-1.3 1-1.3 2.1v5.1L3 14v2l7.7-2.3v4.7L8 20v1.4l4-1 4 1V20l-2.7-1.6v-4.7L21 16v-2l-7.7-4.8V4.1C13.3 3 12.8 2 12 2Z"/></svg><svg class="radar-plane" viewBox="0 0 24 24" style="left:78%;top:70%;--heading:135deg"><path d="M12 2c-.8 0-1.3 1-1.3 2.1v5.1L3 14v2l7.7-2.3v4.7L8 20v1.4l4-1 4 1V20l-2.7-1.6v-4.7L21 16v-2l-7.7-4.8V4.1C13.3 3 12.8 2 12 2Z"/></svg></div><svg class="radar-center s300-launcher" viewBox="0 0 100 100" role="img" aria-label="С-300 — пусковая установка" xmlns="http://www.w3.org/2000/svg"><title>С-300</title><defs><linearGradient id="s300-chassis-metal" x2="1" y2="0"><stop stop-color="#142a20"/><stop offset=".45" stop-color="#406043"/><stop offset="1" stop-color="#152e22"/></linearGradient><linearGradient id="s300-tube-metal" x2="1" y2="0"><stop stop-color="#10261b"/><stop offset=".4" stop-color="#527753"/><stop offset=".7" stop-color="#304e36"/><stop offset="1" stop-color="#142e20"/></linearGradient></defs><g stroke="#7ca88a" stroke-width=".9" stroke-linejoin="round"><g fill="#050c08" stroke="#466151"><rect x="26" y="18" width="8" height="12" rx="2"/><rect x="66" y="18" width="8" height="12" rx="2"/><rect x="26" y="34" width="8" height="12" rx="2"/><rect x="66" y="34" width="8" height="12" rx="2"/><rect x="26" y="51" width="8" height="12" rx="2"/><rect x="66" y="51" width="8" height="12" rx="2"/><rect x="26" y="68" width="8" height="12" rx="2"/><rect x="66" y="68" width="8" height="12" rx="2"/></g><path d="M31 57H19v5h12m38-5h12v5H69" fill="#253f2e"/><rect x="32" y="10" width="36" height="78" rx="6" fill="url(#s300-chassis-metal)"/><path d="M36 15h28v8H36ZM36 69h28v15H36Z" fill="#294734"/><rect x="36" y="73" width="11" height="7" rx="1" fill="#83af9a"/><rect x="53" y="73" width="11" height="7" rx="1" fill="#83af9a"/><path d="M50 70v15M36 84h28M37 64h26M36 26h28"/><circle cx="36" cy="86" r="1.4" fill="#d5dfa6"/><circle cx="64" cy="86" r="1.4" fill="#d5dfa6"/><g class="s300-aim"><circle cx="50" cy="50" r="20" fill="#142e21"/><rect x="31" y="26" width="38" height="38" rx="5" fill="#314d36"/><g><rect x="35" y="18" width="6" height="43" rx="2.7" fill="url(#s300-tube-metal)"/><path d="M36 29h4m-4 17h4" opacity=".65"/><path d="M36.4 23v32" stroke="#b5e5b0" opacity=".35"/><ellipse cx="38" cy="18" rx="3" ry="1.5" fill="#42664a"/><circle class="s300-muzzle" data-tube="0" cx="38" cy="18" r="3" fill="#fff0ac" stroke="#ffd379" opacity="0"/></g><g><rect x="43" y="18" width="6" height="43" rx="2.7" fill="url(#s300-tube-metal)"/><path d="M44 29h4m-4 17h4" opacity=".65"/><path d="M44.4 23v32" stroke="#b5e5b0" opacity=".35"/><ellipse cx="46" cy="18" rx="3" ry="1.5" fill="#42664a"/><circle class="s300-muzzle" data-tube="1" cx="46" cy="18" r="3" fill="#fff0ac" stroke="#ffd379" opacity="0"/></g><g><rect x="51" y="18" width="6" height="43" rx="2.7" fill="url(#s300-tube-metal)"/><path d="M52 29h4m-4 17h4" opacity=".65"/><path d="M52.4 23v32" stroke="#b5e5b0" opacity=".35"/><ellipse cx="54" cy="18" rx="3" ry="1.5" fill="#42664a"/><circle class="s300-muzzle" data-tube="2" cx="54" cy="18" r="3" fill="#fff0ac" stroke="#ffd379" opacity="0"/></g><g><rect x="59" y="18" width="6" height="43" rx="2.7" fill="url(#s300-tube-metal)"/><path d="M60 29h4m-4 17h4" opacity=".65"/><path d="M60.4 23v32" stroke="#b5e5b0" opacity=".35"/><ellipse cx="62" cy="18" rx="3" ry="1.5" fill="#42664a"/><circle class="s300-muzzle" data-tube="3" cx="62" cy="18" r="3" fill="#fff0ac" stroke="#ffd379" opacity="0"/></g></g></g></svg><span class="radar-label">ПАССИВНЫЙ ПРИЁМ</span><span class="radar-coordinate">АЗИМУТ / УГОЛ МЕСТА</span><div class="radar-caption">◎<div>От сигнала к координатам<small>ЛКМ по самолёту — сбить</small></div></div></div></section>
+
+
+
+
+</main>
+
+<script>'use strict';
+let extrasHook=null;
+function makeLocalId() { return globalThis.crypto?.randomUUID?.() || Date.now().toString(36) + '-' + Math.random().toString(36).slice(2); }
+const $ = id => document.getElementById(id);
+
+const themeButton = document.createElement('button');
+themeButton.className = 'theme-toggle';
+themeButton.id = 'theme-toggle';
+document.querySelector('header').appendChild(themeButton);
+function setNightMode(enabled) {
+  document.documentElement.dataset.theme = enabled ? 'night' : 'day';
+  themeButton.setAttribute('aria-pressed', String(enabled));
+  themeButton.setAttribute('aria-label', 'Ночной режим');
+  themeButton.textContent = enabled ? '☀ Светлый режим' : '☾ Ночной режим';
+  try { localStorage.setItem('offline-hell-aviation-night-mode', String(enabled)); } catch {}
+}
+let savedTheme;
+try { savedTheme = localStorage.getItem('offline-hell-aviation-night-mode'); } catch {}
+setNightMode(savedTheme !== 'false');
+themeButton.addEventListener('click', () => setNightMode(document.documentElement.dataset.theme !== 'night'));
+
+// One clock controls both the radar sweep and the aircraft echoes.
+[[44,28],[71,62]].forEach(([left,top]) => {
+  const helicopter = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  helicopter.setAttribute('viewBox', '0 0 24 24');
+  helicopter.classList.add('radar-plane');
+  helicopter.dataset.aircraftType = 'helicopter';
+  helicopter.style.left = `${left}%`;
+  helicopter.style.top = `${top}%`;
+  document.querySelector('.plane-field').appendChild(helicopter);
+});
+const radarPlanes = [...document.querySelectorAll('.radar-plane')].map((element, index) => {
+  const x = parseFloat(element.style.left) - 50;
+  const y = parseFloat(element.style.top) - 50;
+  return { element, type: element.dataset.aircraftType || ['civil', 'fighter', 'bomber'][index % 3], radius: index < 2 ? 27 : Math.hypot(x, y),
+    phase: index < 2 ? (index ? 0.38 : -0.38) : Math.atan2(y, x),
+    speed: index < 2 ? (index ? -0.035 : 0.035) : (index % 2 ? -1 : 1) * (index >= 10 ? 0.014 : 0.025 + index * 0.002),
+    centerX: index < 2 ? 0 : (index % 3 - 1) * 3,
+    centerY: index < 2 ? 0 : (index % 2 ? 2 : -2),
+    echo: 0, lastHit: -100, crashAt: null, cooldownUntil: 0 };
+});
+const radarSweep = document.querySelector('.sweep');
+const planeField = document.querySelector('.plane-field');
+const svgNamespace = 'http://www.w3.org/2000/svg';
+const trailLayer = document.createElementNS(svgNamespace, 'svg');
+trailLayer.setAttribute('viewBox', '0 0 100 100');
+trailLayer.classList.add('radar-trails');
+planeField.prepend(trailLayer);
+radarPlanes.forEach(plane => {
+  plane.history = [];
+  plane.lastSample = -1;
+  plane.trailPaths = [0.12, 0.25, 0.5].map(opacity => {
+    const path = document.createElementNS(svgNamespace, 'polyline');
+    path.classList.add('radar-trail');
+    path.setAttribute('opacity', String(opacity));
+    trailLayer.appendChild(path);
+    return path;
+  });
+});
+const crashEffects = [];
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+let radarFrame;
+let previousRadarTime;
+let simulationTime = 0;
+let radarTime = 0;
+let radarRevolutionSeconds = 60;
+let sweepAngleState = 0;
+const radarEchoSeconds = 10;
+function phosphorEcho(age) {
+  if (age < 0 || age >= radarEchoSeconds) return 0;
+  return 1 - smoothstep(age / radarEchoSeconds);
+}
+function beamCrossed(previous, current) {
+  return Number.isFinite(previous) && previous * current <= 0 && Math.abs(current - previous) < Math.PI;
+}
+let radarPaused = false;
+let fieldSize = planeField.getBoundingClientRect().width;
+new ResizeObserver(entries => { fieldSize = entries[0].contentRect.width; }).observe(planeField);
+const clamp = value => Math.max(0, Math.min(1, value));
+const smoothstep = value => { const t = clamp(value); return t * t * (3 - 2 * t); };
+let cinema = null;
+function cinematicEnvelope(elapsed) {
+  if (elapsed <= 0 || elapsed >= 2.4) return 0;
+  if (elapsed < 0.32) return smoothstep(elapsed / 0.32);
+  if (elapsed <= 1.05) return 1;
+  return 1 - smoothstep((elapsed - 1.05) / 1.35);
+}
+function finishCinematic() {
+  cinema?.wave.remove();
+  cinema = null;
+  cinemaCamera.style.transform = '';
+  cinemaCamera.style.removeProperty('will-change');
+  radar.classList.remove('cinematic-active');
+  radar.style.setProperty('--cinema-envelope', '0');
+  radar.dataset.cinemaState = 'idle';
+  gridDisplacement.setAttribute('scale', '0');
+  cinemaCamera.getAnimations({subtree:true}).forEach(animation => { animation.playbackRate = 1; });
+}
+function startCinematicImpact(x, y) {
+  if (reducedMotion.matches || radarPaused || cinema) return;
+  const field = planeField.getBoundingClientRect();
+  const frame = radar.getBoundingClientRect();
+  const focusX = field.left - frame.left + (50 + x) * fieldSize / 100;
+  const focusY = field.top - frame.top + (50 + y) * fieldSize / 100;
+  const limit = (value, maximum) => Math.max(-maximum, Math.min(maximum, value));
+  const wave = document.createElement('div');
+  wave.className = 'cinema-shockwave';
+  wave.setAttribute('aria-hidden', 'true');
+  wave.style.left = `${50 + x}%`;
+  wave.style.top = `${50 + y}%`;
+  wave.innerHTML = '<span class="shockwave-ring"></span><span class="shockwave-ring shockwave-echo"></span><span class="shockwave-halo"></span>';
+  planeField.appendChild(wave);
+  cinema = {elapsed:0,simulationStart:simulationTime,wave,rings:[...wave.children],panX:limit((frame.width/2-focusX)*0.7,frame.width*0.14),panY:limit((frame.height/2-focusY)*0.7,frame.height*0.14)};
+  cinemaCamera.style.willChange = 'transform';
+  radar.classList.add('cinematic-active');
+  radar.dataset.cinemaState = 'slow-motion';
+}
+function updateCinematic(deltaTime) {
+  if (!cinema) return 1;
+  cinema.elapsed += deltaTime;
+  if (cinema.elapsed >= 2.4) { finishCinematic(); return 1; }
+  const envelope = cinematicEnvelope(cinema.elapsed);
+  const age = simulationTime - cinema.simulationStart;
+  const scale = 1 + envelope * 0.32;
+  cinemaCamera.style.transform = `translate(${cinema.panX * envelope}px,${cinema.panY * envelope}px) scale(${scale})`;
+  radar.style.setProperty('--cinema-envelope', String(envelope));
+  radar.dataset.cinemaState = cinema.elapsed < 1.05 ? 'slow-motion' : 'recovering';
+  cinema.rings.forEach((ring, index) => {
+    const progress = clamp((age - index * 0.07) / (index === 2 ? 0.65 : 1.05));
+    const spread = 1 - (1 - progress) ** 3;
+    ring.style.transform = `translate(-50%,-50%) scale(${0.15 + spread * (index === 2 ? 5 : 12)})`;
+    ring.style.opacity = String(Math.sin(Math.PI * progress) * (index === 0 ? 0.8 : 0.35));
+  });
+  gridDisplacement.setAttribute('scale', String(Math.sin(Math.PI * clamp(age / 1.05)) * 12));
+  return 1 - envelope * 0.78;
+}
+function beginCrash(plane, time) {
+    plane.evasion = null;
+  plane.crashAt = time;
+  plane.crashX = plane.x;
+  plane.crashY = plane.y;
+  plane.crashVX = plane.vx || 0;
+  plane.crashVY = plane.vy || 0;
+  plane.crashHeading = plane.heading || 0;
+}
+
+function spawnCrashEffect(x, y, time) {
+  const effect = document.createElement('div');
+  effect.className = 'crash-effect';
+  effect.style.left = `${50 + x}%`;
+  effect.style.top = `${50 + y}%`;
+  const smoke = Array.from({ length: 5 }, (_, k) =>
+    `<span class="crash-smoke" style="--smoke-x:${(k - 2) * 7}px;--smoke-size:${17 + (k % 3) * 5}px;animation-delay:${0.18 + k * 0.045}s"></span>`).join('');
+  const flames = Array.from({ length: 3 }, (_, k) =>
+    `<span class="crash-flame" style="--flame-x:${(k - 1) * 6}px;--flame-size:${k === 1 ? 27 : 20}px;animation-delay:${0.05 + k * 0.035}s"></span>`).join('');
+  const particles = Array.from({ length: 12 }, (_, k) => {
+    return `<span class="${k < 4 ? 'crash-debris' : 'crash-ember'}" data-particle="${k}"></span>`;
+  }).join('');
+  effect.innerHTML = smoke + '<span class="crash-ring"></span>' + flames + particles + '<span class="crash-flash"></span>';
+  planeField.appendChild(effect);
+  effect.querySelectorAll('[data-particle]').forEach((particle, k) => {
+    const angle = k * 2.39996;
+    const speed = 18 + (k % 4) * 9;
+    const heavy = k < 4;
+    const frames = Array.from({ length: 13 }, (_, frame) => {
+      const progress = frame / 12;
+      const elapsed = progress * (heavy ? 1.65 : 1.05);
+      const travel = (1 - Math.exp(-elapsed * 1.5)) / 1.5;
+      const px = Math.cos(angle) * speed * travel;
+      const py = Math.sin(angle) * speed * travel + (heavy ? 17 : 8) * elapsed * elapsed;
+      return { offset: progress, transform: `translate(${px}px,${py}px) rotate(${(heavy ? 240 : 80) * elapsed}deg) scale(${1 - progress * 0.6})`, opacity: 1 - smoothstep((progress - 0.35) / 0.65) };
+    });
+    particle.animate(frames, { duration: heavy ? 1650 : 1050, delay: 25 + k * 12, fill: 'both', easing: 'linear' });
+  });
+  crashEffects.push({ element: effect, createdAt: time });
+}
+document.querySelector('.radar').removeAttribute('aria-hidden');
+const radar = document.querySelector('.radar');
+// Zoom only the scene; captions, controls and the warning remain steady.
+const cinemaCamera = document.createElement('div');
+cinemaCamera.className = 'cinema-camera';
+radar.prepend(cinemaCamera);
+['.radar-grid', '.sweep', '.plane-field', '.radar-center'].forEach(selector => cinemaCamera.appendChild(radar.querySelector(selector)));
+const distortionDefs = document.createElementNS(svgNamespace, 'svg');
+distortionDefs.classList.add('cinema-defs');
+distortionDefs.setAttribute('aria-hidden', 'true');
+distortionDefs.innerHTML = '<defs><filter id="impact-grid-ripple" x="-15%" y="-15%" width="130%" height="130%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="1" seed="8" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G"/></filter></defs>';
+radar.appendChild(distortionDefs);
+const gridDisplacement = distortionDefs.querySelector('feDisplacementMap');
+const cinemaHUD = document.createElement('div');
+cinemaHUD.className = 'cinema-hud';
+cinemaHUD.setAttribute('aria-hidden', 'true');
+cinemaHUD.innerHTML = '<span class="cinema-bar cinema-bar-top"></span><span class="cinema-bar cinema-bar-bottom"></span><span class="cinema-hit-label">ТОЧНОЕ ПОПАДАНИЕ</span>';
+radar.appendChild(cinemaHUD);
+radar.dataset.cinemaState = 'idle';
+radar.dataset.scanSeconds = String(radarRevolutionSeconds);
+radar.dataset.echoSeconds = String(radarEchoSeconds);
+const radarGrid = radar.querySelector('.radar-grid');
+radarGrid.appendChild(radarSweep);
+const radarScale = document.createElementNS(svgNamespace, 'svg');
+radarScale.classList.add('radar-scale');
+radarScale.setAttribute('viewBox', '0 0 400 400');
+radarScale.setAttribute('aria-hidden', 'true');
+radarScale.innerHTML = '<defs><pattern id="radar-grid-dots" width="14" height="14" patternUnits="userSpaceOnUse"><circle cx="7" cy="7" r="0.65" fill="#70c991" opacity="0.2" stroke="none"/></pattern></defs><circle cx="200" cy="200" r="187" fill="url(#radar-grid-dots)" stroke="none"/>' + [47,94,141,188].map(radius => `<circle cx="200" cy="200" r="${radius}"/>`).join('') + Array.from({length:72},(_,index) => {
+  const angle = (index*5-90)*Math.PI/180;
+  const inner = index%6 === 0 ? 176 : 183;
+  const tick = `<line x1="${200+Math.cos(angle)*inner}" y1="${200+Math.sin(angle)*inner}" x2="${200+Math.cos(angle)*188}" y2="${200+Math.sin(angle)*188}"/>`;
+  return tick + (index%9 === 0 ? `<text x="${200+Math.cos(angle)*163}" y="${203+Math.sin(angle)*163}">${String(index*5).padStart(3,'0')}°</text>` : '');
+}).join('');
+radarGrid.appendChild(radarScale);
+radar.querySelector('.radar-label').textContent = 'ОБЗОР 360°';
+radar.querySelector('.radar-coordinate').textContent = `${radarRevolutionSeconds} С / ОБОРОТ`;
+radar.querySelector('.radar-caption div').innerHTML = 'Круговой обзор РЛС<small>ЛКМ по видимой цели · послесвечение 10 с</small>';
+const radarPanel = document.createElement('div');
+radarPanel.className = 'radar-panel';
+radar.before(radarPanel);
+radarPanel.appendChild(radar);
+const scoreBar = document.createElement('div');
+scoreBar.className = 'radar-score';
+scoreBar.innerHTML = '<div class="score-label">Сбито · автономная копия <strong id="shot-score" role="status" aria-live="polite" aria-atomic="true">—</strong></div><button id="reset-score" type="button">↺ Сбросить мой счёт</button>';
+radarPanel.appendChild(scoreBar);
+const personalScoreBar = document.createElement('div');
+personalScoreBar.className = 'personal-score';
+personalScoreBar.innerHTML = '<span>Ваш счёт: <strong id="personal-score">0</strong></span><small id="global-score-status" role="status">Загружаем общий счёт…</small>';
+radarPanel.appendChild(personalScoreBar);
+const categoryScoreBar = document.createElement('div');
+categoryScoreBar.className = 'category-scores';
+categoryScoreBar.innerHTML = '<div class="score-fighter">Истребители <strong id="fighter-score">0</strong></div><div class="score-bomber">Бомбардировщики <strong id="bomber-score">0</strong></div><div class="score-helicopter">Вертолёты <strong id="helicopter-score">0</strong></div><small id="legacy-score" hidden></small>';
+radarPanel.appendChild(categoryScoreBar);
+let shotScore = 0;
+let globalScore = null;
+const categoryScores = { fighter: 0, bomber: 0, helicopter: 0 };
+try {
+  const saved = Number(localStorage.getItem('offline-radio-overview-shot-score'));
+  if (Number.isSafeInteger(saved) && saved >= 0) shotScore = saved;
+} catch {}
+try {
+  const saved = JSON.parse(localStorage.getItem('offline-hell-aviation-category-scores') || '{}');
+  Object.keys(categoryScores).forEach(type => {
+    if (Number.isSafeInteger(saved[type]) && saved[type] >= 0) categoryScores[type] = saved[type];
+  });
+  shotScore = Math.max(shotScore, Object.values(categoryScores).reduce((sum, count) => sum + count, 0));
+} catch {}
+function updateShotScore() {
+  $('shot-score').textContent = globalScore === null ? '—' : String(globalScore.total);
+  $('shot-score').setAttribute('aria-label', globalScore === null ? 'Загружается счёт всех игроков' : `Счёт автономной копии: ${globalScore.total}`);
+  $('personal-score').textContent = String(shotScore);
+  $('reset-score').disabled = shotScore === 0 || !!extrasHook?.missionActive;
+  Object.keys(categoryScores).forEach(type => {
+    $(type + '-score').textContent = globalScore === null ? '—' : String(globalScore.counts[type]);
+  });
+  const legacy = globalScore?.counts.legacy || 0;
+  $('legacy-score').hidden = legacy === 0;
+  $('legacy-score').textContent = legacy ? `Ранее без разбивки по типам: ${legacy}` : '';
+  try {
+    localStorage.setItem('offline-radio-overview-shot-score', String(shotScore));
+    localStorage.setItem('offline-hell-aviation-category-scores', JSON.stringify(categoryScores));
+  } catch {}
+}
+let scoreSyncState;
+try { scoreSyncState = JSON.parse(localStorage.getItem('offline-hell-aviation-score-sync') || 'null'); } catch {}
+if (!scoreSyncState || typeof scoreSyncState.client !== 'string' || !Array.isArray(scoreSyncState.pending)) {
+  scoreSyncState = { client: makeLocalId(), pending: [], imported: false };
+}
+function persistScoreQueue(accepted = new Set()) {
+  let savedPending = [];
+  try {
+    const saved = JSON.parse(localStorage.getItem('offline-hell-aviation-score-sync') || 'null');
+    if (saved?.client === scoreSyncState.client && Array.isArray(saved.pending)) savedPending = saved.pending;
+  } catch {}
+  const merged = new Map([...savedPending, ...scoreSyncState.pending].map(event => [event.id, event]));
+  scoreSyncState.pending = [...merged.values()].filter(event => !accepted.has(event.id));
+  try { localStorage.setItem('offline-hell-aviation-score-sync', JSON.stringify(scoreSyncState)); } catch {}
+}
+// Archive each browser's surviving history once; stable IDs prevent repeat imports.
+if (!scoreSyncState.imported) {
+  const archive = { ...categoryScores, legacy: shotScore - Object.values(categoryScores).reduce((sum, n) => sum + n, 0) };
+  Object.entries(archive).forEach(([type, amount]) => {
+    if (amount > 0) scoreSyncState.pending.push({ id: `${scoreSyncState.client}:archive:${type}`, type, amount });
+  });
+  scoreSyncState.imported = true;
+  persistScoreQueue();
+}
+// The hosted shared scoreboard is replaced by a durable, browser-local ledger.
+const originalScoreSnapshot = {"total": 2070, "counts": {"fighter": 681, "bomber": 646, "helicopter": 456, "legacy": 287}};
+try {
+  const saved = JSON.parse(localStorage.getItem('offline-aviation-total-v1') || 'null');
+  if (saved && Number.isSafeInteger(saved.total) && ['fighter','bomber','helicopter','legacy'].every(type => Number.isSafeInteger(saved.counts?.[type]) && saved.counts[type] >= 0)) globalScore = saved;
+} catch {}
+if (!globalScore) globalScore = JSON.parse(JSON.stringify(originalScoreSnapshot));
+function syncGlobalScore() {
+  for (const event of scoreSyncState.pending) {
+    if (event.type in globalScore.counts && Number.isSafeInteger(event.amount) && event.amount > 0) {
+      globalScore.counts[event.type] += event.amount;
+      globalScore.total += event.amount;
+    }
+  }
+  const accepted = new Set(scoreSyncState.pending.map(event => event.id));
+  scoreSyncState.pending = [];
+  try { localStorage.setItem('offline-aviation-total-v1', JSON.stringify(globalScore)); } catch {}
+  persistScoreQueue(accepted);
+  updateShotScore();
+  $('global-score-status').textContent = 'Автономная копия · счёт сохраняется в этом браузере';
+}
+function recordDownedAircraft(plane) {
+  extrasHook?.kill(plane);
+  if (!(plane.type in categoryScores)) return;
+  shotScore += 1;
+  categoryScores[plane.type] += 1;
+  scoreSyncState.pending.push({ id: makeLocalId(), type: plane.type, amount: 1 });
+  persistScoreQueue();
+  updateShotScore();
+  syncGlobalScore();
+  if (!reducedMotion.matches) {
+    $(plane.type + '-score').animate([
+      { transform: 'scale(1)' }, { transform: 'scale(1.18)', offset: 0.35 }, { transform: 'scale(1)' }
+    ], { duration: 260, easing: 'cubic-bezier(.2,0,0,1)' });
+  }
+}
+$('reset-score').addEventListener('click', () => {
+  shotScore = 0;
+  Object.keys(categoryScores).forEach(type => { categoryScores[type] = 0; });
+  updateShotScore();
+});
+updateShotScore();
+syncGlobalScore();
+const pauseButton = document.createElement('button');
+pauseButton.id = 'radar-pause';
+pauseButton.textContent = 'Пауза';
+pauseButton.setAttribute('aria-pressed', 'false');
+scoreBar.appendChild(pauseButton);
+pauseButton.addEventListener('click', () => {
+  radarPaused = !radarPaused;
+  pauseButton.textContent = radarPaused ? 'Продолжить' : 'Пауза';
+  pauseButton.setAttribute('aria-pressed', String(radarPaused));
+  radarPanel.classList.toggle('is-paused', radarPaused);
+  radar.getAnimations({ subtree: true }).forEach(animation => radarPaused ? animation.pause() : animation.play());
+  startRadarAnimation();
+});
+const defenseControls = document.createElement('div');
+const evasionChances = { fighter: 0.45, bomber: 0.22, helicopter: 0.35 };
+function escapeChance(type, level) {
+  return Math.min(0.7, (evasionChances[type] || 0) * ({ easy: 0.65, normal: 0.9, hard: 1.1, expert: 1.3 }[level] || 1));
+}
+function evasionMotion(elapsed, duration = 2.4) {
+  if (elapsed <= 0 || elapsed >= duration) return { offset: 0, velocity: 0 };
+  const phase = Math.PI * elapsed / duration;
+  return { offset: Math.sin(phase) ** 2, velocity: Math.PI / duration * Math.sin(2 * phase) };
+}
+function closestApproach(a, b) {
+  const dx = a.x - b.x, dy = a.y - b.y;
+  const vx = (a.vx || 0) - (b.vx || 0), vy = (a.vy || 0) - (b.vy || 0);
+  const speedSquared = vx * vx + vy * vy;
+  const ahead = speedSquared > 0.001 ? Math.max(0, Math.min(2.2, -(dx * vx + dy * vy) / speedSquared)) : 0;
+  return {dx:dx + vx * ahead,dy:dy + vy * ahead,distance:Math.hypot(dx + vx * ahead,dy + vy * ahead),currentDistance:Math.hypot(dx,dy)};
+}
+function updateTrafficAvoidance(deltaTime) {
+  const forces = radarPlanes.map(() => ({x:0,y:0}));
+  for (let i = 0; i < radarPlanes.length; i++) {
+    const a = radarPlanes[i];
+    if (a.crashAt !== null || !Number.isFinite(a.x)) continue;
+    for (let j = i + 1; j < radarPlanes.length; j++) {
+      const b = radarPlanes[j];
+      if (b.crashAt !== null || !Number.isFinite(b.x)) continue;
+      const approach = closestApproach(a, b);
+      if (approach.distance >= 9 && approach.currentDistance >= 9) continue;
+      let nx = approach.dx, ny = approach.dy;
+      if (Math.hypot(nx,ny) < .5) { nx = a.x-b.x; ny = a.y-b.y; }
+      if (Math.hypot(nx,ny) < .1) { nx = Math.cos(i*2.4+j); ny = Math.sin(i*2.4+j); }
+      const length = Math.hypot(nx,ny);
+      nx /= length; ny /= length;
+      const distance = Math.min(approach.distance, approach.currentDistance);
+      const strength = 65 * (1-distance/9) ** 2;
+      // Protected passengers have priority; military aircraft do the detour.
+      const aWeight = a.type === 'civil' && b.type !== 'civil' ? 0 : b.type === 'civil' && a.type !== 'civil' ? 1 : .5;
+      forces[i].x += nx * strength * aWeight; forces[i].y += ny * strength * aWeight;
+      forces[j].x -= nx * strength * (1-aWeight); forces[j].y -= ny * strength * (1-aWeight);
+    }
+  }
+  radarPlanes.forEach((plane,index) => {
+    plane.avoidX ||= 0; plane.avoidY ||= 0; plane.avoidVX ||= 0; plane.avoidVY ||= 0;
+    plane.avoidVX += (forces[index].x - plane.avoidX*3 - plane.avoidVX*3.8)*deltaTime;
+    plane.avoidVY += (forces[index].y - plane.avoidY*3 - plane.avoidVY*3.8)*deltaTime;
+    plane.avoidX += plane.avoidVX*deltaTime; plane.avoidY += plane.avoidVY*deltaTime;
+    const distance = Math.hypot(plane.avoidX,plane.avoidY);
+    if (distance > 8) { plane.avoidX *= 8/distance; plane.avoidY *= 8/distance; plane.avoidVX *= .8; plane.avoidVY *= .8; }
+    plane.element.classList.toggle('is-avoiding', distance > .4 && plane.crashAt === null);
+  });
+}
+function updateEvasionInfo() {
+  const info = $('evasion-info');
+  if (info) info.textContent = `Шанс ухода от ПВО: истребитель ${Math.round(escapeChance('fighter', difficulty) * 100)}% · бомбардировщик ${Math.round(escapeChance('bomber', difficulty) * 100)}% · вертолёт ${Math.round(escapeChance('helicopter', difficulty) * 100)}%. Ловушки не всегда помогают.`;
+}
+const difficultyLevels = {
+  easy: { label: 'Лёгкий', speed: 1, interval: 14, weave: 1.5, scanSeconds: 12 },
+  normal: { label: 'Средний', speed: 1.7, interval: 9, weave: 2.5, scanSeconds: 10 },
+  hard: { label: 'Сложный', speed: 2.6, interval: 5.5, weave: 3.5, scanSeconds: 8 },
+  expert: { label: 'Экспертный', speed: 3.6, interval: 3.5, weave: 4.5, scanSeconds: 6 }
+};
+let difficulty = 'easy';
+try {
+  const saved = localStorage.getItem('offline-hell-aviation-difficulty');
+  if (Object.hasOwn(difficultyLevels, saved)) difficulty = saved;
+} catch {}
+const difficultyControls = document.createElement('div');
+difficultyControls.className = 'difficulty-controls';
+difficultyControls.innerHTML = `<label for="radar-difficulty">Сложность</label><select id="radar-difficulty">${Object.entries(difficultyLevels).map(([key, level]) => `<option value="${key}">${level.label}</option>`).join('')}</select><small id="difficulty-description" role="status" aria-live="polite"></small>`;
+radarPanel.appendChild(difficultyControls);
+function setDifficulty(value) {
+  if (!Object.hasOwn(difficultyLevels, value)) return;
+  difficulty = value;
+  $('radar-difficulty').value = value;
+  const level = difficultyLevels[value];
+  radarRevolutionSeconds = level.scanSeconds;
+  radar.dataset.scanSeconds = String(radarRevolutionSeconds);
+  radar.querySelector('.radar-coordinate').textContent = `${radarRevolutionSeconds} С / ОБОРОТ`;
+  $('difficulty-description').textContent = `Оборот ${level.scanSeconds} с · военные: скорость ×${String(level.speed).replace('.', ',')}, манёвр каждые ${String(level.interval).replace('.', ',')} с. Гражданские защищены.`;
+  try { localStorage.setItem('offline-hell-aviation-difficulty', value); } catch {}
+  updateEvasionInfo();
+}
+$('radar-difficulty').addEventListener('change', event => setDifficulty(event.target.value));
+setDifficulty(difficulty);
+radarPlanes.forEach(plane => {
+  plane.flightAngle = plane.phase + plane.speed * 0.16 * Math.sin(plane.phase);
+  plane.maneuverPhase = 0;
+  plane.flightMultiplier = difficultyLevels[difficulty].speed;
+  plane.maneuverRate = Math.PI / difficultyLevels[difficulty].interval;
+  plane.weaveAmplitude = difficultyLevels[difficulty].weave;
+});
+defenseControls.className = 'defense-controls';
+defenseControls.innerHTML = '<div class="control-modes" role="group" aria-label="Режим управления"><button id="manual-mode" type="button" aria-label="Ручной режим" aria-pressed="true"><span>Ручной режим</span><small>убей сам</small></button><button id="defense-toggle" type="button" aria-label="Режим ПВО" aria-pressed="false"><span>Режим ПВО</span><small>залипни</small></button><button id="pacman-mode" type="button" aria-label="Режим Пакман" aria-pressed="false"><span>Пакман</span><small>ам-ням</small></button></div><span id="defense-status" role="status" aria-live="polite">Ручное наведение: ЛКМ по видимой военной цели</span>';
+radarPanel.appendChild(defenseControls);
+const evasionInfo = document.createElement('small');
+evasionInfo.className = 'evasion-info';
+evasionInfo.id = 'evasion-info';
+radarPanel.appendChild(evasionInfo);
+const trafficInfo = document.createElement('small');
+trafficInfo.className = 'evasion-info';
+trafficInfo.textContent = 'Авиация облетает соседей и уступает гражданским.';
+radarPanel.appendChild(trafficInfo);
+radar.dataset.trafficAvoidance = 'enabled';
+updateEvasionInfo();
+const aircraftLegend = document.createElement('div'); aircraftLegend.className = 'aircraft-legend'; aircraftLegend.innerHTML = '<span><i class="civil-key"></i>Дружественные (−1 очко)</span><span><i></i>Истребители</span><span><i class="bomber-key"></i>Бомбардировщики</span><span><i class="helicopter-key"></i>Вертолёты</span>'; radarPanel.appendChild(aircraftLegend);
+const defenseButton = $('defense-toggle');
+let defenseEnabled = false;
+radar.dataset.controlMode = 'manual';
+const defenseActions = [];
+const launcherModel = radar.querySelector('.s300-launcher');
+const launcherRack = radar.querySelector('.s300-aim');
+let pacmanActive = false;
+let launcherEaten = false;
+let launcherArrival = null;
+let pacman = null;
+const pacmanModel = document.createElementNS(svgNamespace,'svg');
+pacmanModel.classList.add('radar-pacman');
+pacmanModel.setAttribute('viewBox','0 0 40 40');
+pacmanModel.setAttribute('aria-label','Пакман — охотится только на военные цели');
+pacmanModel.setAttribute('role','img');
+pacmanModel.innerHTML='<path class="pacman-body" fill="#ffe15a"/><circle cx="22" cy="10" r="2" fill="#29220b"/>';
+pacmanModel.setAttribute('hidden','');
+planeField.appendChild(pacmanModel);
+const pacmanBody=pacmanModel.querySelector('path');
+const pacmanDroppings=[];
+function spawnPacmanDropping(time) {
+  const element=document.createElement('span');
+  element.className='pacman-dropping';
+  element.textContent='💩';
+  element.setAttribute('aria-hidden','true');
+  element.style.left=`${50+pacman.x-Math.cos(pacman.heading)*4}%`;
+  element.style.top=`${50+pacman.y-Math.sin(pacman.heading)*4}%`;
+  planeField.appendChild(element);
+  pacmanDroppings.push({element,createdAt:time});
+  if(pacmanDroppings.length>12) pacmanDroppings.shift().element.remove();
+}
+function updatePacmanDroppings(time) {
+  for(let i=pacmanDroppings.length-1;i>=0;i--) {
+    const item=pacmanDroppings[i],age=time-item.createdAt;
+    if(age>=4.2) {item.element.remove();pacmanDroppings.splice(i,1);continue;}
+    const enter=clamp(age/.28),exit=smoothstep((age-3.3)/.9);
+    // Quick playful landing, quiet hold, then shrink and drift away.
+    const pop=1+2.70158*(enter-1)**3+1.70158*(enter-1)**2;
+    item.element.style.opacity=String((1-exit)*Math.min(1,enter*3));
+    item.element.style.transform=`translate(-50%,calc(-50% + ${(1-enter)*-8-exit*7}px)) scale(${(.35+.65*pop)*(1-exit*.55)})`;
+  }
+}
+function renderPacman(time) {
+  const mouth=.12+(1-Math.cos(time*17))*.25;
+  const x=20+18*Math.cos(mouth),y=18*Math.sin(mouth);
+  pacmanBody.setAttribute('d',`M20 20L${x} ${20-y}A18 18 0 1 0 ${x} ${20+y}Z`);
+  const pop=1+.12*Math.max(0,1-(simulationTime-(pacman.biteAt??-10))/.28);
+  pacmanModel.style.transform=`translate(-50%,-50%) translate(${pacman.x*fieldSize/100}px,${pacman.y*fieldSize/100}px) rotate(${pacman.heading}rad) scale(${pop})`;
+  pacmanModel.dataset.phase=pacman.phase;
+}
+function startPacman() {
+  if(pacmanActive || reducedMotion.matches) return;
+  clearDefenseAction(); finishCinematic();
+  launcherArrival=null;
+  launcherModel.style.transform='';
+  pacmanActive=true; defenseEnabled=false;
+  radar.classList.add('automatic-control');
+  radar.dataset.controlMode='pacman';
+  $('manual-mode').setAttribute('aria-pressed','false');
+  defenseButton.setAttribute('aria-pressed','false');
+  $('pacman-mode').setAttribute('aria-pressed','true');
+  pacman={x:-55,y:0,heading:0,speed:0,phase:launcherEaten?'hunt':'launcher',target:null,biteAt:-10};
+  pacmanModel.removeAttribute('hidden');
+  $('defense-status').textContent=launcherEaten?'Пакман: ищу военные отметки. Гражданские — друзья!':'Пакман: сначала закуска — С-300!';
+  radar.querySelector('.radar-caption small').textContent='Пакман · гражданских не трогаем';
+  renderPacman(simulationTime);
+}
+function stopPacman() {
+  pacmanActive=false; pacman=null; pacmanModel.setAttribute('hidden','');
+  $('pacman-mode').setAttribute('aria-pressed','false');
+  if(launcherEaten) {
+    launcherEaten=false;
+    launcherModel.style.opacity='1';
+    launcherArrival={elapsed:0};
+    radar.dataset.launcherState='arriving';
+    renderLauncherArrival(0);
+  }
+}
+function renderLauncherArrival(progress) {
+  const frame=radar.getBoundingClientRect();
+  // Heavy vehicle: staged cruise, then a gentle stop with no elastic bounce.
+  const travel=smoothstep(progress);
+  launcherModel.style.transform=`translate(-50%,-50%) translateX(${-(frame.width/2+35)*(1-travel)}px) rotate(${(1-smoothstep((progress-.65)/.35))*Math.PI/2}rad)`;
+}
+function updateArcade(delta,time) {
+  updatePacmanDroppings(time);
+  if(launcherArrival) {
+    launcherArrival.elapsed+=delta;
+    const p=clamp(launcherArrival.elapsed/3.2);
+    renderLauncherArrival(p);
+    if(p>=1) {launcherArrival=null;launcherModel.style.transform='';radar.dataset.launcherState='ready';$('defense-status').textContent=defenseEnabled?'ПВО на позиции. Поиск военных целей…':'С-300 на позиции. Выберите военную цель.';}
+  }
+  if(!pacmanActive || !pacman) return;
+  if(pacman.phase==='launcher' && launcherEaten) pacman.phase='hunt';
+  if(pacman.phase==='hunt') {
+    const valid=p=>p && p.type!=='civil' && p.echo>0 && p.crashAt===null && !p.pacmanEaten;
+    if(!valid(pacman.target)) {
+      pacman.target=radarPlanes.filter(valid).sort((a,b)=>Math.hypot(a.x-pacman.x,a.y-pacman.y)-Math.hypot(b.x-pacman.x,b.y-pacman.y))[0]||null;
+      $('defense-status').textContent=pacman.target?'Пакман: военная цель найдена — ам-ням!':'Пакман: жду новых отметок. Гражданские — друзья!';
+    }
+  }
+  const target=pacman.phase==='launcher'?{x:0,y:0}:pacman.target;
+  const desiredSpeed=target?23:0;
+  pacman.speed+=(desiredSpeed-pacman.speed)*(1-Math.exp(-delta*5));
+  if(target) {
+    const dx=target.x-pacman.x,dy=target.y-pacman.y,distance=Math.hypot(dx,dy);
+    const desiredHeading=Math.atan2(dy,dx);
+    const turn=Math.atan2(Math.sin(desiredHeading-pacman.heading),Math.cos(desiredHeading-pacman.heading));
+    pacman.heading+=turn*(1-Math.exp(-delta*10));
+    const step=Math.min(distance,pacman.speed*delta);
+    pacman.x+=Math.cos(pacman.heading)*step; pacman.y+=Math.sin(pacman.heading)*step;
+    if(distance<3) {
+      pacman.biteAt=time;
+      if(pacman.phase==='launcher') {
+        launcherEaten=true;radar.dataset.launcherState='eaten';launcherModel.style.opacity='0';
+        pacman.phase='hunt';
+      } else if(target.type!=='civil' && target.crashAt===null && target.echo>0) {
+        if(extrasHook?.damageBoss(target)){renderPacman(time);return;}
+        beginCrash(target,time); target.pacmanEaten=true;
+        target.element.style.setProperty('--crash-opacity','0');
+        target.trailPaths.forEach(path=>path.setAttribute('points',''));
+        recordDownedAircraft(target); spawnPacmanDropping(time); pacman.target=null;
+      }
+    }
+  }
+  renderPacman(time);
+}
+$('pacman-mode').addEventListener('click',startPacman);
+let launcherHeading = 0;
+let nextTubeIndex = 0;
+let nextPhysicalLaunch = 0;
+function muzzleOffset(slot, heading, size) {
+  const dx = [38,46,54,62][slot % 4] - 50;
+  const dy = -32;
+  return {x:(dx*Math.cos(heading)-dy*Math.sin(heading))*size/100,y:(dx*Math.sin(heading)+dy*Math.cos(heading))*size/100};
+}
+function turnLauncher(current, desired, delta) {
+  const difference = Math.atan2(Math.sin(desired-current),Math.cos(desired-current));
+  return current + Math.sign(difference)*Math.min(Math.abs(difference)*(1-Math.exp(-delta*10)),delta*5);
+}
+function missilePath(origin,target,heading,progress) {
+  const t=progress, s=1-t;
+  const c1={x:origin.x+Math.sin(heading)*6,y:origin.y-Math.cos(heading)*6};
+  const c2={x:target.x-(target.x-origin.x)*.12,y:target.y-(target.y-origin.y)*.12};
+  return {x:s*s*s*origin.x+3*s*s*t*c1.x+3*s*t*t*c2.x+t*t*t*target.x,y:s*s*s*origin.y+3*s*s*t*c1.y+3*s*t*t*c2.y+t*t*t*target.y};
+}
+function updateLauncher(delta) {
+  const next = defenseActions.find(action => !action.origin) || defenseActions[defenseActions.length-1];
+  if (next) launcherHeading = turnLauncher(launcherHeading,Math.atan2(next.target.y,next.target.x)+Math.PI/2,delta);
+  launcherRack.setAttribute('transform', `rotate(${launcherHeading*180/Math.PI} 50 50)`);
+  launcherModel.dataset.heading = String(launcherHeading);
+}
+let nextDefenseTime = 0;
+function spawnFlares(plane, time) {
+  if (plane.type === 'civil' || reducedMotion.matches) return;
+  const effect = document.createElement('div');
+  effect.className = 'flare-effect';
+  effect.style.left = `${50 + plane.x}%`;
+  effect.style.top = `${50 + plane.y}%`;
+  effect.innerHTML = '<span class="evasion-tag">ЛОВУШКИ</span>' + Array.from({length: 6}, () => '<span class="heat-flare"></span>').join('');
+  planeField.appendChild(effect);
+  const backward = Math.atan2(-plane.vy, -plane.vx);
+  effect.querySelectorAll('.heat-flare').forEach((flare, index) => {
+    const angle = backward + (index - 2.5) * 0.3;
+    const distance = fieldSize * (0.1 + (index % 3) * 0.035);
+    const dx = Math.cos(angle) * distance;
+    const dy = Math.sin(angle) * distance;
+    flare.animate([
+      {transform: 'translate(0,0) scale(.4)', opacity: 0},
+      {transform: `translate(${dx * 0.2}px,${dy * 0.2}px) scale(1.2)`, opacity: 1, offset: .15},
+      {transform: `translate(${dx * 0.7}px,${dy * 0.7 + 5}px) scale(.9)`, opacity: .8, offset: .55},
+      {transform: `translate(${dx}px,${dy + 14}px) scale(.2)`, opacity: 0}
+    ], {duration: 1500, delay: index * 45, fill: 'both', easing: 'cubic-bezier(.2,0,0,1)'});
+  });
+  effect.querySelector('.evasion-tag').animate([
+    {opacity:0,transform:'translate(-50%,-12px) scale(.85)'},
+    {opacity:1,transform:'translate(-50%,-22px) scale(1)',offset:.18},
+    {opacity:0,transform:'translate(-50%,-30px) scale(.95)'}
+  ], {duration:1800,fill:'both',easing:'cubic-bezier(.2,0,0,1)'});
+  crashEffects.push({element:effect,createdAt:time});
+}
+function beginEvasion(plane, time) {
+  if (plane.type === 'civil' || plane.crashAt !== null || plane.evasion) return;
+  const speed = Math.hypot(plane.vx, plane.vy) || 1;
+  let nx = -plane.vy / speed, ny = plane.vx / speed;
+  if (plane.x * nx + plane.y * ny > 0) { nx = -nx; ny = -ny; }
+  plane.evasion = {startedAt:time,dx:nx * (plane.type === 'helicopter' ? 6 : 8),dy:ny * (plane.type === 'helicopter' ? 6 : 8)};
+  plane.evasionCooldownUntil = time + 6;
+  // Avoid an unrelated automatic collision deciding the missile's outcome.
+  plane.cooldownUntil = Math.max(plane.cooldownUntil, time + 2.4);
+  spawnFlares(plane, time);
+}
+function clearDefenseAction(action) {
+  if (action && !defenseActions.includes(action)) return;
+  const removed = action ? defenseActions.splice(defenseActions.indexOf(action), 1) : defenseActions.splice(0);
+  removed.forEach(item => { item.lock.remove(); item.missile.remove(); item.trail.remove(); });
+  radar.dataset.activeMissiles = String(defenseActions.length);
+}
+function setDefenseEnabled(enabled) {
+  if(pacmanActive) stopPacman();
+  if (enabled !== defenseEnabled) clearDefenseAction();
+  defenseEnabled = enabled;
+  defenseButton.setAttribute('aria-pressed', String(enabled));
+  $('manual-mode').setAttribute('aria-pressed', String(!enabled));
+  radar.dataset.controlMode = enabled ? 'defense' : 'manual';
+  radar.classList.toggle('automatic-control', enabled);
+  $('defense-status').textContent = enabled ? 'ПВО: автоматическое наведение и пуск' : 'Ручное наведение: ЛКМ по видимой военной цели';
+  radar.querySelector('.radar-caption small').textContent = enabled ? 'Автоматическая ПВО · послесвечение 10 с' : 'ЛКМ по видимой цели · послесвечение 10 с';
+  radarPlanes.forEach(plane => {
+    if (plane.type === 'civil') return;
+    plane.element.setAttribute('role', enabled ? 'img' : 'button');
+    plane.element.setAttribute('tabindex', !enabled && plane.echo > 0 ? '0' : '-1');
+    plane.element.setAttribute('aria-disabled', String(enabled || plane.crashAt !== null));
+  });
+  if(launcherArrival) $('defense-status').textContent='С-300 выезжает на позицию…';
+  nextDefenseTime = simulationTime + 0.35;
+}
+defenseButton.addEventListener('click', () => setDefenseEnabled(true));
+$('manual-mode').addEventListener('click', () => setDefenseEnabled(false));
+function updateDefense(time) {
+  if (pacmanActive || launcherArrival || (!defenseEnabled && !defenseActions.length)) return;
+  for (const action of [...defenseActions]) {
+    if (action.target.crashAt !== null || action.target.echo <= 0) {
+      clearDefenseAction(action);
+      if (action.target.crashAt === null) extrasHook?.breakCombo();
+      if (action.target.crashAt === null) $('defense-status').textContent = action.manual ? 'Контакт потерян. Выберите следующую цель вручную.' : 'Контакт потерян. Поиск новой цели…';
+    } else updateMissileFlight(time, action);
+  }
+  if (defenseEnabled && defenseActions.length < 3 + (extrasHook?.capacity || 0) && time >= nextDefenseTime) {
+    const tracked = new Set(defenseActions.map(action => action.target));
+    const candidates = radarPlanes.filter(plane => plane.type !== 'civil' && plane.echo > 0 && plane.crashAt === null && time >= (plane.evasionCooldownUntil || 0) && Number.isFinite(plane.x) &&
+      !tracked.has(plane) &&
+      (plane.respawnAt === undefined || time - plane.respawnAt > 0.7));
+    if (!candidates.length) return;
+    const civilians = radarPlanes.filter(plane => plane.type === 'civil');
+    const distanceToCivilian = plane => Math.min(...civilians.map(civil => Math.hypot(plane.x - civil.x, plane.y - civil.y)));
+    candidates.sort((a, b) => distanceToCivilian(a) - distanceToCivilian(b));
+    const nearestDistance = distanceToCivilian(candidates[0]);
+    const priorityTargets = candidates.filter(plane => distanceToCivilian(plane) <= nearestDistance + 0.5);
+    const target = priorityTargets[Math.floor(Math.random() * priorityTargets.length)];
+    launchMissile(target, time, false);
+    nextDefenseTime = time + 0.18;
+  }
+}
+function launchMissile(target, time, manual) {
+    if (pacmanActive || launcherArrival || launcherEaten  || target.crashAt !== null || target.echo <= 0) return;
+    if (defenseActions.length >= (manual ? 5 : 3) + (extrasHook?.capacity || 0)) {
+      if (manual) $('defense-status').textContent = 'Уже 5 ракет в полёте. Дождитесь завершения пуска.';
+      return;
+    }
+    if (defenseActions.some(action => action.target === target)) return;
+    const lock = document.createElement('div');
+    lock.className = 'defense-lock';
+    lock.dataset.targetType = target.type;
+    lock.dataset.targetLabel = target.element.getAttribute('aria-label');
+    lock.setAttribute('aria-hidden', 'true');
+    const missile = document.createElementNS(svgNamespace, 'svg');
+    missile.classList.add('defense-missile');
+    if (manual) missile.classList.add('manual-missile');
+    missile.setAttribute('viewBox', '0 0 20 30');
+    missile.setAttribute('aria-hidden', 'true');
+    missile.innerHTML = '<path fill="#ffd176" d="M10 2 14 9 14 21 18 25 13 24 10 27 7 24 2 25 6 21 6 9Z"/><path fill="#ff6639" d="M8 25 10 30 12 25Z"/>';
+    missile.setAttribute('hidden', '');
+    const trail = document.createElementNS(svgNamespace, 'polyline');
+    trail.classList.add('defense-trail');
+    trailLayer.appendChild(trail);
+    planeField.append(lock, missile);
+    defenseActions.push({ target, lock, missile, trail, startedAt: time, points: [], lastX: 0, lastY: 0, manual, acquisitionDuration:manual ? 0.18 : 0.85, willEscape: target.type !== 'civil' && Math.random() < escapeChance(target.type, difficulty) });
+    radar.dataset.activeMissiles = String(defenseActions.length);
+    lock.dataset.escapeChance = String(escapeChance(target.type, difficulty));
+    radar.dataset.missileOutcome = 'tracking';
+    $('defense-status').textContent = manual ? 'Ручной пуск: ракета направлена на выбранную цель' : `ПВО: сопровождение ${defenseActions.length} из ${3 + (extrasHook?.capacity || 0)} целей`;
+}
+function updateMissileFlight(time, action) {
+  const elapsed = time - action.startedAt;
+  const acquisition = smoothstep(elapsed / action.acquisitionDuration);
+  action.lock.style.transform = `translate(-50%,-50%) translate(${action.target.x * fieldSize / 100}px,${action.target.y * fieldSize / 100}px) rotate(${(1 - acquisition) * 75}deg) scale(${1.55 - acquisition * 0.55})`;
+  action.lock.style.opacity = String(0.3 + acquisition * 0.7);
+  if (elapsed < action.acquisitionDuration) return;
+  if (!action.origin) {
+    const next = defenseActions.find(item => !item.origin);
+    const desired = Math.atan2(action.target.y,action.target.x)+Math.PI/2;
+    const error = Math.abs(Math.atan2(Math.sin(desired-launcherHeading),Math.cos(desired-launcherHeading)));
+    if (next !== action || time < nextPhysicalLaunch || error > 0.12) return;
+    const size = launcherModel.getBoundingClientRect().width / planeField.getBoundingClientRect().width * 100;
+    const tube = nextTubeIndex++ % 4;
+    action.origin = muzzleOffset(tube,launcherHeading,size);
+    action.launchHeading = launcherHeading;
+    action.launchedAt = time;
+    action.lastX = action.origin.x;
+    action.lastY = action.origin.y;
+    action.missile.dataset.tubeIndex = String(tube);
+    action.missile.dataset.launchX = String(action.origin.x);
+    action.missile.dataset.launchY = String(action.origin.y);
+    action.points.push(`${50+action.origin.x},${50+action.origin.y}`);
+    nextPhysicalLaunch = time + 0.14;
+    const muzzleFlash = launcherRack.querySelector(`[data-tube="${tube}"]`).animate([
+      {opacity:0,transform:'scale(.5)'},{opacity:1,transform:'scale(1.7)',offset:.22},{opacity:0,transform:'scale(2.4)'}
+    ],{duration:240,easing:'cubic-bezier(.2,0,0,1)',fill:'both'});
+    muzzleFlash.onfinish = () => muzzleFlash.cancel();
+    action.missile.removeAttribute('hidden'); extrasHook?.effect('launch');
+    $('defense-status').textContent = action.manual ? 'Ручная ракета в полёте' : 'Мини-ракета в полёте';
+  }
+  const progress = clamp((time - action.launchedAt) / (1.8 / (extrasHook?.speedFactor || 1)));
+  if (progress >= 0.38 && !action.evasionAttempted && action.target.type !== 'civil') {
+    action.evasionAttempted = true;
+    beginEvasion(action.target, time);
+    if (action.willEscape) {
+      action.diversion = {at:progress,x:action.lastX,y:action.lastY,decoyX:action.target.x - action.target.evasion.dx * 0.6,decoyY:action.target.y - action.target.evasion.dy * 0.6};
+      action.lock.classList.add('lock-lost');
+    }
+    $('defense-status').textContent = 'Цель маневрирует и выпускает ловушки!';
+  }
+  const travel = smoothstep(progress);
+  let {x,y} = missilePath(action.origin,action.target,action.launchHeading,travel);
+  if (action.diversion) {
+    const d = action.diversion;
+    const turn = smoothstep((progress - d.at) / (1 - d.at));
+    x = d.x + (d.decoyX - d.x) * turn;
+    y = d.y + (d.decoyY - d.y) * turn - Math.sin(Math.PI * turn) * 3;
+  }
+  const angle = Math.hypot(x-action.lastX,y-action.lastY) < .00001 ? action.launchHeading : Math.atan2(y - action.lastY, x - action.lastX) + Math.PI / 2;
+  action.missile.style.transform = `translate(-50%,-50%) translate(${x * fieldSize / 100}px,${y * fieldSize / 100}px) rotate(${angle}rad)`;
+  action.lastX = x;
+  action.lastY = y;
+  action.points.push(`${(50 + x).toFixed(2)},${(50 + y).toFixed(2)}`);
+  action.points = action.points.slice(-18);
+  action.trail.setAttribute('points', action.points.join(' '));
+  if (progress >= 1) {
+    if (action.willEscape) {
+      const flash = document.createElement('div');
+      flash.className = 'missile-miss';
+      flash.style.left = `${50 + x}%`;
+      flash.style.top = `${50 + y}%`;
+      flash.innerHTML = '<span class="miss-burst"></span><span class="miss-label">ПРОМАХ</span>';
+      planeField.appendChild(flash);
+      crashEffects.push({element:flash,createdAt:time});
+      radar.dataset.missileOutcome = 'evaded'; extrasHook?.breakCombo();
+      $('defense-status').textContent = 'Уклонение! Ракета ушла на ловушку. Цель уцелела.';
+    } else {
+      if(extrasHook?.damageBoss(action.target)){clearDefenseAction(action);return;}
+      beginCrash(action.target, time);
+      spawnCrashEffect(action.target.x, action.target.y, time);
+      startCinematicImpact(action.target.x, action.target.y);
+      recordDownedAircraft(action.target);
+      radar.dataset.missileOutcome = 'hit';
+      $('defense-status').textContent = action.manual ? 'Попадание! Выберите следующую цель вручную.' : 'Попадание: ловушки не помогли. Поиск следующей цели…';
+    }
+    clearDefenseAction(action);
+    if (!action.manual) nextDefenseTime = Math.max(nextDefenseTime, time + 0.6);
+  }
+}
+function updateDefenseAccessibility() {
+  $('pacman-mode').disabled = reducedMotion.matches || !!extrasHook?.missionActive;
+  defenseButton.disabled = reducedMotion.matches || !!extrasHook?.missionActive;
+  defenseButton.title = reducedMotion.matches ? 'Автоматическая анимация отключена настройкой уменьшения движения' : '';
+  if (reducedMotion.matches) {
+    setDefenseEnabled(false);
+    launcherArrival=null; launcherModel.style.transform='';
+    launcherModel.style.opacity='1'; radar.dataset.launcherState='ready';
+  }
+}
+reducedMotion.addEventListener('change', updateDefenseAccessibility);
+updateDefenseAccessibility();
+const civilWarning = document.createElement('div');
+civilWarning.className = 'civil-warning';
+civilWarning.setAttribute('role', 'status');
+civilWarning.setAttribute('aria-live', 'polite');
+civilWarning.setAttribute('aria-atomic', 'true');
+civilWarning.hidden = true;
+radar.appendChild(civilWarning);
+let civilWarningTimer;
+let civilWarningAnimation;
+function showCivilWarning() {
+  clearTimeout(civilWarningTimer);
+  civilWarningAnimation?.cancel();
+  civilWarning.hidden = false;
+  civilWarning.textContent = 'Эй, там пассажиры и котик в переноске! Выбирай военную цель 😼';
+  if (!reducedMotion.matches) {
+    civilWarningAnimation = civilWarning.animate([
+      { opacity: 0, transform: 'translateY(-8px) scale(.98)' },
+      { opacity: 1, transform: 'translateY(0) scale(1)' }
+    ], { duration: 260, easing: 'cubic-bezier(.2,0,0,1)' });
+  }
+  civilWarningTimer = setTimeout(() => {
+    civilWarning.hidden = true;
+    civilWarning.textContent = '';
+  }, 3800);
+}
+trailLayer.setAttribute('aria-hidden', 'true');
+radarPlanes.forEach((plane, index) => {
+  const civil = plane.type === 'civil';
+  const typeName = { civil: 'Гражданский самолёт', fighter: 'Истребитель', bomber: 'Бомбардировщик', helicopter: 'Вертолёт' }[plane.type];
+  plane.element.dataset.aircraftType = plane.type;
+  plane.element.classList.add('aircraft-' + plane.type);
+  const silhouette = {
+    civil: 'M12 2c-.8 0-1.3 1-1.3 2.1v5.1L3 14v2l7.7-2.3v4.7L8 20v1.4l4-1 4 1V20l-2.7-1.6v-4.7L21 16v-2l-7.7-4.8V4.1C13.3 3 12.8 2 12 2Z',
+    fighter: 'M12 1 14 9 21 18 21 20 14 17 14 21 17 23 12 21 7 23 10 21 10 17 3 20 3 18 10 9Z',
+    bomber: 'M12 2 14 9 23 15 22 19 15 16 15 21 12 19 9 21 9 16 2 19 1 15 10 9Z',
+    helicopter: 'M12 3C9 3 8 7 8 11v3h3v6H7v2h10v-2h-4v-6h3v-3c0-4-1-8-4-8Z'
+  }[plane.type];
+  plane.element.innerHTML = `<title>${typeName} ${index + 1}${civil ? ' — защищён' : ''}</title><path d="${silhouette}"/>${plane.type === 'helicopter' ? '<path class="helicopter-rotor" d="M2 8H22M12 1V15" fill="none" stroke="currentColor" stroke-width="1.6"/>' : ''}`;
+  plane.trailPaths.forEach(path => path.classList.add('trail-' + plane.type));
+  plane.element.setAttribute('role', civil ? 'img' : 'button');
+  plane.element.setAttribute('tabindex', '0');
+  plane.element.setAttribute('aria-label', civil ? `${typeName} ${index + 1} — защищён` : `Сбить ${typeName.toLowerCase()} ${index + 1}`);
+  function shootPlane() {
+    if (!extrasHook?.missionActive || plane.echo <= 0 || radarPaused || defenseEnabled || pacmanActive || launcherArrival) return;
+    if (civil && !extrasHook?.missionActive) { showCivilWarning(); return; }
+    if (plane.crashAt !== null || radarPaused) return;
+    if (true) {
+      launchMissile(plane, simulationTime, true);
+      return;
+    }
+    if(extrasHook?.damageBoss(plane))return;
+    recordDownedAircraft(plane);
+    const time = simulationTime;
+    beginCrash(plane, time);
+    plane.element.classList.add('is-crashing');
+    plane.element.setAttribute('aria-disabled', 'true');
+    if (reducedMotion.matches) {
+      plane.element.style.setProperty('--crash-opacity', '0');
+      setTimeout(() => {
+        plane.crashAt = null;
+        plane.element.classList.remove('is-crashing');
+        plane.element.setAttribute('aria-disabled', 'false');
+        plane.element.style.setProperty('--crash-opacity', '1');
+      }, 700);
+    } else {
+      spawnCrashEffect(plane.crashX, plane.crashY, time);
+    }
+  }
+  plane.element.addEventListener('click', shootPlane);
+  plane.element.addEventListener('keydown', event => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      shootPlane();
+    }
+  });
+});
+
+
+// Cosmetic clutter lives on the radar clock; target detection never reads this layer.
+const interferenceLayer=document.createElementNS(svgNamespace,'svg');
+interferenceLayer.classList.add('radar-interference');
+interferenceLayer.setAttribute('viewBox','0 0 100 100');
+interferenceLayer.setAttribute('aria-hidden','true');
+planeField.prepend(interferenceLayer);
+let interferencePulse=null;
+let nextInterferenceTime=8+Math.random()*6;
+function updateRadarInterference(time) {
+  if(reducedMotion.matches) {interferenceLayer.style.opacity='0';interferencePulse=null;return;}
+  if(!interferencePulse && time>=nextInterferenceTime) {
+    const angle=Math.random()*Math.PI*2,spread=.28+Math.random()*.45;
+    const point=(a,r)=>({x:50+Math.cos(a)*r,y:50+Math.sin(a)*r});
+    const arc=(r,a,b)=>{const p=point(a,r),q=point(b,r);return 'M'+p.x+' '+p.y+'A'+r+' '+r+' 0 0 1 '+q.x+' '+q.y;};
+    let marks='';
+    for(let i=0;i<34;i++) {
+      const a=angle+(Math.random()-.5)*spread*2,r=40+Math.random()*9;
+      const p=point(a,r);
+      marks+='<circle cx="'+p.x+'" cy="'+p.y+'" r="'+(.12+Math.random()*.4)+'" fill="#8effb0" opacity="'+(.2+Math.random()*.6)+'"/>';
+    }
+    for(let i=0;i<4;i++) marks+='<path d="'+arc(43+i*1.4,angle-spread*.6,angle+spread*.6)+'" stroke="#5aff91" stroke-width="'+(.35+i*.1)+'" opacity="'+(.5-i*.09)+'" fill="none"/>';
+    interferenceLayer.innerHTML=marks;
+    interferencePulse={startedAt:time,angle};
+    radar.dataset.interference='active';
+  }
+  if(!interferencePulse) return;
+  const age=time-interferencePulse.startedAt;
+  if(age>=1.65) {
+    interferenceLayer.style.opacity='0';interferenceLayer.replaceChildren();
+    interferencePulse=null;nextInterferenceTime=time+12+Math.random()*14;
+    radar.dataset.interference='idle';return;
+  }
+  const fade=smoothstep(age/.16)*(1-smoothstep((age-.35)/1.3));
+  const flicker=.8+.2*Math.sin(age*32)**2;
+  interferenceLayer.style.opacity=String(fade*flicker*.52);
+  interferenceLayer.style.transform='rotate('+(Math.sin(age*2)*.7)+'deg) scale('+(1+smoothstep(age/1.65)*.012)+')';
+}
+
+function animateRadar(timestamp) {
+  const deltaTime = previousRadarTime === undefined ? 0 : Math.min((timestamp - previousRadarTime) / 1000, 0.05);
+  previousRadarTime = timestamp;
+  const timeScale = reducedMotion.matches ? 1 : updateCinematic(deltaTime);
+  const simulationDelta = deltaTime * timeScale;
+  if (!reducedMotion.matches) simulationTime += simulationDelta;
+  if (!reducedMotion.matches) radarTime += deltaTime;
+  const time = simulationTime;
+  if (!reducedMotion.matches) sweepAngleState = (sweepAngleState + deltaTime * Math.PI * 2 / radarRevolutionSeconds) % (Math.PI * 2);
+  const sweepAngle = sweepAngleState;
+  radarSweep.style.transform = `rotate(${sweepAngle}rad)`;
+  updateTrafficAvoidance(simulationDelta);
+  radarPlanes.forEach(plane => {
+    let angle = plane.phase + plane.speed * (time + 0.16 * Math.sin(time * 0.5 + plane.phase));
+    let velocity = plane.speed * (1 + 0.08 * Math.cos(time * 0.5 + plane.phase));
+    let flightRadius = plane.radius;
+    let radialVelocity = 0;
+    if (plane.type !== 'civil') {
+      const level = difficultyLevels[difficulty];
+      // Ease parameters, then integrate distance: changing levels never jumps a plane.
+      const blend = 1 - Math.exp(-simulationDelta * 2);
+      plane.flightMultiplier += (level.speed - plane.flightMultiplier) * blend;
+      plane.maneuverRate += (Math.PI / level.interval - plane.maneuverRate) * blend;
+      const previousAmplitude = plane.weaveAmplitude;
+      plane.weaveAmplitude += (level.weave - plane.weaveAmplitude) * blend;
+      velocity *= plane.flightMultiplier;
+      plane.flightAngle += velocity * simulationDelta;
+      plane.maneuverPhase += plane.maneuverRate * simulationDelta;
+      angle = plane.flightAngle;
+      // Alternating inward/outward banks keep every route inside the radar.
+      const amplitude = Math.min(plane.weaveAmplitude, plane.radius * 0.2);
+      flightRadius -= amplitude * (1 - Math.cos(plane.maneuverPhase));
+      const amplitudeVelocity = simulationDelta > 0 && plane.weaveAmplitude < plane.radius * 0.2 ? (plane.weaveAmplitude - previousAmplitude) / simulationDelta : 0;
+      radialVelocity = -amplitude * Math.sin(plane.maneuverPhase) * plane.maneuverRate - amplitudeVelocity * (1 - Math.cos(plane.maneuverPhase));
+    }
+    plane.vx = radialVelocity * Math.cos(angle) - flightRadius * Math.sin(angle) * velocity;
+    plane.vy = (radialVelocity * Math.sin(angle) + flightRadius * Math.cos(angle) * velocity) * 0.75;
+    let x = plane.centerX + flightRadius * Math.cos(angle);
+    let y = plane.centerY + flightRadius * 0.75 * Math.sin(angle);
+    let evasionOffset = 0;
+    if (plane.type !== 'civil' && plane.evasion && plane.crashAt === null) {
+      const motion = evasionMotion(time - plane.evasion.startedAt);
+      evasionOffset = motion.offset;
+      x += plane.evasion.dx * motion.offset;
+      y += plane.evasion.dy * motion.offset;
+      plane.vx += plane.evasion.dx * motion.velocity;
+      plane.vy += plane.evasion.dy * motion.velocity;
+      if (time - plane.evasion.startedAt >= 2.4) plane.evasion = null;
+    }
+    if (plane.crashAt === null) {
+      x += plane.avoidX; y += plane.avoidY;
+      plane.vx += plane.avoidVX; plane.vy += plane.avoidVY;
+    }
+    plane.element.style.setProperty('--bank-scale', String(1 - evasionOffset * 0.3));
+    plane.element.classList.toggle('is-evading', evasionOffset > 0.02);
+    let crashProgress = 0;
+    let respawnOpacity = plane.respawnAt === undefined ? 1 : smoothstep((time - plane.respawnAt) / 0.55);
+    if (plane.crashAt !== null) {
+      const fallTime = Math.min(time - plane.crashAt, 1.9);
+      crashProgress = smoothstep((fallTime - 0.2) / 1.7);
+      x = plane.crashX + plane.crashVX * fallTime * 0.7;
+      y = plane.crashY + plane.crashVY * fallTime * 0.7 + 2.6 * fallTime * fallTime;
+      if (time - plane.crashAt > 4) {
+        plane.crashAt = null;
+        plane.pacmanEaten = false;
+        plane.cooldownUntil = time + 16;
+        plane.history = [];
+        plane.respawnAt = time;
+        respawnOpacity = 0;
+        crashProgress = 0;
+        x = plane.centerX + flightRadius * Math.cos(angle);
+        y = plane.centerY + flightRadius * 0.75 * Math.sin(angle);
+      }
+    }
+    plane.x = x;
+    plane.y = y;
+    if (!reducedMotion.matches && time - plane.lastSample >= 0.2) {
+      plane.lastSample = time;
+      if (plane.crashAt === null) plane.history.push({ x: 50 + x, y: 50 + y, time });
+      plane.history = plane.history.filter(point => time - point.time < 10).slice(-50);
+      plane.trailPaths.forEach((path, band) => {
+        const points = plane.history.filter(point => {
+          const age = time - point.time;
+          return band === 0 ? age >= 5 : band === 1 ? age >= 2.4 && age <= 5.2 : age <= 2.6;
+        });
+        path.setAttribute('points', points.map(point => `${point.x.toFixed(2)},${point.y.toFixed(2)}`).join(' '));
+      });
+    }
+    plane.element.style.setProperty('--crash-opacity', (plane.pacmanEaten ? 0 : (1 - crashProgress) * respawnOpacity).toFixed(3));
+    plane.element.style.setProperty('--crash-scale', (1 - crashProgress * 0.7).toFixed(3));
+    plane.element.style.setProperty('--crash-turn', `${crashProgress * crashProgress * 260 * Math.sign(plane.speed)}deg`);
+    plane.element.classList.toggle('is-crashing', plane.crashAt !== null);
+    plane.element.setAttribute('aria-disabled', String(plane.crashAt !== null || pacmanActive || launcherArrival || (plane.type !== 'civil' && defenseEnabled)));
+    plane.element.style.setProperty('--flight-x', `${x * fieldSize / 100}px`);
+    plane.element.style.setProperty('--flight-y', `${y * fieldSize / 100}px`);
+    const targetHeading = plane.crashAt === null ? Math.atan2(plane.vy, plane.vx) + Math.PI / 2 : plane.crashHeading;
+    if (plane.heading === undefined) plane.heading = targetHeading;
+    const headingDelta = Math.atan2(Math.sin(targetHeading - plane.heading), Math.cos(targetHeading - plane.heading));
+    plane.heading += headingDelta * (1 - Math.exp(-simulationDelta * 7));
+    plane.element.style.setProperty('--heading', `${plane.heading}rad`);
+    const bearing = Math.atan2(y, x);
+    
+    const difference = Math.atan2(Math.sin(sweepAngle-bearing), Math.cos(sweepAngle-bearing));
+    if (beamCrossed(plane.previousBeamDifference, difference) && plane.crashAt === null) {
+      plane.lastRadarHit = radarTime;
+      plane.element.dataset.detectedAt = radarTime.toFixed(3);
+    }
+    plane.previousBeamDifference = difference;
+    // Reduced-motion mode shows a static overview rather than invisible targets.
+    plane.echo = reducedMotion.matches ? 1 : phosphorEcho(radarTime - (plane.lastRadarHit ?? -100));
+    plane.element.style.setProperty('--echo', plane.echo.toFixed(3));
+    const detected = plane.echo > 0;
+    plane.element.classList.toggle('is-detected', detected);
+    plane.element.setAttribute('tabindex', detected && !defenseEnabled && !pacmanActive && !launcherArrival ? '0' : '-1');
+    plane.element.setAttribute('aria-hidden', String(!detected));
+    plane.trailPaths.forEach((path, band) => { path.style.opacity = String(plane.echo * [0.08,0.16,0.3][band]); });
+    plane.element.classList.toggle('is-lit', plane.echo > 0.2);
+  });
+  updateRadarInterference(radarTime);
+  updateArcade(simulationDelta,time);
+  updateLauncher(simulationDelta);
+  updateDefense(time);
+  for (let i = crashEffects.length - 1; i >= 0; i--) {
+    if (time - crashEffects[i].createdAt > 5) {
+      crashEffects[i].element.remove();
+      crashEffects.splice(i, 1);
+    }
+  }
+  if (true) {
+    if (cinema) cinemaCamera.getAnimations({subtree:true}).forEach(animation => { animation.playbackRate = timeScale; });
+    radarFrame = requestAnimationFrame(animateRadar);
+  }
+}
+function startRadarAnimation() {
+  cancelAnimationFrame(radarFrame);
+  previousRadarTime = undefined;
+  if (radarPaused || document.hidden) return;
+  if (reducedMotion.matches) {
+    finishCinematic();
+    crashEffects.splice(0).forEach(effect => effect.element.remove());
+    radarPlanes.forEach(plane => {
+      plane.crashAt = null;
+      plane.history = [];
+      plane.trailPaths.forEach(path => path.setAttribute('points', ''));
+    });
+  }
+  radarFrame = requestAnimationFrame(animateRadar);
+}
+reducedMotion.addEventListener('change', startRadarAnimation);
+document.addEventListener('visibilitychange', () => {
+  const paused = document.hidden || radarPaused;
+  radarPanel.classList.toggle('is-paused', paused);
+  radar.getAnimations({ subtree: true }).forEach(animation => paused ? animation.pause() : animation.play());
+  startRadarAnimation();
+});
+const gameControls = document.createElement('aside');
+difficultyControls.appendChild(pauseButton);
+gameControls.className = 'game-controls';
+gameControls.setAttribute('aria-label', 'Управление игрой');
+const leftRadarStats = document.createElement('div');
+leftRadarStats.className = 'radar-stats radar-stats-left';
+leftRadarStats.setAttribute('aria-label', 'Общий и личный счёт');
+leftRadarStats.append(scoreBar,personalScoreBar);
+const rightRadarStats = document.createElement('div');
+rightRadarStats.className = 'radar-stats radar-stats-right';
+rightRadarStats.setAttribute('aria-label', 'Статистика по типам авиации');
+rightRadarStats.appendChild(categoryScoreBar);
+radar.append(leftRadarStats,rightRadarStats);
+[defenseControls,difficultyControls,evasionInfo,trafficInfo,aircraftLegend].forEach(element => gameControls.appendChild(element));
+radarPanel.appendChild(gameControls);
+const creatorsCard = document.createElement('button');
+creatorsCard.className = 'creators-card';
+creatorsCard.type = 'button';
+creatorsCard.setAttribute('aria-label', 'Посмотреть фото создателей');
+creatorsCard.innerHTML = '<img src="authors.webp" alt="Команда № 1 — создатели Адской авиации" width="1536" height="1024" loading="lazy"><span><strong>Создатели</strong><small>Команда № 1</small></span><span class="creators-open" aria-hidden="true">↗</span>';
+gameControls.appendChild(creatorsCard);
+const creatorsDialog = document.createElement('dialog');
+creatorsDialog.className = 'creators-dialog';
+creatorsDialog.setAttribute('aria-label','Создатели — Команда № 1');
+creatorsDialog.innerHTML = '<button type="button" class="creators-close" aria-label="Закрыть фото">×</button><img src="authors.webp" alt="Команда № 1 — создатели Адской авиации" width="1536" height="1024"><p>Создатели · Команда № 1</p>';
+document.body.appendChild(creatorsDialog);
+creatorsCard.addEventListener('click',()=>creatorsDialog.showModal());
+creatorsDialog.querySelector('button').addEventListener('click',()=>creatorsDialog.close());
+creatorsDialog.addEventListener('click',event=>{
+  if(event.target===creatorsDialog){const bounds=creatorsDialog.getBoundingClientRect();if(event.clientX<bounds.left||event.clientX>bounds.right||event.clientY<bounds.top||event.clientY>bounds.bottom) creatorsDialog.close();}
+});
+startRadarAnimation();
+
+// Extended offline gameplay. This state is independent of the original scoreboard.
+let extras = (() => {
+  const key = 'aviation-expansion-v1';
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem(key) || '{}') || {}; } catch {}
+  const integer = (value, max=1000000000) => Number.isSafeInteger(value) && value >= 0 && value <= max ? value : 0;
+  const state = {wallet:integer(saved.wallet), points:integer(saved.points), speed:integer(saved.speed,3), channels:integer(saved.channels,3), best:integer(saved.best), records:{}, volume:typeof saved.volume === 'number' ? Math.max(0,Math.min(1,saved.volume)) : .25};
+  for (const level of Object.keys(difficultyLevels)) state.records[level] = integer(saved.records?.[level]);
+  let misses=0; let activeTime=0, lastTime=performance.now(), combo=0, lastKill=-100, mission=null, boss=null, nextBoss=25, audio=null, sound=false, nextPing=0;
+  const panel=document.createElement('section');
+  panel.className='expansion'; panel.setAttribute('aria-label','Миссии и улучшения');
+  panel.innerHTML=`<div class="exp-heading"><span>БОЕВОЙ ЖУРНАЛ</span><strong id="exp-points">0 очков</strong></div>
+    <div class="exp-metrics"><span>Комбо <b id="exp-combo">×1</b></span><span>Баланс <b id="exp-wallet">0</b></span></div>
+    <section class="exp-mission"><h2>Операция «Гринч»</h2><p>Перехватите 10 целей Гринча. Нажимайте на видимые красные, фиолетовые и зелёные цели. Синие — дружественные: −1 очко за попадание. Промахи не штрафуются. Время не ограничено.</p>
+    <div class="exp-mission-line"><strong id="mission-clock">00:00</strong><span id="mission-count">0 / 10</span></div>
+    <progress id="mission-progress" value="0" max="10" aria-label="Сбитые цели в миссии"></progress>
+    <p>Промахи: <b id="mission-misses">0</b></p><p id="mission-state" role="status">Готовы к вылету?</p><p id="mission-best"></p>
+    <div class="exp-actions"><button id="mission-start" type="button">Начать миссию</button><button id="mission-cancel" type="button" hidden>Завершить</button></div></section>
+    <section><h2>Особая цель</h2><p id="boss-state" role="status">Босс появится через 25 с активной игры. Три попадания пробивают защиту.</p><button id="boss-call" type="button">Вызвать босса сейчас</button></section>
+    <details><summary>Мастерская ПВО <span id="workshop-balance"></span></summary><p>За цель — 10 очков × комбо, за босса — ещё 100. Каждые 3 цели подряд за 6 секунд повышают множитель до ×5. Промах или гражданская цель сбрасывают серию.</p><button id="upgrade-speed" type="button"></button><button id="upgrade-channels" type="button"></button><p id="upgrade-status" role="status">Улучшения работают в свободной игре. В миссиях — стандартное ПВО.</p></details>
+    <div class="exp-audio"><button id="sound-toggle" type="button" aria-pressed="false">Звук: выкл.</button><label for="sound-volume">Громкость</label><input id="sound-volume" type="range" min="0" max="100" step="5" value="${Math.round(state.volume*100)}"></div>`;
+  gameControls.insertBefore(panel,creatorsCard);
+  const results=document.createElement('dialog'); results.className='mission-results'; results.setAttribute('aria-labelledby','mission-result-title');
+  results.innerHTML='<h2 id="mission-result-title"></h2><p id="mission-result-copy"></p><button id="mission-again" type="button">Сыграть ещё раз</button><button id="mission-close" type="button">Назад к меню</button>';
+  document.body.append(results); results.insertAdjacentHTML('afterbegin',`<div class="grinch-final" hidden><img alt="Гринч" src="grinch-victory.webp"><h3>Гринчу не удалось украсть еду!</h3><p>Новогодний корпоратив спасён.</p></div>`);
+  function persist(){try{localStorage.setItem(key,JSON.stringify(state));}catch{}}
+  function multiplier(){return Math.min(5,1+Math.floor(combo/3));}
+  function render(){
+    $('exp-points').textContent=state.points+' очков'; $('exp-wallet').textContent=state.wallet; $('exp-combo').textContent='×'+multiplier()+' · серия '+combo;
+    $('workshop-balance').textContent='· '+state.wallet+' очков';
+    $('mission-best').textContent='Рекорд на сложности «'+difficultyLevels[difficulty].label+'»: '+state.records[difficulty]+' / 10 · лучшая серия: '+state.best;
+    for(const [kind,label,base] of [['speed','Скорость ракет',50],['channels','Каналы сопровождения',80]]){
+      const button=$('upgrade-'+kind), level=state[kind], price=base*(level+1);
+      button.textContent=label+' · '+level+'/3'+(level===3?' · максимум':' · '+price+' очков');
+      button.disabled=level===3||state.wallet<price||!!mission;
+    }
+  }
+  function tone(freq,duration,type='sine',end=freq){
+    if(!sound||!audio||audio.state!=='running'||document.hidden||radarPaused)return;
+    const oscillator=audio.createOscillator(), gain=audio.createGain(), now=audio.currentTime;
+    oscillator.type=type; oscillator.frequency.setValueAtTime(freq,now); oscillator.frequency.exponentialRampToValueAtTime(Math.max(20,end),now+duration);
+    gain.gain.setValueAtTime(Math.max(.0001,state.volume*.12),now);gain.gain.exponentialRampToValueAtTime(.0001,now+duration);
+    oscillator.connect(gain);gain.connect(audio.destination);oscillator.start(now);oscillator.stop(now+duration);
+  }
+  function effect(name){if(name==='launch')tone(180,.22,'sawtooth',700);if(name==='hit')tone(100,.35,'triangle',25);if(name==='miss')tone(300,.14,'sine',100);if(name==='win') {tone(660,.35);setTimeout(()=>tone(880,.4),160);}}
+  function breakCombo(){if(mission){misses++;$('mission-misses').textContent=misses;}combo=0;render();effect('miss');}
+  function controls(locked){
+    for(const id of ['manual-mode','defense-toggle','pacman-mode','radar-difficulty','reset-score','boss-call'])$(id).disabled=locked;
+    if(!locked){updateDefenseAccessibility();$('reset-score').disabled=shotScore===0;$('boss-call').disabled=!!boss;}
+    $('mission-start').hidden=locked;$('mission-cancel').hidden=!locked;
+  }
+  function finish(reason){
+    if(!mission)return;
+    const done=mission;done.elapsed=(performance.now()-done.started)/1000;mission=null;
+    state.records[done.difficulty]=Math.max(state.records[done.difficulty],done.kills);
+    const won=done.kills>=10;
+    if(won){state.wallet+=150;state.points+=150;}
+    persist();controls(false);render();
+    $('mission-state').textContent=reason==='cancel'?'Миссия завершена досрочно.':won?'Миссия выполнена! Бонус: 150 очков.':'Время вышло. Попробуйте ещё раз.';
+    if(reason!=='cancel'){
+      // Stop pending missiles so their outcomes cannot leak into the next mission.
+      clearDefenseAction();
+      $('mission-result-title').textContent=won?'ВЫ ПОБЕДИЛИ!':'Миссия завершена';
+      $('mission-result-copy').textContent=done.kills+' / 10 целей · '+done.elapsed.toFixed(2)+' с · «'+difficultyLevels[done.difficulty].label+'»'+(won?' · +150 очков':'');
+      if(won){saveRank(done,misses);results.querySelector('.grinch-final').hidden=false; $('mission-result-copy').textContent=done.kills+' / 10 целей · '+done.elapsed.toFixed(2)+' с · промахи: '+misses; submitPreferences({score:done.kills,misses,seconds:done.elapsed,friendly:done.friendly,participant:done.player});} results.showModal();effect(won?'win':'miss');
+    }
+  }
+  function clearBoss(){if(!boss)return;boss.element.classList.remove('aircraft-boss');boss.element.setAttribute('aria-label',boss.oldLabel);boss.bossHP=0;boss=null;nextBoss=activeTime+60;}
+  function start(){
+    if(results.open)results.close();results.querySelector('.grinch-final').hidden=true;
+    if(radarPaused)pauseButton.click();
+    setDefenseEnabled(false);clearDefenseAction();clearBoss();
+    combo=0;lastKill=-100;misses=0;$('mission-misses').textContent=0;
+    mission={kills:0,elapsed:0,difficulty,started:performance.now(),friendly:0,player:rankPlayer};lastTime=performance.now();
+    $('boss-state').textContent='В миссии особые цели отключены.';
+    controls(true);$('mission-clock').textContent='00:00';$('mission-count').textContent='0 / 10';$('mission-progress').value=0;
+    $('mission-state').textContent='Миссия идёт. Выбирайте видимые военные цели.';render();
+  }
+  function spawnBoss(){
+    if(mission||boss)return;
+    const target=radarPlanes.find(p=>p.type==='bomber'&&p.crashAt===null);
+    if(!target){nextBoss=activeTime+3;return;}
+    boss=target;boss.oldLabel=boss.element.getAttribute('aria-label');boss.bossHP=3;boss.bossHitAt=-100;
+    boss.element.classList.add('aircraft-boss');boss.element.setAttribute('aria-label','Босс: бронированный бомбардировщик — 3 жизни');
+    $('boss-call').disabled=true;$('boss-state').textContent='БОСС НА РАДАРЕ · защита 3 / 3 · золотая цель';tone(180,.6,'triangle',80);
+  }
+  function damageBoss(plane){
+    if(plane!==boss)return false;
+    if(activeTime-plane.bossHitAt<.8)return true;
+    plane.bossHitAt=activeTime;plane.bossHP--;effect('hit');
+    if(plane.bossHP>0){$('boss-state').textContent='Босс: защита '+plane.bossHP+' / 3 · нужно ещё попадание';return true;}
+    return false;
+  }
+  function kill(plane){
+    if(plane.type==='civil'){if(mission){effect('hit');mission.kills--;mission.friendly++;$('mission-count').textContent=mission.kills+' / 10';$('mission-progress').value=Math.max(0,mission.kills);$('mission-state').textContent='Дружественная цель сбита: −1 очко';}return;}
+    // Expired missions are finalized before accepting another hit.
+    tick();
+    if(activeTime-lastKill>6)combo=0;
+    combo++;lastKill=activeTime;state.best=Math.max(state.best,combo);
+    const bonus=plane===boss?100:0, earned=10*multiplier()+bonus;
+    state.points+=earned;state.wallet+=earned;
+    if(plane===boss){clearBoss();$('boss-state').textContent='Босс уничтожен! +100 бонусных очков.';$('boss-call').disabled=!!mission;}
+    if(mission){mission.kills++;$('mission-count').textContent=mission.kills+' / 10';$('mission-progress').value=mission.kills;if(mission.kills>=10)finish('win');}
+    persist();render();effect('hit');
+  }
+  function tick(){
+    const now=performance.now(),delta=Math.max(0,(now-lastTime)/1000);lastTime=now;
+    if(radarPaused||document.hidden||results.open)return;
+    activeTime+=delta;
+    if(combo&&activeTime-lastKill>6){combo=0;render();}
+    if(mission){
+      mission.elapsed=(performance.now()-mission.started)/1000;
+      const seconds=Math.floor(mission.elapsed);$('mission-clock').textContent=String(Math.floor(seconds/60)).padStart(2,'0')+':'+String(seconds%60).padStart(2,'0');
+      
+    }else if(false)spawnBoss();
+    if(!mission&&!boss)$('boss-state').textContent='Следующий босс через '+Math.max(0,Math.ceil(nextBoss-activeTime))+' с · защита: 3 попадания';
+    if(activeTime>=nextPing){tone(880,.07);nextPing=activeTime+3;}
+  }
+  $('mission-start').addEventListener('click',start);$('mission-cancel').addEventListener('click',()=>finish('cancel'));
+  $('mission-again').addEventListener('click',start);$('mission-close').addEventListener('click',()=>{grinchPort?.postMessage({ type: 'back' });});
+  results.addEventListener('close',()=>{lastTime=performance.now();$('mission-start').focus();});
+  $('boss-call').addEventListener('click',spawnBoss);
+  for(const [kind,base] of [['speed',50],['channels',80]])$('upgrade-'+kind).addEventListener('click',()=>{
+    const price=base*(state[kind]+1);if(mission||state[kind]>=3||state.wallet<price)return;
+    state.wallet-=price;state[kind]++;persist();render();$('upgrade-status').textContent=kind==='speed'?'Ракеты ускорены на '+(state.speed*25)+'%.':'ПВО сопровождает до '+(3+state.channels)+' целей.';tone(700,.15);
+  });
+  $('sound-toggle').addEventListener('click',async()=>{
+    try{if(!audio)audio=new (window.AudioContext||window.webkitAudioContext)();await audio.resume();sound=!sound;$('sound-toggle').setAttribute('aria-pressed',String(sound));$('sound-toggle').textContent=sound?'Звук: вкл.':'Звук: выкл.';tone(660,.15);}
+    catch{$('sound-toggle').textContent='Звук недоступен';}
+  });
+  $('sound-volume').addEventListener('input',event=>{state.volume=Number(event.target.value)/100;persist();});
+  $('radar-difficulty').addEventListener('change',render);
+  // Flush elapsed time before toggling pause or changing tab visibility.
+  pauseButton.addEventListener('click',()=>{lastTime=performance.now();});
+  document.addEventListener('visibilitychange',()=>{lastTime=performance.now();});
+  setInterval(tick,100);render();
+  return {kill,damageBoss,effect,breakCombo, get missionActive(){return !!mission;},get speedFactor(){return mission?1:1+.25*state.speed;}, get capacity(){return mission?0:state.channels;}};
+})();
+
+
+ let rankPlayer = "";
+ let grinchPort = null;
+ let resultPending = false;
+ let pendingResult;
+ let lastRows;
+ function rankTime(value) {
+   return String(Math.floor(value / 6000)).padStart(2, '0') + ':' +
+     ((value % 6000) / 100).toFixed(2).padStart(5, '0');
+ }
+ function renderRanking(box, rows, error = "") {
+   box.replaceChildren();
+   const title = document.createElement("h2");
+   title.textContent = "Рейтинг участников";
+   box.append(title);
+   if (error || !Array.isArray(rows)) {
+     const status = document.createElement("p");
+     status.textContent = error || "Загружаем результаты…";
+     box.append(status);
+     return;
+   }
+   const table = document.createElement("table");
+   table.innerHTML = "<thead><tr><th>Место</th><th>Участник</th><th>Время</th><th>Промахи</th></tr></thead>";
+   let place = 0;
+   for (const player of rows) {
+     const row = table.insertRow();
+     const scored = player.centiseconds != null;
+     for (const value of [scored ? ++place : "—", player.name,
+       scored ? rankTime(player.centiseconds) : "—", scored ? player.misses : "—"]) {
+       row.insertCell().textContent = value;
+     }
+     if (player.name === rankPlayer) row.className = "current-player";
+   }
+   box.append(table);
+ }
+ function showRankEverywhere(rows, error) {
+   document.querySelectorAll(".rank-results").forEach(box => renderRanking(box, rows, error));
+ }
+ function saveRank() {
+   showRankEverywhere(lastRows);
+ }
+ function submitPreferences(result) {
+   if (resultPending || !grinchPort) return;
+   pendingResult = result;
+   resultPending = true;
+   const node = document.querySelector(".grinch-final");
+   let status = node.querySelector(".save-status");
+   if (!status) {
+     status = document.createElement("p");
+     status.className = "save-status";
+     status.setAttribute("role", "status");
+     node.append(status);
+   }
+   status.textContent = "Отправляем пожелания и результат…";
+   $("mission-again").disabled = $("mission-close").disabled = true;
+   grinchPort.postMessage({ type: "finish", result });
+ }
+ window.addEventListener("message", event => {
+   if (event.source !== parent || event.data?.type !== "grinch-init" || grinchPort || !event.ports[0]) return;
+   grinchPort = event.ports[0];
+   rankPlayer = String(event.data.participant || "Участник");
+   document.querySelector(".brief-player").textContent = rankPlayer;
+   $("festive-start").disabled = false;
+   $("grinch-ranking-open").disabled = false;
+   grinchPort.onmessage = ({ data }) => {
+     if (data.type === "rank") {
+       if (data.rows) lastRows = data.rows;
+       showRankEverywhere(data.rows, data.error);
+     } else if (data.type === "finish") {
+       resultPending = false;
+       if (data.rows) lastRows = data.rows;
+       showRankEverywhere(data.rows || lastRows, data.rankingError);
+       const status = document.querySelector(".grinch-final .save-status");
+       status.textContent = data.message || "Отправка пока не подтверждена.";
+       $("mission-again").disabled = $("mission-close").disabled = false;
+       if (data.retryable) {
+         const retry = document.createElement("button");
+         retry.type = "button";
+         retry.textContent = "Повторить отправку";
+         retry.addEventListener("click", () => { retry.remove(); submitPreferences(pendingResult); }, { once: true });
+         status.append(" ", retry);
+       }
+     }
+   };
+ });
+extrasHook=extras;
+const intro=document.createElement('dialog');intro.className='mission-results festive-intro';intro.innerHTML='<div class="brief-tag">НОВОГОДНЯЯ СПЕЦОПЕРАЦИЯ</div><h2>Операция «Гринч»</h2><p>Получены сведения о том, что Гринч намерен похитить Рождество, украсть праздничное меню и сорвать новогодний корпоратив.</p><p><strong>Ваша задача — предотвратить его коварный план и защитить праздничный стол!</strong></p><ul><li>Нажимайте на вражеские цели на радаре: установка автоматически наведётся.</li><li>Наберите 10 очков. За сбитую дружественную цель — штраф в одно очко.</li><li>При промахе повторите попытку. Время не ограничено, но учитывается в рейтинге.</li></ul><p class="brief-player"></p><button id="festive-start" type="button" disabled>Начать миссию</button><button id="grinch-ranking-open" type="button" disabled>Рейтинг участников</button><section class="rank-results" hidden></section>' ;document.body.append(intro);const rankBox=document.createElement('section');rankBox.className='rank-results';document.querySelector('.mission-results:not(.festive-intro)').append(rankBox);document.body.classList.add('mission-briefing');if(!radarPaused)pauseButton.click();intro.showModal();intro.querySelector('button').onclick=()=>{document.body.classList.remove('mission-briefing');intro.close();setDifficulty('easy');$('mission-start').click();if($('sound-toggle').getAttribute('aria-pressed')!=='true')$('sound-toggle').click(); if(matchMedia('(max-width: 760px)').matches) requestAnimationFrame(()=>document.querySelector('.radar').scrollIntoView({block:'start'}));};intro.addEventListener('cancel',e=>e.preventDefault());
+ $("grinch-ranking-open").addEventListener("click", () => {
+   const table = intro.querySelector(".rank-results");
+   table.hidden = !table.hidden;
+   if (!table.hidden) {
+     renderRanking(table, lastRows);
+     grinchPort?.postMessage({ type: "rank" });
+   }
+ });
+ document.querySelector(".mission-results:not(.festive-intro)").addEventListener("cancel", event => {
+   if (resultPending) event.preventDefault();
+ });
+ 
+
+</script></body></html>
