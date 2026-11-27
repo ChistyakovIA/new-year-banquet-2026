@@ -59,6 +59,8 @@ let snapshot = null;
 let planDraft = null;
 let wishRevision = 0;
 let wishDirty = false;
+let wishChallenge = null;
+let openingWishChallenge = false;
 let client;
 let userId = null;
 let channel = null;
@@ -1046,6 +1048,8 @@ function switchUser(session) {
   const next = session?.user?.id || null;
   if (next === userId) return;
   userId = next;
+  wishChallenge?.close();
+  wishChallenge = null;
   syncSequence++;
   snapshot = null;
   planDraft = null;
@@ -1178,34 +1182,54 @@ function startOnline() {
 wish.addEventListener("input", () => { wishDirty = true; });
 wish.addEventListener("submit", async event => {
   event.preventDefault();
-  if (!snapshot) return;
+  if (!snapshot || wishChallenge?.open || openingWishChallenge) return;
   const owner = userId;
+  const participant = snapshot.guests.find(guest => guest.id === snapshot.member)?.profile?.[0]
+    || nameOf(snapshot.member);
   const submit = get("save-wish");
   const number = field => field.value === "" ? null : Number(field.value);
   const parameters = {
     expected_revision: wishRevision, wanted_seat: number(fields.seat), wanted_neighbor: number(fields.neighbor),
     wanted_menu: number(fields.variant), wanted_salad: wishFood.salad?.name ?? null,
     wanted_hot: wishFood.main?.name ?? null, wanted_note: fields.note.value.trim(),
-    wanted_details: { food: wishFood, items: [...wishLegacyDishes, ...wishDrinks] }
+    wanted_details: structuredClone({ food: wishFood, items: [...wishLegacyDishes, ...wishDrinks] })
   };
+  openingWishChallenge = true;
   submit.disabled = true;
-  for (const field of fields) field.disabled = true;
   try {
-    const { data, error } = await client.rpc("banquet_save_wish", parameters);
-    if (owner !== userId) return;
-    if (error?.code === "40001") {
-      await sync();
-      wishRevision = snapshot?.wishes.find(row => row.guest_id === snapshot.member)?.revision || 0;
-      setText("wish-status", "Пожелания изменились на другом устройстве. Проверьте свой текст и нажмите «Сохранить», чтобы применить эту версию.");
-    } else if (error) setText("wish-status", "Сохранить пожелания не удалось. Попробуйте снова.");
-    else {
-      wishRevision = data;
-      wishDirty = false;
-      setText("wish-status", "Пожелания сохранены.");
-      await sync();
-    }
+    const { openGrinch } = await import("./grinch.mjs");
+    if (owner !== userId || !snapshot) return;
+    wishDirty = true;
+    const challenge = openGrinch({
+      participant,
+      onBack: () => { location.hash = "menu"; showView(); },
+      onVictory: async () => {
+        if (owner !== userId || !snapshot) {
+          throw Object.assign(new Error("Сеанс завершён. Войдите снова."), { retryable: false });
+        }
+        const { data, error } = await client.rpc("banquet_save_wish", parameters);
+        if (owner !== userId) return;
+        if (error?.code === "40001") {
+          await sync();
+          wishRevision = snapshot?.wishes.find(row => row.guest_id === snapshot.member)?.revision || 0;
+          throw Object.assign(new Error("Пожелания изменились на другом устройстве. Вернитесь в анкету и проверьте их."), { retryable: false });
+        }
+        if (error) throw new Error("Не удалось отправить пожелания. Попробуйте снова.");
+        wishRevision = data;
+        wishDirty = false;
+        setText("wish-status", "Пожелания отправлены организатору.");
+        void sync();
+      }
+    });
+    wishChallenge = challenge;
+    challenge.addEventListener("close", () => {
+      if (wishChallenge === challenge) wishChallenge = null;
+    }, { once: true });
+  } catch {
+    setText("wish-status", "Испытание не загрузилось. Попробуйте снова.");
   } finally {
-    for (const field of fields) field.disabled = false;
+    openingWishChallenge = false;
+    submit.disabled = false;
   }
 });
 
