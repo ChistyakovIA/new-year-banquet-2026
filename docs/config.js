@@ -1,3 +1,3 @@
-// Supply the project URL and publishable key from the Supabase dashboard.
-export const supabaseUrl = "";
-export const supabasePublishableKey = "";
+// Public browser configuration. Access control is enforced in Supabase.
+export const supabaseUrl = "https://morzkmfzdkkkqtdvrljs.supabase.co";
+export const supabasePublishableKey = "sb_publishable_L2OWyYmzMvBwv-dztAc9jQ_oEGyga9G";
