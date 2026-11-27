@@ -9,8 +9,8 @@
   <title>🎄 Новогодний корпоратив 2027 · Моя узбечка</title>
   <link rel="stylesheet" href="vendor/glisse-0.6.0.css">
   <link rel="stylesheet" href="styles.css?v=20261127-calendar">
-  <link rel="stylesheet" href="dashboard.css?v=6">
-  <script type="module" src="app.js?v=2027-3"></script>
+  <link rel="stylesheet" href="dashboard.css?v=7">
+  <script type="module" src="app.js?v=2027-4"></script>
 </head>
 <body>
   <main id="entrance" class="entrance">
@@ -77,6 +77,12 @@
           <a class="calendar-action lg-glass" href="banquet.ics" data-calendar>Сохранить в календарь</a>
         </div>
       </header>
+      <details class="calendar-options">
+        <summary>Другой календарь</summary>
+        <a href="banquet.ics">Файл .ics с напоминаниями за сутки и за час</a>
+        <a id="google-calendar" href="https://calendar.google.com/" target="_blank" rel="noopener noreferrer">Google Календарь</a>
+        <p class="muted">В Google Календаре добавьте два уведомления при сохранении события.</p>
+      </details>
       <div id="overview-facts" class="overview-facts" aria-label="Ключевые показатели"></div>
       <div class="overview-grid">
         <section class="panel" aria-labelledby="money-title">
@@ -144,26 +150,10 @@
       <a class="menu-back" href="#menu">К сравнению меню</a>
       <h2 id="program-title" tabindex="-1">Программа и подача</h2>
       <p id="program-menu"></p>
-      <div class="program-meta">
-        <p id="program-clock" class="program-clock"></p>
-        <details class="calendar-options">
-          <summary>Другой календарь</summary>
-          <a href="banquet.ics">Файл .ics с напоминаниями за сутки и за час</a>
-          <a id="google-calendar" href="https://calendar.google.com/" target="_blank" rel="noopener noreferrer">Google Календарь</a>
-          <p class="muted">В Google Календаре добавьте два уведомления при сохранении события.</p>
-        </details>
-      </div>
-      <div class="event-agenda" aria-label="Основная программа">
-        <p><strong>18:00–19:00</strong> Сбор гостей</p>
-        <p><strong>19:00–23:00</strong> Культурная программа</p>
-        <p><strong>23:00–00:00</strong> Дискотека</p>
-      </div>
       <div id="program-switcher" class="program-switcher">
         <div id="program-variants" class="variant-controls" role="group" aria-label="Меню на таймлайне"></div>
         <p id="program-selection" role="status"></p>
       </div>
-      <div id="stages" class="stages event-timeline" role="group" aria-label="Этапы программы"></div>
-      <p class="muted">Ниже план подачи по времени. Количества на столах рассчитаны по выбранному меню и формату рассадки.</p>
       <ol id="serving-timeline" class="serving-timeline" aria-label="Подача по времени"></ol>
       <details id="serving-editor">
         <summary>Порции и цены выбранной подачи</summary>

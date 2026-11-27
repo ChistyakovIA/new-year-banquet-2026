@@ -1,7 +1,7 @@
 import { accountEmail, loginPassword } from "./login.js";
 import { catalogPhoto, setCatalogAccess } from "./catalog.js?v=dashboard-1";
 import { menus, photos } from "./menu-data.js";
-import { programStatus, googleCalendarUrl, calendarHref, animateChange, drinkGroups, tableZones } from "./event.js?v=dashboard-1";
+import { googleCalendarUrl, calendarHref, animateChange, drinkGroups, tableZones } from "./event.js?v=dashboard-1";
 import { supabaseUrl, supabasePublishableKey } from "./config.js?v=20261127-catalog";
 import { drinkPreferences, orderMetrics, tablePortions } from "./overview.js?v=layouts";
 import { seatingRows, seatingReview, suggestSeats } from "./planning.js";
@@ -133,7 +133,7 @@ function overviewMeter(label, amount, max, value) {
 
 function renderOverview() {
   renderLayoutSummary();
-  const stages = menus[selectedMenu]?.[0] ?? [];
+  const stages = selectedMenu == null ? [] : programStages();
   const metrics = selectedMenu == null ? null :
     orderMetrics(stages.map((_, i) => rowsFor(selectedMenu, i)), rowsFor(selectedMenu, 6), drafts[selectedMenu].fee);
   const fund = snapshot.admin ? snapshot.funding : null;
@@ -172,7 +172,7 @@ function renderOverview() {
       const row = overviewMeter(time.slice(0, 5) + " · " + label, metrics.weights[i], Math.max(...metrics.weights),
         metrics.weights[i] ? currency.format(metrics.weights[i] / guestCount) + " г/гостя" : "—");
       const link = element("a", "Открыть подачу");
-      link.href = "#program";
+      link.href = "#serving-step-" + i;
       link.addEventListener("click", () => selectServing(i));
       row.append(link);
       return row;
@@ -253,7 +253,7 @@ function dishRow(row, stage, i) {
 }
 
 const menuLabel = index => "Вариант " + (index + 1) + " · " + menuNames[index];
-const programStages = () => (menus[selectedMenu] ?? menus[0])[0];
+const programStages = () => (menus[selectedMenu] ?? menus[0])[0].slice(0, 5);
 
 function chooseMenu(index) {
   selectedMenu = index;
@@ -359,16 +359,6 @@ function renderMenu() {
   filterComparison();
   programButtons.forEach((control, index) => control.setAttribute("aria-pressed", String(index === selectedMenu)));
   setText("program-selection", selectedMenu == null ? "Выберите меню, чтобы увидеть блюда и напитки по времени." : menuLabel(selectedMenu));
-  get("stages").replaceChildren(...stages.map(([time, title], i) => {
-    const choice = button(null, () => {
-      selectServing(i, get("stages"));
-    }, i === selectedStage);
-    choice.append(element("small", time), element("strong", title), element("span", null, "stage-phase"));
-    const total = costs(rowsFor(selectedMenu, i));
-    if (total) choice.append(element("small", rubles(total), "stage-cost"));
-    return choice;
-  }));
-  updateProgramClock();
   renderServingTimeline();
   setText("menu-note", menuNotes[selectedMenu] ?? "");
   const plan = snapshot?.plan;
@@ -400,17 +390,6 @@ function renderMenu() {
   }
 }
 
-function updateProgramClock() {
-  const state = programStatus(programStages(), Date.now());
-  setText("program-clock", state.note);
-  [...get("stages").children].forEach((control, i) => {
-    const phase = state.phases[i];
-    control.dataset.phase = phase;
-    control.querySelector(".stage-phase").textContent = phase === "live" ? "Сейчас"
-      : phase === "done" ? "Завершено" : state.next === i ? "Следом" : "";
-  });
-}
-
 function servingDrinks(stage) {
   const drinks = rowsFor(selectedMenu, 6);
   const hotDrinks = ([name]) => /чай|кофе|американо/i.test(name);
@@ -431,7 +410,8 @@ function renderServingTimeline() {
     const step = element("li", null, "serving-step");
     step.id = "serving-step-" + i;
     step.append(element("p", time, "serving-time"),
-      element("h3", i === 0 && selectedMenu != null ? "К сбору гостей · столы уже накрыты" : name));
+      element("h3", i === 0 && selectedMenu != null
+        ? "Сбор гостей · " + (tables === 1 ? "стол уже накрыт" : "столы уже накрыты") : name));
     if (selectedMenu == null) return step;
     const food = rowsFor(selectedMenu, i);
     const rows = [...food, ...servingDrinks(i)].filter(row => row[1] > 0);
@@ -481,14 +461,12 @@ function renderServingTimeline() {
   }));
 }
 
-function selectServing(index, focusGroup) {
+function selectServing(index) {
   selectedStage = index;
   selectedZone = 1;
   renderMenu();
   renderSeating();
-  focusGroup?.children[index].focus({ preventScroll: true });
-  if (focusGroup === get("stages")) get("serving-step-" + index)?.scrollIntoView({ block: "start" });
-  animateChange(focusGroup === get("stages") ? get("stage") : get("table-detail"));
+  animateChange(get("table-detail"));
 }
 
 function renderExtras() {
@@ -620,7 +598,7 @@ function renderSeating() {
     const top = element("div", null, "seat-row seat-row-top");
     const bottom = element("div", null, "seat-row seat-row-bottom");
     top.append(...buttons.slice(start, middle));
-    bottom.append(...buttons.slice(middle, end).reverse());
+    bottom.append(...buttons.slice(middle, end));
     const surface = element("div", null, "table banquet-table");
     const zoneControls = element("div", null, "table-zones");
     zones.forEach((zone, index) => {
@@ -680,6 +658,9 @@ function renderSeating() {
     : "Предварительная схема. Выберите место, чтобы открыть карточку.");
   const card = get("guest-card");
   card.replaceChildren(element("h3", "Место " + (selectedSeat + 1) + " · " + (guest?.profile?.[0] || nameOf(guestId))));
+  const [start, middle, end] = splits.find(([first, , last]) => selectedSeat >= first && selectedSeat < last);
+  const opposite = selectedSeat < middle ? middle + selectedSeat - start : start + selectedSeat - middle;
+  if (opposite < end) card.append(element("p", "Напротив · " + nameOf(order[opposite]), "muted"));
   if (guest) card.append(element("p", drinkGroups[groupOf(guestId)], "muted"));
   if (guest?.profile) {
     const list = element("dl");
@@ -896,8 +877,10 @@ function describeSeatingRule(rule) {
 
 function showView(scroll = true) {
   const raw = location.hash.slice(1);
-  const target = ["overview", "menu", "program", "beverage-editor", "seating", "wishes", "organizer", "history", "catalog"].includes(raw)
-    && (raw !== "organizer" || snapshot?.admin) ? raw : "overview";
+  const servingAnchor = /^serving-step-[0-4]$/.test(raw);
+  const known = ["overview", "menu", "program", "beverage-editor", "seating", "wishes", "organizer", "history", "catalog"].includes(raw)
+    && (raw !== "organizer" || snapshot?.admin);
+  const target = servingAnchor ? "program" : known ? raw : "overview";
   const panel = get(target);
   const view = target === "beverage-editor" ? "menu" : panel.dataset.view;
   const needsLayout = !visibleTables() && (view === "menu" || view === "seating");
@@ -914,6 +897,7 @@ function showView(scroll = true) {
   if (snapshot && view === "catalog") void setCatalogAccess(true);
   if (snapshot && scroll) {
     if (needsLayout) layoutStart.scrollIntoView({ block: "start" });
+    else if (servingAnchor) (get(raw) || panel).scrollIntoView({ block: "start" });
     else if (raw && target !== "overview") panel.scrollIntoView({ block: "start" });
     else window.scrollTo({ top: 0, behavior: "instant" });
     if (raw) animateChange(panel);
@@ -1357,6 +1341,5 @@ for (const link of document.querySelectorAll("[data-calendar]")) {
   }
 }
 get("google-calendar").href = googleCalendarUrl();
-setInterval(() => { if (snapshot && !document.hidden) updateProgramClock(); }, 15000);
 
 startOnline();
