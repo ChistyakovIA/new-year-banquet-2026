@@ -120,10 +120,10 @@ li { margin-block: 6px; }
 .entrance-cover::after {
   content: "";
   display: block;
-  block-size: clamp(6rem, 22cqi, 8rem);
+  block-size: clamp(9rem, 37cqi, 12rem);
   margin-top: 8px;
   border-radius: 12px;
-  background: #655345 url("dishes/dish-06.jpg") center 52% / cover no-repeat;
+  background: #4d302d url("dishes/invitation-table.webp") center 53% / cover no-repeat;
 }
 .entrance-date, .entrance-venue { margin: 0; }
 .entrance-date { color: #f6cd98; }
@@ -201,4 +201,154 @@ li { margin-block: 6px; }
 }
 @media print {
   #entrance, #catalog, .session-bar { display: none !important; }
+}
+
+.calendar-action {
+  display: inline-flex;
+  justify-self: start;
+  align-items: center;
+  width: fit-content;
+  min-height: 44px;
+  padding: 8px 14px;
+  border: 1px solid #fff1d88a;
+  border-radius: 9px;
+  color: #fff8ec;
+  background: #362730;
+  text-decoration: none;
+}
+.calendar-action:hover, .calendar-action:focus-visible { background: #563a46; }
+.invitation .calendar-action { background: #172f45; }
+.program-meta { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px 20px; }
+.program-clock { margin: 0; color: #5f3145; font-weight: 650; font-variant-numeric: tabular-nums; }
+.calendar-options { margin: 0; }
+.calendar-options a { display: inline-block; padding: 8px 10px 8px 0; }
+.event-timeline {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+  position: relative;
+}
+.event-timeline button {
+  min-width: 0;
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  gap: 4px;
+  border-top: 4px solid #c9b5b9;
+  align-items: start;
+  overflow-wrap: anywhere;
+}
+.event-timeline button small { font-variant-numeric: tabular-nums; }
+.event-timeline button:not([aria-pressed="true"])[data-phase="live"] {
+  border-color: #386050;
+  background: #e1eee8;
+}
+.event-timeline button[data-phase="done"]:not([aria-pressed="true"]) { background: #f4f1eb; }
+.event-timeline button[aria-pressed="true"] { background: #522d40; border-color: #522d40; }
+.stage-phase { min-height: 1.2em; font-size: .79rem; font-weight: 650; }
+.stage-cost { font-size: .78rem; }
+.seating-tools { display: flex; flex-wrap: wrap; align-items: end; gap: 10px; margin: 16px 0 10px; }
+.seating-tools label { display: grid; min-width: min(100%, 20rem); gap: 4px; }
+.seating-tools select { padding: 8px; min-height: 44px; min-width: 0; width: 100%; }
+.seat-filters { display: flex; flex-wrap: wrap; gap: 8px; }
+.seat-filters button { min-height: 44px; padding: 6px 10px; }
+.seat-filters button:not([aria-pressed="true"])[data-drink="strong"] { border-color: #a06a24; }
+.seat-filters button:not([aria-pressed="true"])[data-drink="other"] { border-color: #477f70; }
+.seat-filters button:not([aria-pressed="true"])[data-drink="unknown"] { border-color: #7b737a; }
+.seats {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "top" "table" "bottom";
+  gap: 8px;
+  padding: clamp(8px, 2vw, 16px);
+  background: #f4efea;
+  border: 1px solid #ddd2c5;
+  border-radius: 16px;
+}
+.seat-row { display: grid; grid-template-columns: repeat(7,minmax(0,1fr)); gap: 6px; }
+.seat-row-top { grid-area: top; }
+.seat-row-bottom { grid-area: bottom; }
+.seat {
+  --seat-ink: #483e49;
+  --seat-color: #efe9ee;
+  --seat-border: #a597a3;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 2px;
+  min-height: 60px;
+  min-width: 0;
+  padding: 4px 2px;
+  border-radius: 10px;
+  border-color: var(--seat-border);
+  color: var(--seat-ink);
+  background: var(--seat-color);
+  overflow-wrap: anywhere;
+  line-height: 1.15;
+  font-size: .84rem;
+}
+.seat[data-drink="strong"] { --seat-ink: #55310c; --seat-color: #f6e6c8; --seat-border: #a06a24; }
+.seat[data-drink="other"] { --seat-ink: #173f35; --seat-color: #dfede7; --seat-border: #477f70; }
+.seat.seat-muted { background: #f6f3ef; color: #5e5653; border-color: #c6bdb5; }
+.seat[aria-pressed="true"] { outline: 2px solid #653850; outline-offset: -2px; }
+.seat[aria-pressed="true"]:focus-visible { outline: 3px solid #983f1d; outline-offset: 2px; }
+.seat-number { font-size: .78rem; font-variant-numeric: tabular-nums; }
+.seat-own .seat-number::after { content: " · Вы"; font-weight: bold; }
+.banquet-table {
+  grid-area: table;
+  grid-column: auto;
+  min-width: 0;
+  background: #543c3b;
+  color: #fff5e9;
+  padding: 12px;
+  border: 1px solid #604746;
+  border-radius: 16px;
+}
+.banquet-table > p { margin: 0 0 4px; font-weight: 700; }
+.banquet-table > small { display: block; color: #f2dac4; }
+.table-zones { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; margin-top: 12px; }
+.table-zones button {
+  display: grid;
+  align-content: start;
+  gap: 4px;
+  min-width: 0;
+  min-height: 60px;
+  padding: 8px;
+  border-color: #e6cfc1;
+  color: #302125;
+  background: #f0e4db;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+.table-zones button[aria-pressed="true"] { background: #fffaf4; color: #302125; outline: 2px solid #bc8d66; outline-offset: -2px; }
+.table-zones button span { font-size: .82rem; }
+.table-detail {
+  margin-top: 12px;
+  padding: 12px 16px;
+  border: 1px solid #ddd1c6;
+  border-radius: 10px;
+  background: #fbf6ef;
+}
+.table-detail ul { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(14rem,100%),1fr)); gap: 0 12px; padding-left: 18px; }
+@media (max-width: 900px) {
+  .event-timeline { grid-template-columns: repeat(3,minmax(0,1fr)); }
+}
+@media (max-width: 650px) {
+  .seats {
+    grid-template-columns: minmax(50px, .85fr) minmax(0, 1.5fr) minmax(50px, .85fr);
+    grid-template-areas: "top table bottom";
+    gap: 6px;
+    align-items: start;
+  }
+  .seat-row { grid-template-columns: minmax(0,1fr); }
+  .seat { min-height: 48px; font-size: .76rem; }
+  .banquet-table { padding: 6px; border-radius: 10px; font-size: .87rem; }
+  .table-zones { grid-template-columns: minmax(0,1fr); gap: 6px; }
+  .table-zones button { min-height: 52px; font-size: .83rem; }
+  .table-zones button span { font-size: .76rem; }
+}
+@media (max-width: 450px) {
+  .event-timeline { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .entrance-cover::after { display: none; }
+}
+@media (max-width: 740px) and (min-width: 451px) {
+  .entrance-cover::after { display: block; block-size: 7.5rem; }
 }

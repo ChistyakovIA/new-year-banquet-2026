@@ -1,6 +1,7 @@
 import { accountEmail, loginPassword } from "./login.js";
 import { catalogPhoto, setCatalogAccess } from "./catalog.js";
 import { menus, photos } from "./menu-data.js";
+import { programStatus, googleCalendarUrl, calendarHref, animateChange, drinkGroups, tableZones } from "./event.js";
 import { supabaseUrl, supabasePublishableKey } from "./config.js?v=20261127-catalog";
 
 const budget = 39000;
@@ -41,6 +42,8 @@ const fields = wish.elements;
 let selectedMenu = 0;
 let selectedStage = 0;
 let selectedSeat = 0;
+let selectedZone = 1;
+let seatFilter = "";
 let snapshot = null;
 let planDraft = null;
 let wishRevision = 0;
@@ -168,13 +171,14 @@ function renderMenu() {
   }));
   get("stages").replaceChildren(...stages.map(([time, title], i) => {
     const choice = button(null, () => {
-      selectedStage = i;
-      renderMenu();
-      get("stages").children[i].focus();
+      selectServing(i, get("stages"));
     }, i === selectedStage);
-    choice.append(element("small", time), element("strong", title), element("span", rubles(costs(rowsFor(selectedMenu, i)))));
+    choice.append(element("small", time), element("strong", title), element("span", null, "stage-phase"));
+    const total = costs(rowsFor(selectedMenu, i));
+    if (total) choice.append(element("small", rubles(total), "stage-cost"));
     return choice;
   }));
+  updateProgramClock();
   setText("menu-note", menuNotes[selectedMenu]);
   const plan = snapshot?.plan;
   setText("plan-status", plan?.menu != null
@@ -197,6 +201,26 @@ function renderMenu() {
       }
     }
   }
+}
+
+function updateProgramClock() {
+  const state = programStatus(menus[selectedMenu][0], Date.now());
+  setText("program-clock", state.note);
+  [...get("stages").children].forEach((control, i) => {
+    const phase = state.phases[i];
+    control.dataset.phase = phase;
+    control.querySelector(".stage-phase").textContent = phase === "live" ? "Сейчас"
+      : phase === "done" ? "Завершено" : state.next === i ? "Следом" : "";
+  });
+}
+
+function selectServing(index, focusGroup) {
+  selectedStage = index;
+  selectedZone = 1;
+  renderMenu();
+  renderSeating();
+  focusGroup?.children[index].focus({ preventScroll: true });
+  animateChange(focusGroup === get("stages") ? get("stage") : get("table-detail"));
 }
 
 function renderExtras() {
@@ -229,22 +253,82 @@ function renderSeating() {
   const guest = snapshot?.guests.find(person => person.id === guestId);
   const assignmentSet = planDraft?.assignments[selectedMenu]
     || (selectedMenu === snapshot?.plan.menu ? snapshot.plan.assignments : {});
+  const serving = get("table-serving");
+  serving.replaceChildren(...menus[selectedMenu][0].map(([time, title], index) => new Option(time + " · " + title, index)));
+  serving.value = selectedStage;
+  const groupOf = id => {
+    const record = snapshot?.guests.find(person => person.id === id);
+    const group = record?.drink_group || record?.profile?.[2];
+    return Object.hasOwn(drinkGroups, group) ? group : "unknown";
+  };
+  const filters = [["", "Все места"], ...Object.entries(drinkGroups)];
+  const filterControls = filters.map(([value, label], index) => {
+    const count = value ? order.filter(id => groupOf(id) === value).length : order.length;
+    const chip = button(label + " · " + count, () => {
+      seatFilter = value;
+      renderSeating();
+      get("seat-filter").children[index].focus({ preventScroll: true });
+    }, seatFilter === value);
+    chip.dataset.drink = value;
+    return chip;
+  });
+  get("seat-filter").replaceChildren(...filterControls);
+  get("my-seat").hidden = !snapshot;
+  const focusSeat = index => get("seats").querySelector('[data-seat="' + index + '"]')?.focus({ preventScroll: true });
   const buttons = order.map((id, index) => {
+    const group = groupOf(id);
     const control = button(null, () => {
       selectedSeat = index;
       renderSeating();
-      get("seats").querySelectorAll("button")[index].focus();
+      focusSeat(index);
+      animateChange(get("guest-card"));
     }, index === selectedSeat);
     control.className = "seat";
-    control.append(element("strong", index + 1), element("small", nameOf(id)));
+    control.dataset.seat = index;
+    control.dataset.drink = group;
+    control.classList.toggle("seat-muted", Boolean(seatFilter && seatFilter !== group));
+    control.classList.toggle("seat-own", id === snapshot?.member);
+    control.setAttribute("aria-label", "Место " + (index + 1) + " · " + nameOf(id) + " · " + drinkGroups[group]
+      + (id === snapshot?.member ? " · Моё место" : ""));
+    const number = element("span", index + 1, "seat-number");
+    control.append(number, element("strong", nameOf(id)));
     return control;
   });
-  get("seats").replaceChildren(...buttons.slice(0, 7), element("div", "Общий банкетный стол", "table"), ...buttons.slice(7));
+  const top = element("div", null, "seat-row seat-row-top");
+  const bottom = element("div", null, "seat-row seat-row-bottom");
+  top.append(...buttons.slice(0, 7));
+  bottom.append(...buttons.slice(7));
+  const surface = element("div", null, "table banquet-table");
+  const zones = tableZones(rowsFor(selectedMenu, selectedStage), rowsFor(selectedMenu, 6));
+  const zoneControls = element("div", null, "table-zones");
+  for (const [index, zone] of zones.entries()) {
+    const control = button(null, () => {
+      selectedZone = index;
+      renderSeating();
+      get("seats").querySelector('[data-zone="' + index + '"]').focus({ preventScroll: true });
+      animateChange(get("table-detail"));
+    }, index === selectedZone);
+    control.dataset.zone = index;
+    control.append(element("strong", zone.name), element("span", zone.rows.length ? zone.rows[0][0] : "Пока пусто"));
+    zoneControls.append(control);
+  }
+  const [time, title] = menus[selectedMenu][0][selectedStage];
+  surface.append(element("p", "Общий стол"), element("small", time + " · " + title), zoneControls);
+  get("seats").replaceChildren(top, surface, bottom);
+  const tableDetail = get("table-detail");
+  const zone = zones[selectedZone];
+  tableDetail.replaceChildren(element("h3", zone.name), element("p", "Пример сервировки · вариант " + (selectedMenu + 1), "muted"));
+  if (zone.rows.length) {
+    const list = element("ul");
+    for (const [name, quantity] of zone.rows) list.append(element("li", name + " × " + quantity));
+    tableDetail.append(list);
+  } else tableDetail.append(element("p", "Для этой зоны в текущем меню нет позиций."));
   setText("seats-status", planDraft ? "Черновик организатора. Для участников действует опубликованная схема."
     : snapshot?.plan.revision ? "Утверждённая рассадка. Выберите место для просмотра."
     : "Предварительная схема на 13 мест. Выберите место, чтобы открыть карточку.");
   const card = get("guest-card");
   card.replaceChildren(element("h3", "Место " + (selectedSeat + 1) + " · " + (guest?.profile?.[0] || nameOf(guestId))));
+  if (guest) card.append(element("p", drinkGroups[groupOf(guestId)], "muted"));
   if (guest?.profile) {
     const list = element("dl");
     ["Салаты", "Горячее", "Напитки", "Ограничения"].forEach((label, i) => {
@@ -462,6 +546,8 @@ function switchUser(session) {
     selectedMenu = 0;
     selectedStage = 0;
     selectedSeat = 0;
+    seatFilter = "";
+    selectedZone = 1;
     renderExtras();
   }
   renderOnline();
@@ -661,6 +747,28 @@ get("copy-menu").addEventListener("click", async () => {
   }
 });
 get("print").addEventListener("click", () => window.print());
+get("table-serving").addEventListener("change", event => selectServing(Number(event.currentTarget.value)));
+get("my-seat").addEventListener("click", () => {
+  if (!snapshot) return;
+  const order = planDraft?.seats || snapshot.plan.seats;
+  const index = order.indexOf(snapshot.member);
+  if (index < 0) return;
+  selectedSeat = index;
+  seatFilter = "";
+  renderSeating();
+  get("seats").querySelector('[data-seat="' + index + '"]').focus();
+  animateChange(get("guest-card"));
+});
+for (const link of document.querySelectorAll("[data-calendar]")) {
+  const href = calendarHref((navigator.userAgentData?.platform || "") + " " + navigator.userAgent);
+  link.href = href;
+  if (href !== "banquet.ics") {
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+  }
+}
+get("google-calendar").href = googleCalendarUrl();
+setInterval(() => { if (snapshot && !document.hidden) updateProgramClock(); }, 15000);
 
 renderMenu();
 renderExtras();

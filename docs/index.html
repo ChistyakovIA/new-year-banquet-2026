@@ -8,9 +8,9 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru; connect-src 'self' https://*.supabase.co wss://*.supabase.co; base-uri 'none'; form-action 'none'">
   <title>Новогодний вечер · Моя узбечка</title>
   <link rel="stylesheet" href="vendor/glisse-0.6.0.css">
-  <link rel="stylesheet" href="styles.css?v=20261127-entrance">
+  <link rel="stylesheet" href="styles.css?v=20261127-table">
   <script src="vendor/supabase.js" defer></script>
-  <script type="module" src="app.js?v=20261127-catalog"></script>
+  <script type="module" src="app.js?v=20261127-table"></script>
 </head>
 <body>
   <main id="entrance" class="entrance">
@@ -18,6 +18,7 @@
       <p class="entrance-date">25 декабря 2026 · 18:00</p>
       <h1>Новогодний<br>вечер</h1>
       <p class="entrance-venue">«Моя узбечка»<br>Саратов, Соколовая, 10/16</p>
+      <a class="calendar-action" href="banquet.ics" data-calendar>Сохранить в календарь</a>
     </div>
     <section id="account" class="entrance-form" aria-labelledby="account-title">
       <h2 id="account-title">Вход участников</h2>
@@ -42,6 +43,7 @@
       <p>25 декабря 2026 · 18:00–00:00</p>
       <h1 id="workspace-title" tabindex="-1">Новогодний вечер</h1>
       <p>«Моя узбечка», Саратов, Соколовая, 10/16</p>
+      <a class="calendar-action" href="banquet.ics" data-calendar>Сохранить в календарь</a>
       <nav aria-label="Разделы сайта">
         <a href="#menu">Варианты меню</a>
         <a href="#catalog">Каталог</a>
@@ -76,8 +78,17 @@
     </section>
     <section id="program" class="panel" aria-labelledby="program-title">
       <h2 id="program-title">Программа и подача</h2>
-      <div id="stages" class="stages" aria-label="Этапы программы"></div>
+      <div class="program-meta">
+        <p id="program-clock" class="program-clock"></p>
+        <details class="calendar-options">
+          <summary>Другой календарь</summary>
+          <a href="banquet.ics">Apple Calendar / файл .ics</a>
+          <a id="google-calendar" href="https://calendar.google.com/" target="_blank" rel="noopener noreferrer">Google Календарь</a>
+        </details>
+      </div>
+      <div id="stages" class="stages event-timeline" role="group" aria-label="Этапы программы"></div>
       <div id="stage"></div>
+      <p><a href="#seating">Посмотреть эту подачу на столе</a></p>
       <details>
         <summary>Напитки</summary>
         <div id="drinks"></div>
@@ -99,7 +110,14 @@
     <section id="seating" class="panel" aria-labelledby="seats-title">
       <h2 id="seats-title">Рассадка на 13 гостей</h2>
       <p id="seats-status">Выберите место, чтобы открыть карточку. Имена участников доступны после входа.</p>
-      <div id="seats" class="seats" aria-label="Места за столом"></div>
+      <div class="seating-tools">
+        <label>Подача на столе<select id="table-serving"></select></label>
+        <div id="seat-filter" class="seat-filters" role="group" aria-label="Предпочтения по напиткам"></div>
+        <button id="my-seat" type="button" hidden>Моё место</button>
+      </div>
+      <p class="muted">Цвет показывает пожелание по напиткам. Нажмите на место или на зону стола.</p>
+      <div id="seats" class="seats" aria-label="Места и зоны за столом"></div>
+      <div id="table-detail" class="table-detail"></div>
       <div id="guest-card" class="guest-card"></div>
       <div id="allocation"></div>
     </section>

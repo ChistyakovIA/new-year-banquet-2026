@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//New Year Banquet//Saratov//RU
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+UID:banquet-20261225@chistyakovia.github.io
+DTSTAMP:20261127T120000Z
+DTSTART:20261225T140000Z
+DTEND:20261225T200000Z
+SUMMARY:Новогодний вечер
+LOCATION:Моя узбечка\, Саратов\, Соколовая\, 10/1
+ 6
+DESCRIPTION:Встреча гостей в 18:00 по Саратову.
+URL:https://chistyakovia.github.io/new-year-banquet-2026/
+END:VEVENT
+END:VCALENDAR
