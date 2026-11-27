@@ -6,7 +6,6 @@ export function seatingReview(order, count, wishes, guests) {
   const rows = seatingRows(count).flatMap(([start, middle, end]) => [[start, middle], [middle, end]]);
   const sameSide = (a, b) => rows.some(([start, end]) => a >= start && b >= start && a < end && b < end);
   const checks = wishes.flatMap(wish => {
-    if (wish.details?.layout && wish.details.layout !== count) return [];
     const seat = order.indexOf(wish.guest_id);
     const neighbor = order.indexOf(wish.neighbor);
     return [

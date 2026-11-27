@@ -30,6 +30,22 @@ export function catalogPhoto(name) {
   return photoByName.get(searchText(name)) || null;
 }
 
+const wishCategories = {
+  salad: ["Салаты"],
+  main: ["Горячее", "Плов", "Мангал", "Супы", "Тесто", "Фестиваль самсы"],
+  drink: ["Алкогольные коктейли", "Крепкий алкоголь", "Пиво", "Домашние настойки", "Вино", "Лимонады и б/а коктейли", "Б/а напитки"]
+};
+
+export function wishCatalog(groups, slot) {
+  const categories = wishCategories[slot] ?? [];
+  return categories.flatMap(category => {
+    const group = groups.find(item => item.category === category);
+    if (!group) return [];
+    if (category !== "Лимонады и б/а коктейли") return [group];
+    return [{ ...group, items: group.items.filter(([name]) => !/^глинтвейн/i.test(name)) }];
+  });
+}
+
 function openPhoto(name, price, url) {
   const dialog = element("catalog-photo");
   const image = element("photo-image");
@@ -111,12 +127,10 @@ function render() {
   element("catalog-results").replaceChildren(...results);
 }
 
-function reload() {
-  if (loading) return loading;
-  element("catalog-retry").hidden = true;
-  element("catalog-status").textContent = "Загружаем каталог…";
-  loading = (async () => {
-    try {
+export function loadCatalogGroups() {
+  if (groups) return Promise.resolve(groups);
+  if (!loading) {
+    loading = (async () => {
       const response = await fetch(new URL("./catalog-data.json", import.meta.url), {signal:AbortSignal.timeout(10000)});
       if (!response.ok) throw Error("Catalog request failed");
       const data = await response.json();
@@ -126,19 +140,29 @@ function reload() {
         const url = photoUrl(src);
         if (url && !photoByName.has(searchText(name))) photoByName.set(searchText(name),url);
       }
-      element("catalog-category").replaceChildren(new Option("Все категории",""),
-        ...groups.map(group=>new Option(group.category,group.category)));
-      render();
-      return true;
-    } catch {
+      return groups;
+    })().finally(() => { loading = null; });
+  }
+  return loading;
+}
+
+async function reload() {
+  element("catalog-retry").hidden = true;
+  element("catalog-status").textContent = "Загружаем каталог…";
+  try {
+    const result = await loadCatalogGroups();
+    if (!connected) return false;
+    element("catalog-category").replaceChildren(new Option("Все категории", ""),
+      ...result.map(group => new Option(group.category, group.category)));
+    render();
+    return true;
+  } catch {
+    if (connected) {
       element("catalog-status").textContent = "Каталог не загрузился. Попробуйте ещё раз.";
       element("catalog-retry").hidden = false;
-      return false;
-    } finally {
-      loading = null;
     }
-  })();
-  return loading;
+    return false;
+  }
 }
 
 export function setCatalogAccess(value) {
@@ -153,9 +177,7 @@ export function setCatalogAccess(value) {
     element("catalog-sort").value = "";
     return Promise.resolve(false);
   }
-  if (!groups) return reload();
-  render();
-  return Promise.resolve(true);
+  return reload();
 }
 
 function restart() { visibleLimit = pageSize; render(); }

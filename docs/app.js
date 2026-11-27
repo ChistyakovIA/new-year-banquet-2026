@@ -1,10 +1,10 @@
 import { accountEmail, loginPassword } from "./login.js";
-import { catalogPhoto, setCatalogAccess } from "./catalog.js?v=dashboard-1";
+import { catalogPhoto, loadCatalogGroups, setCatalogAccess, wishCatalog } from "./catalog.js?v=wishes";
 import { menus, photos } from "./menu-data.js";
 import { googleCalendarUrl, calendarHref, animateChange, drinkGroups, tableZones } from "./event.js?v=dashboard-1";
 import { supabaseUrl, supabasePublishableKey } from "./config.js?v=20261127-catalog";
 import { drinkPreferences, orderMetrics, tablePortions } from "./overview.js?v=layouts";
-import { seatingRows, seatingReview, suggestSeats } from "./planning.js";
+import { seatingRows, seatingReview, suggestSeats } from "./planning.js?v=wishes";
 import { servingPhotos } from "./serving-photos.js";
 
 const budget = 39000;
@@ -50,8 +50,12 @@ let selectedSeat = 0;
 let selectedZone = 1;
 let selectedTable = 0;
 let previewTables = null;
-let wishItems = [];
-let pickerDrinks = false;
+let wishFood = {};
+let wishDrinks = [];
+let wishLegacyDishes = [];
+let pickerSlot = "salad";
+let pickerGroups = [];
+let pickerRequest = 0;
 let timelineKey = "";
 let seatFilter = "";
 let snapshot = null;
@@ -764,15 +768,6 @@ function renderSeatingReview(order, tableCount) {
   panel.append(history);
 }
 
-function dishWishOptions(salad, hot) {
-  const picked = fields.variant.value;
-  const options = picked === "" ? menus : [menus[Number(picked)]];
-  for (const [stage, select, current] of [[1, fields.salad, salad], [2, fields.hot, hot]]) {
-    const dishes = [...new Set(options.flatMap(([steps]) => steps[stage][3].map(row => row[0])))];
-    setOptions(select, dishes.map(name => [name, name]), current, "Без пожелания");
-  }
-}
-
 function loadWish() {
   const current = snapshot.wishes.find(row => row.guest_id === snapshot.member);
   wishRevision = current?.revision || 0;
@@ -780,65 +775,147 @@ function loadWish() {
   setOptions(fields.seat, defaultSeats.map((_, i) => [i + 1, "Место " + (i + 1)]), current?.seat);
   setOptions(fields.neighbor, snapshot.guests.filter(row => row.id !== snapshot.member).map(row => [row.id, row.name]), current?.neighbor);
   setOptions(fields.variant, menuNames.map((name, i) => [i, (i + 1) + " · " + name]), current?.menu);
-  dishWishOptions(current?.salad, current?.hot);
   fields.note.value = current?.note || "";
-  fields.layout.value = current?.details?.layout ?? "";
-  wishItems = [...(current?.details?.items || [])];
-  renderWishItems();
+  wishFood = {};
+  for (const [slot, name] of [["salad", current?.salad], ["main", current?.hot]]) {
+    if (name) wishFood[slot] = { ...current.details?.food?.[slot], name };
+  }
+  const previousItems = current?.details?.items ?? [];
+  wishDrinks = previousItems.filter(item => item.kind === "drink");
+  wishLegacyDishes = previousItems.filter(item => item.kind === "dish");
+  renderWishChoices();
 }
 
-function renderWishItems() {
-  get("wish-items").replaceChildren(...wishItems.map((item, i) => {
+const wishSlots = {
+  salad: "Выбрать салат",
+  main: "Выбрать основное блюдо",
+  drink: "Добавить напиток"
+};
+const wishItemLabel = item => item.name + (Number.isFinite(item.price) ? " · " + rubles(item.price) : "");
+
+function renderWishChoices() {
+  for (const slot of ["salad", "main"]) {
+    const choice = wishFood[slot];
+    setText("wish-" + slot, choice ? wishItemLabel(choice) : "Пока не выбрано");
+    setText("pick-wish-" + slot, choice ? (slot === "main" ? "Изменить блюдо" : "Изменить салат") : wishSlots[slot]);
+    get("clear-wish-" + slot).hidden = !choice;
+  }
+  const drinks = get("wish-drinks");
+  drinks.replaceChildren(...wishDrinks.map((item, index) => {
     const line = element("li");
+    const info = element("span", wishItemLabel(item));
+    if (item.category) info.append(element("small", item.category, "muted"));
     const remove = button("Убрать", () => {
-      wishItems.splice(i, 1);
+      wishDrinks.splice(index, 1);
       wishDirty = true;
-      renderWishItems();
-      get(item.kind === "drink" ? "pick-wish-drink" : "pick-wish-dish").focus({ preventScroll: true });
+      renderWishChoices();
+      get("pick-wish-drink").focus({ preventScroll: true });
     });
-    remove.setAttribute("aria-label", "Убрать " + item.name);
-    line.append(element("span", item.name), remove);
+    remove.setAttribute("aria-label", "Убрать " + wishItemLabel(item));
+    line.append(info, remove);
     return line;
   }));
+  if (!wishDrinks.length) drinks.append(element("li", "Пока не выбраны", "muted"));
+  get("wish-legacy-items").hidden = !wishLegacyDishes.length;
+  setText("wish-legacy-items", wishLegacyDishes.length
+    ? "Ранее добавленные блюда · " + wishLegacyDishes.map(item => item.name).join(", ")
+    : "");
 }
+
+const wishSearchText = text => text.toLocaleLowerCase("ru-RU").replaceAll("ё", "е").trim();
+const sameWishItem = (a, b) => a.name === b.name && a.category === b.category && a.price === b.price;
+const coldCatalogGroups = new Set(["Лимонады и б/а коктейли", "Б/а напитки"]);
 
 function renderWishPicker() {
-  const variant = fields.variant.value;
-  const choices = variant === "" ? menus : [menus[Number(variant)]];
-  const search = get("wish-picker-search").value.trim().toLocaleLowerCase("ru-RU");
-  const rows = choices.flatMap(([steps, drinks]) => pickerDrinks ? drinks : steps.flatMap(step => step[3]));
-  const items = new Map(rows.map(row => [row[0], row]));
-  const kind = pickerDrinks ? "drink" : "dish";
-  const results = [...items.entries()].filter(([name]) => name.toLocaleLowerCase("ru-RU").includes(search));
-  get("wish-picker-results").replaceChildren(...results.map(([name, [, , price, grams]]) => {
-    const selected = wishItems.some(item => item.name === name && item.kind === kind);
+  const category = get("wish-picker-category").value;
+  const group = pickerGroups.find(group => group.category === category);
+  const results = get("wish-picker-results");
+  if (!group) {
+    results.replaceChildren();
+    setText("wish-picker-status", pickerGroups.length ? "Сначала выберите категорию." : "");
+    return;
+  }
+  const query = wishSearchText(get("wish-picker-search").value);
+  const available = group.items.filter(([name]) => wishSearchText(name).includes(query));
+  const maxReached = pickerSlot === "drink" && wishLegacyDishes.length + wishDrinks.length >= 15;
+  setText("wish-picker-status", maxReached ? "Достигнут лимит из 15 дополнительных позиций." :
+    available.length ? "" : "По этому запросу в категории ничего нет.");
+  results.replaceChildren(...available.map(([name, price]) => {
+    const item = { name, category, price };
+    const isDrink = pickerSlot === "drink";
+    const selected = isDrink ? wishDrinks.some(drink => sameWishItem(drink, item)) :
+      wishFood[pickerSlot] && sameWishItem(wishFood[pickerSlot], item);
     const control = button(null, () => {
-      if (wishItems.length >= 15) return;
-      wishItems.push({ kind, name });
+      if (isDrink) {
+        const legacyIndex = wishDrinks.findIndex(drink => drink.name === name && !drink.category);
+        if (legacyIndex !== -1) wishDrinks.splice(legacyIndex, 1);
+        wishDrinks.push({ kind: "drink", ...item });
+      } else wishFood[pickerSlot] = item;
       wishDirty = true;
-      renderWishItems();
-      renderWishPicker();
-      get("wish-picker-search").focus({ preventScroll: true });
+      renderWishChoices();
+      if (isDrink) {
+        renderWishPicker();
+        setText("wish-picker-status", "Добавлено · " + name);
+        get("wish-picker-category").focus({ preventScroll: true });
+      } else get("wish-picker").close();
     });
-    control.disabled = selected || wishItems.length >= 15;
-    control.append(element("strong", name),
-      element("small", rubles(price) + (grams ? " · " + grams + " г" : "") + (selected ? " · добавлено" : "")));
+    control.disabled = Boolean(selected || maxReached);
+    control.append(element("strong", name), element("small", rubles(price) + (selected ? " · выбрано" : "")));
     return control;
   }));
-  if (!results.length) get("wish-picker-results").append(element("p", "По этому запросу в выбранном меню ничего нет."));
 }
 
-for (const [id, drinks] of [["pick-wish-dish", false], ["pick-wish-drink", true]]) {
-  get(id).addEventListener("click", () => {
-    pickerDrinks = drinks;
-    setText("wish-picker-title", drinks ? "Выбрать напиток" : "Выбрать блюдо");
-    get("wish-picker-search").value = "";
+async function populateWishPicker() {
+  const request = ++pickerRequest;
+  const select = get("wish-picker-category");
+  select.disabled = true;
+  get("wish-picker-search").disabled = true;
+  get("wish-picker-results").replaceChildren();
+  setText("wish-picker-status", "Загружаем каталог…");
+  try {
+    const groups = await loadCatalogGroups();
+    if (request !== pickerRequest || !get("wish-picker").open) return;
+    pickerGroups = wishCatalog(groups, pickerSlot);
+    setOptions(select, pickerGroups.map(({ category }) => [
+      category, coldCatalogGroups.has(category) ? "Холодные · " + category : category
+    ]), pickerGroups.length === 1 ? pickerGroups[0].category : wishFood[pickerSlot]?.category, "Выберите категорию");
+    select.disabled = false;
+    get("wish-picker-search").disabled = false;
     renderWishPicker();
+    (pickerGroups.length === 1 ? get("wish-picker-search") : select).focus({ preventScroll: true });
+  } catch {
+    if (request !== pickerRequest || !get("wish-picker").open) return;
+    setText("wish-picker-status", "Каталог не загрузился.");
+    get("wish-picker-results").replaceChildren(button("Загрузить снова", populateWishPicker));
+  }
+}
+
+for (const [slot, label] of Object.entries(wishSlots)) {
+  get("pick-wish-" + slot).addEventListener("click", () => {
+    if (!snapshot) return;
+    pickerSlot = slot;
+    pickerGroups = [];
+    setText("wish-picker-title", label);
+    get("wish-picker-category-label").hidden = slot === "salad";
+    get("wish-picker-search").value = "";
     get("wish-picker").showModal();
+    void populateWishPicker();
+  });
+  if (slot === "drink") continue;
+  get("clear-wish-" + slot).addEventListener("click", () => {
+    delete wishFood[slot];
+    wishDirty = true;
+    renderWishChoices();
+    get("pick-wish-" + slot).focus({ preventScroll: true });
   });
 }
+get("wish-picker-category").addEventListener("change", () => {
+  get("wish-picker-search").value = "";
+  renderWishPicker();
+});
 get("wish-picker-search").addEventListener("input", renderWishPicker);
 get("wish-picker-close").addEventListener("click", () => get("wish-picker").close());
+
 
 function describeChanges(before, after) {
   const changes = [];
@@ -865,7 +942,8 @@ function describeWish(wish) {
     wish.neighbor == null ? "" : "Сосед · " + nameOf(wish.neighbor),
     wish.menu == null ? "" : "Вариант меню " + (wish.menu + 1),
     wish.details?.layout ? (wish.details.layout === 1 ? "Для одного стола" : "Для двух столов") : "",
-    wish.salad, wish.hot, ...(wish.details?.items || []).map(item => (item.kind === "drink" ? "Напиток · " : "Блюдо · ") + item.name),
+    wish.salad, wish.hot, ...(wish.details?.items || []).map(item =>
+      (item.kind === "drink" ? "Напиток · " : "Блюдо · ") + wishItemLabel(item) + (item.category ? " · " + item.category : "")),
     wish.note
   ].filter(Boolean);
 }
@@ -1036,7 +1114,11 @@ function switchUser(session) {
   selectedMenu = null;
   comparison.clear();
   comparisonActive = false;
-  wishItems = [];
+  wishFood = {};
+  wishDrinks = [];
+  wishLegacyDishes = [];
+  pickerRequest++;
+  if (get("wish-picker").open) get("wish-picker").close();
   timelineKey = "";
   publishing = false;
   wishDirty = false;
@@ -1155,7 +1237,6 @@ function startOnline() {
 }
 
 wish.addEventListener("input", () => { wishDirty = true; });
-fields.variant.addEventListener("change", () => dishWishOptions(fields.salad.value, fields.hot.value));
 wish.addEventListener("submit", async event => {
   event.preventDefault();
   if (!snapshot) return;
@@ -1164,9 +1245,9 @@ wish.addEventListener("submit", async event => {
   const number = field => field.value === "" ? null : Number(field.value);
   const parameters = {
     expected_revision: wishRevision, wanted_seat: number(fields.seat), wanted_neighbor: number(fields.neighbor),
-    wanted_menu: number(fields.variant), wanted_salad: fields.salad.value || null,
-    wanted_hot: fields.hot.value || null, wanted_note: fields.note.value.trim(),
-    wanted_details: { layout: number(fields.layout), items: wishItems }
+    wanted_menu: number(fields.variant), wanted_salad: wishFood.salad?.name ?? null,
+    wanted_hot: wishFood.main?.name ?? null, wanted_note: fields.note.value.trim(),
+    wanted_details: { food: wishFood, items: [...wishLegacyDishes, ...wishDrinks] }
   };
   submit.disabled = true;
   for (const field of fields) field.disabled = true;

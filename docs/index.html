@@ -9,8 +9,8 @@
   <title>🎄 Новогодний корпоратив 2027 · Моя узбечка</title>
   <link rel="stylesheet" href="vendor/glisse-0.6.0.css">
   <link rel="stylesheet" href="styles.css?v=20261127-calendar">
-  <link rel="stylesheet" href="dashboard.css?v=7">
-  <script type="module" src="app.js?v=2027-4"></script>
+  <link rel="stylesheet" href="dashboard.css?v=8">
+  <script type="module" src="app.js?v=2027-5"></script>
 </head>
 <body>
   <main id="entrance" class="entrance">
@@ -202,25 +202,23 @@
     </section>
     <section id="wishes" data-view="wishes" class="panel" hidden aria-labelledby="wish-title">
       <h2 id="wish-title">Мои пожелания</h2>
-      <p>Можно указать место, соседа, вариант меню и блюда. Итоговый план утверждает организатор.</p>
+      <p>Укажите желаемое место, соседа и вариант банкета. Итоговую рассадку и меню утверждает организатор.</p>
       <form id="wish-form">
         <div class="form-grid">
           <label>Желаемое место<select name="seat"></select></label>
           <label>Хотелось бы сидеть рядом с<select name="neighbor"></select></label>
-          <label>Формат рассадки<select name="layout"><option value="">Любой формат</option><option value="1">Один стол</option><option value="2">Два стола</option></select></label>
           <label>Вариант меню<select name="variant"></select></label>
-          <label>Салат<select name="salad"></select></label>
-          <label>Первое горячее<select name="hot"></select></label>
         </div>
-        <div class="actions wish-picker-actions">
-          <button id="pick-wish-dish" type="button">Выбрать блюдо</button>
-          <button id="pick-wish-drink" type="button">Выбрать напиток</button>
-          <a href="#menu">Общее меню</a>
-          <a href="#beverage-editor">Напитки и алкоголь</a>
-          <a href="#catalog">Весь каталог</a>
+        <h3>Из каталога ресторана</h3>
+        <p class="muted">Выберите салат и основное блюдо. Напитки добавляются отдельно, из одной или нескольких категорий.</p>
+        <div class="wish-choices">
+          <div class="wish-choice"><strong>Салат</strong><span id="wish-salad"></span><div class="actions"><button id="pick-wish-salad" type="button">Выбрать салат</button><button id="clear-wish-salad" type="button" hidden>Убрать салат</button></div></div>
+          <div class="wish-choice"><strong>Основное блюдо</strong><span id="wish-main"></span><div class="actions"><button id="pick-wish-main" type="button">Выбрать основное блюдо</button><button id="clear-wish-main" type="button" hidden>Убрать блюдо</button></div></div>
+          <div class="wish-choice"><strong>Напитки</strong><ul id="wish-drinks" aria-label="Выбранные напитки"></ul><div class="actions"><button id="pick-wish-drink" type="button">Добавить напиток</button></div></div>
         </div>
-        <ul id="wish-items" aria-label="Выбранные блюда и напитки"></ul>
-        <label>Напитки, ограничения и личный дозаказ<textarea name="note" maxlength="1200" rows="4"></textarea></label>
+        <p id="wish-legacy-items" class="muted" hidden></p>
+        <p><a href="#catalog">Весь каталог ресторана</a></p>
+        <label>Ограничения и комментарий<textarea name="note" maxlength="1200" rows="4"></textarea></label>
         <button id="save-wish" class="primary" type="submit">Сохранить пожелания</button>
       </form>
       <p id="wish-status" role="status"></p>
@@ -269,7 +267,9 @@
   </dialog>
   <dialog id="wish-picker" aria-labelledby="wish-picker-title">
     <h2 id="wish-picker-title">Выбрать блюдо</h2>
+    <label id="wish-picker-category-label">Категория<select id="wish-picker-category"></select></label>
     <label>Поиск<input id="wish-picker-search" type="search" maxlength="80"></label>
+    <p id="wish-picker-status" class="muted" role="status"></p>
     <div id="wish-picker-results"></div>
     <button id="wish-picker-close" type="button">Готово</button>
   </dialog>
