@@ -1351,9 +1351,10 @@ let extras = (() => {
    }
    const table = document.createElement("table");
    table.innerHTML = "<thead><tr><th>Место</th><th>Участник</th><th>Время</th><th>Промахи</th></tr></thead>";
+   const body = table.createTBody();
    let place = 0;
    for (const player of rows) {
-     const row = table.insertRow();
+     const row = body.insertRow();
      const scored = player.centiseconds != null;
      for (const value of [scored ? ++place : "—", player.name,
        scored ? rankTime(player.centiseconds) : "—", scored ? player.misses : "—"]) {

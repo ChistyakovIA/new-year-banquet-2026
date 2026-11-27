@@ -1197,7 +1197,7 @@ wish.addEventListener("submit", async event => {
   openingWishChallenge = true;
   submit.disabled = true;
   try {
-    const { openGrinch } = await import("./grinch.mjs?v=2");
+    const { openGrinch } = await import("./grinch.mjs?v=3");
     if (owner !== userId || !snapshot) return;
     wishDirty = true;
     const challenge = openGrinch({

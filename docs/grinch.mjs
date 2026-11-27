@@ -16,7 +16,7 @@ export function openGrinch({ participant, onVictory, onBack, loadRanking, record
   frame.title = "Радар и рейтинг участников";
   frame.setAttribute("sandbox", "allow-scripts");
   frame.setAttribute("allow", "autoplay");
-  frame.src = "game/operation-grinch.html?v=2";
+  frame.src = "game/operation-grinch.html?v=3";
   dialog.append(bar, frame);
 
   let port;
