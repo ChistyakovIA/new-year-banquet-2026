@@ -9,8 +9,8 @@
   <title>🎄 Новогодний корпоратив · Моя узбечка</title>
   <link rel="stylesheet" href="vendor/glisse-0.6.0.css">
   <link rel="stylesheet" href="styles.css?v=20261127-calendar">
-  <script src="vendor/supabase.js" defer></script>
-  <script type="module" src="app.js?v=20261127-calendar"></script>
+  <link rel="stylesheet" href="dashboard.css?v=1">
+  <script type="module" src="app.js?v=dashboard-1"></script>
 </head>
 <body>
   <main id="entrance" class="entrance">
@@ -20,7 +20,7 @@
       <p class="entrance-venue">«Моя узбечка»<br>Саратов, Соколовая, 10/16</p>
       <a class="calendar-action" href="banquet.ics" data-calendar>Сохранить в календарь</a>
     </div>
-    <section id="account" class="entrance-form" aria-labelledby="account-title">
+    <section id="account" class="entrance-form lg-glass" aria-labelledby="account-title">
       <h2 id="account-title">Вход участников</h2>
       <form id="login" hidden>
         <label>Фамилия<input name="surname" type="text" autocomplete="username" maxlength="80" required></label>
@@ -39,25 +39,60 @@
     </section>
   </main>
   <main id="workspace" hidden>
-    <header class="invitation">
-      <p>25 декабря 2026 · 18:00–00:00</p>
-      <h1 id="workspace-title" tabindex="-1">Новогодний корпоратив</h1>
-      <p>«Моя узбечка», Саратов, Соколовая, 10/16</p>
-      <a class="calendar-action" href="banquet.ics" data-calendar>Сохранить в календарь</a>
-      <nav aria-label="Разделы сайта">
-        <a href="#menu">Варианты меню</a>
-        <a href="#catalog">Каталог</a>
-        <a href="#program">Программа</a>
-        <a href="#seating">Рассадка</a>
-        <a href="#wishes">Пожелания</a>
-      </nav>
+    <header class="workspace-bar">
+      <a class="workspace-brand" href="#overview">Новогодний корпоратив</a>
       <div class="session-bar">
         <p id="session-status" role="status"></p>
-        <button id="refresh" type="button" hidden>Обновить данные</button>
         <button id="logout" type="button" hidden>Выйти</button>
       </div>
     </header>
-    <section id="menu" class="panel" aria-labelledby="menu-title">
+    <nav id="workspace-nav" class="workspace-nav lg-glass" aria-label="Разделы сайта">
+      <a href="#overview" data-nav="overview">Сводка</a>
+      <a href="#menu" data-nav="menu">Меню и подача</a>
+      <a href="#seating" data-nav="seating">Рассадка</a>
+      <a href="#wishes" data-nav="wishes">Пожелания</a>
+      <a href="#catalog" data-nav="catalog">Каталог</a>
+    </nav>
+    <section id="overview" data-view="overview" aria-labelledby="workspace-title">
+      <header class="overview-hero">
+        <div>
+          <p>25 декабря 2026 · 18:00–00:00</p>
+          <h1 id="workspace-title" tabindex="-1">Новогодний<br>корпоратив</h1>
+          <p>«Моя узбечка», Саратов, Соколовая, 10/16</p>
+          <a class="calendar-action lg-glass" href="banquet.ics" data-calendar>Сохранить в календарь</a>
+        </div>
+      </header>
+      <div id="overview-facts" class="overview-facts" aria-label="Ключевые показатели"></div>
+      <div class="overview-grid">
+        <section class="panel" aria-labelledby="money-title">
+          <h2 id="money-title">Деньги</h2>
+          <div id="payments"></div>
+          <h3>Смета выбранного меню</h3>
+          <div id="estimate"></div>
+          <a href="#menu">Сравнить варианты меню</a>
+        </section>
+        <section class="panel" aria-labelledby="portions-title">
+          <h2 id="portions-title">Еда и подача</h2>
+          <div id="serving-analytics"></div>
+          <a href="#program">Открыть программу подачи</a>
+        </section>
+        <section class="panel" aria-labelledby="preferences-title">
+          <h2 id="preferences-title">Напитки гостей</h2>
+          <div id="drink-analytics"></div>
+          <a href="#seating">Посмотреть гостей за столами</a>
+        </section>
+        <section class="panel" aria-labelledby="checks-title">
+          <h2 id="checks-title">Проверка плана</h2>
+          <ul id="overview-checks" class="overview-checks"></ul>
+          <div class="actions">
+            <a id="organizer-link" href="#organizer" hidden>Перейти к утверждению</a>
+            <a href="#history">История изменений</a>
+            <button id="refresh" type="button" hidden>Обновить данные</button>
+          </div>
+        </section>
+      </div>
+    </section>
+    <section id="menu" data-view="menu" class="panel" aria-labelledby="menu-title">
       <h2 id="menu-title">Четыре варианта меню</h2>
       <div id="choices" class="choices"></div>
       <p id="plan-status"></p>
@@ -70,13 +105,14 @@
         <div><span>На гостя</span><strong id="per-guest"></strong></div>
         <div><span id="balance-label">Резерв</span><strong id="balance"></strong></div>
       </div>
+      <p class="muted" id="menu-weight-note">Вес считается по указанным граммовкам на 13 гостей.</p>
       <div class="actions">
         <button id="suggested-bar" type="button">Добавить напитки варианта 4</button>
         <button id="reset-menu" type="button">Сбросить черновик меню</button>
         <button id="show-plan" type="button" hidden>Открыть утверждённое меню</button>
       </div>
     </section>
-    <section id="program" class="panel" aria-labelledby="program-title">
+    <section id="program" data-view="menu" class="panel" aria-labelledby="program-title">
       <h2 id="program-title">Программа и подача</h2>
       <div class="program-meta">
         <p id="program-clock" class="program-clock"></p>
@@ -86,6 +122,11 @@
           <a id="google-calendar" href="https://calendar.google.com/" target="_blank" rel="noopener noreferrer">Google Календарь</a>
           <p class="muted">В Google Календаре добавьте два уведомления при сохранении события.</p>
         </details>
+      </div>
+      <div class="event-agenda" aria-label="Основная программа">
+        <p><strong>18:00–19:00</strong> Сбор гостей</p>
+        <p><strong>19:00–23:00</strong> Культурная программа</p>
+        <p><strong>23:00–00:00</strong> Дискотека</p>
       </div>
       <div id="stages" class="stages event-timeline" role="group" aria-label="Этапы программы"></div>
       <div id="stage"></div>
@@ -108,8 +149,8 @@
         <p id="copy-status" role="status"></p>
       </details>
     </section>
-    <section id="seating" class="panel" aria-labelledby="seats-title">
-      <h2 id="seats-title">Рассадка на 13 гостей</h2>
+    <section id="seating" data-view="seating" class="panel" aria-labelledby="seats-title">
+      <h2 id="seats-title">Два стола на 13 гостей</h2>
       <p id="seats-status">Выберите место, чтобы открыть карточку. Имена участников доступны после входа.</p>
       <div class="seating-tools">
         <label>Подача на столе<select id="table-serving"></select></label>
@@ -118,11 +159,13 @@
       </div>
       <p class="muted">Цвет показывает пожелание по напиткам. Нажмите на место или на зону стола.</p>
       <div id="seats" class="seats" aria-label="Места и зоны за столом"></div>
-      <div id="table-detail" class="table-detail"></div>
-      <div id="guest-card" class="guest-card"></div>
+      <div class="seating-details">
+        <div id="table-detail" class="table-detail"></div>
+        <div id="guest-card" class="guest-card"></div>
+      </div>
       <div id="allocation"></div>
     </section>
-    <section id="wishes" class="panel" hidden aria-labelledby="wish-title">
+    <section id="wishes" data-view="wishes" class="panel" hidden aria-labelledby="wish-title">
       <h2 id="wish-title">Мои пожелания</h2>
       <p>Можно указать место, соседа, вариант меню и блюда. Итоговый план утверждает организатор.</p>
       <form id="wish-form">
@@ -138,23 +181,25 @@
       </form>
       <p id="wish-status" role="status"></p>
     </section>
-    <section id="organizer" class="panel" hidden aria-labelledby="organizer-title">
+    <section id="organizer" data-view="wishes" class="panel" hidden aria-labelledby="organizer-title">
       <h2 id="organizer-title">Утверждение плана</h2>
       <p>В план войдут открытый вариант меню, цены и порции, сервисный сбор, черновик рассадки и распределение блюд. Личные дозаказы видны только в черновике и личных пожеланиях.</p>
       <div id="votes"></div>
       <details><summary>Пожелания участников</summary><ul id="review"></ul></details>
       <div class="actions">
         <button id="edit-plan" type="button">Начать редактирование плана</button>
+        <a href="#seating">К схеме рассадки</a>
+        <a href="#menu">К выбору меню</a>
         <button id="publish" class="primary" type="button" disabled>Утвердить меню и рассадку</button>
         <button id="discard-plan" type="button" disabled>Отменить редактирование</button>
       </div>
       <p id="publish-status" role="status"></p>
     </section>
-    <section id="history" class="panel" hidden aria-labelledby="history-title">
+    <section id="history" data-view="wishes" class="panel" hidden aria-labelledby="history-title">
       <h2 id="history-title">История изменений</h2>
       <ol id="events"></ol>
     </section>
-    <section id="catalog" class="panel catalog" aria-labelledby="catalog-title">
+    <section id="catalog" data-view="catalog" class="panel catalog" aria-labelledby="catalog-title">
       <h2 id="catalog-title">Каталог ресторана</h2>
       <p class="muted">Соколовая, 10/16 · <a href="https://banquets.uzbechka.rest/menu" target="_blank" rel="noopener noreferrer">Официальное меню</a></p>
       <div class="catalog-controls">

@@ -1,11 +1,13 @@
 const imageOrigin = "https://16a9564f-f8ec-42ba-a998-3027aa809e50.selstorage.ru";
 const prices = new Intl.NumberFormat("ru-RU");
+const pageSize = 24;
 const element = id => document.getElementById(id);
 const searchText = value => value.toLocaleLowerCase("ru-RU").replaceAll("ё", "е").trim();
 const photoByName = new Map();
 let groups;
 let loading;
 let connected = false;
+let visibleLimit = pageSize;
 
 function node(tag, text, className) {
   const item = document.createElement(tag);
@@ -76,19 +78,36 @@ function render() {
     items: visible.flatMap(group => group.items.map(item => [...item, group.category]))
   }];
   let count = 0;
+  let displayed = 0;
   const results = [];
   for (const group of visible) {
     const filtered = group.items.filter(([name]) => !query || searchText(name).includes(query));
     if (!filtered.length) continue;
     if (order) filtered.sort((a,b) => order === "asc" ? a[1] - b[1] : b[1] - a[1]);
     count += filtered.length;
+    const page = filtered.slice(0, Math.max(0, visibleLimit - displayed));
+    if (!page.length) continue;
+    displayed += page.length;
     const section = node("section", null, "catalog-group");
     const grid = node("div", null, "catalog-grid");
-    grid.append(...filtered.map(item => card(item, sortAll ? item[3] : null)));
+    grid.append(...page.map(item => card(item, sortAll ? item[3] : null)));
     section.append(node("h3", group.category), grid);
     results.push(section);
   }
-  element("catalog-status").textContent = count ? "Найдено позиций: " + count : "По этому запросу ничего не найдено.";
+  if (displayed < count) {
+    const more = node("button", "Показать ещё " + Math.min(pageSize, count - displayed), "catalog-more");
+    more.type = "button";
+    more.addEventListener("click", () => {
+      const firstNewCard = displayed;
+      visibleLimit += pageSize;
+      render();
+      const target = element("catalog-results").querySelectorAll(".catalog-card")[firstNewCard];
+      target?.setAttribute("tabindex", "-1");
+      target?.focus();
+    });
+    results.push(more);
+  }
+  element("catalog-status").textContent = count ? "Показано " + displayed + " из " + count : "По этому запросу ничего не найдено.";
   element("catalog-results").replaceChildren(...results);
 }
 
@@ -126,6 +145,7 @@ export function setCatalogAccess(value) {
   if (connected === value) return Promise.resolve(false);
   connected = value;
   if (!connected) {
+    visibleLimit = pageSize;
     element("catalog-photo").close();
     element("catalog-results").replaceChildren();
     element("catalog-search").value = "";
@@ -138,9 +158,10 @@ export function setCatalogAccess(value) {
   return Promise.resolve(true);
 }
 
-element("catalog-search").addEventListener("input", render);
-element("catalog-category").addEventListener("change", render);
-element("catalog-sort").addEventListener("change", render);
+function restart() { visibleLimit = pageSize; render(); }
+element("catalog-search").addEventListener("input", restart);
+element("catalog-category").addEventListener("change", restart);
+element("catalog-sort").addEventListener("change", restart);
 element("catalog-retry").addEventListener("click", () => void reload());
 element("photo-close").addEventListener("click", () => element("catalog-photo").close());
 element("catalog-photo").addEventListener("close", () => element("photo-image").removeAttribute("src"));

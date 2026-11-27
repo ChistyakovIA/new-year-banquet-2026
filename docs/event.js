@@ -69,7 +69,8 @@ export function animateChange(element) {
 
 export const drinkGroups = {
   strong: "Крепкие напитки",
-  other: "Другие напитки / без крепких",
+  other: "Другие напитки",
+  none: "Без алкоголя",
   unknown: "Уточняется"
 };
 
