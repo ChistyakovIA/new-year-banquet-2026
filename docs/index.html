@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex, nofollow">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src https://*.supabase.co wss://*.supabase.co; base-uri 'none'; form-action 'none'">
+  <title>Новогодний вечер · Моя узбечка</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="vendor/supabase.js" defer></script>
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <main>
+    <header class="invitation">
+      <p>25 декабря 2026 · 18:00–00:00</p>
+      <h1>Новогодний вечер</h1>
+      <p>«Моя узбечка», Саратов, Соколовая, 10/16</p>
+      <nav aria-label="Разделы сайта">
+        <a href="#menu">Меню</a>
+        <a href="#program">Программа</a>
+        <a href="#seating">Рассадка</a>
+        <a href="#account">Вход</a>
+      </nav>
+    </header>
+    <section id="account" class="panel" aria-labelledby="account-title">
+      <h2 id="account-title">Вход участников</h2>
+      <p id="status" role="status">Проверяем подключение…</p>
+      <form id="login" hidden>
+        <label>Электронная почта<input name="email" type="email" autocomplete="username" required></label>
+        <label>Пароль<input name="password" type="password" autocomplete="current-password" required></label>
+        <button class="primary">Войти</button>
+      </form>
+      <button id="logout" type="button" hidden>Выйти</button>
+      <button id="refresh" type="button" hidden>Обновить данные</button>
+    </section>
+    <section id="menu" class="panel" aria-labelledby="menu-title">
+      <h2 id="menu-title">Четыре варианта меню</h2>
+      <div id="choices" class="choices"></div>
+      <p id="plan-status"></p>
+      <p id="menu-note" class="muted"></p>
+      <p class="muted">Цены сверены 27 ноября по каталогу на Соколовой. У непроверенных позиций указана рабочая цена.</p>
+      <p><a href="https://banquets.uzbechka.rest/menu" target="_blank" rel="noopener noreferrer">Официальное меню ресторана</a></p>
+      <div class="budget">
+        <div><span>Бюджет</span><strong>39 000 ₽</strong></div>
+        <div><span>Общий заказ</span><strong id="total"></strong></div>
+        <div><span>На гостя</span><strong id="per-guest"></strong></div>
+        <div><span id="balance-label">Резерв</span><strong id="balance"></strong></div>
+      </div>
+      <div class="actions">
+        <button id="suggested-bar" type="button">Добавить напитки варианта 4</button>
+        <button id="reset-menu" type="button">Сбросить черновик меню</button>
+        <button id="show-plan" type="button" hidden>Открыть утверждённое меню</button>
+      </div>
+    </section>
+    <section id="program" class="panel" aria-labelledby="program-title">
+      <h2 id="program-title">Программа и подача</h2>
+      <div id="stages" class="stages" aria-label="Этапы программы"></div>
+      <div id="stage"></div>
+      <details>
+        <summary>Напитки</summary>
+        <div id="drinks"></div>
+      </details>
+      <details>
+        <summary>Смета и личные дозаказы</summary>
+        <p>Личные дозаказы участник оплачивает отдельно.</p>
+        <label class="fee">Сервисный сбор, ₽ <input id="fee" type="number" step="1" min="0" max="39000"></label>
+        <div id="extras"></div>
+        <p>Личные дозаказы <strong id="extras-total"></strong></p>
+        <div class="actions">
+          <button id="add-extra" type="button">Добавить личный заказ</button>
+          <button id="copy-menu" type="button">Копировать заказ</button>
+          <button id="print" type="button">Печать / PDF</button>
+        </div>
+        <p id="copy-status" role="status"></p>
+      </details>
+    </section>
+    <section id="seating" class="panel" aria-labelledby="seats-title">
+      <h2 id="seats-title">Рассадка на 13 гостей</h2>
+      <p id="seats-status">Выберите место, чтобы открыть карточку. Имена участников доступны после входа.</p>
+      <div id="seats" class="seats" aria-label="Места за столом"></div>
+      <div id="guest-card" class="guest-card"></div>
+      <div id="allocation"></div>
+    </section>
+    <section id="wishes" class="panel" hidden aria-labelledby="wish-title">
+      <h2 id="wish-title">Мои пожелания</h2>
+      <p>Можно указать место, соседа, вариант меню и блюда. Итоговый план утверждает организатор.</p>
+      <form id="wish-form">
+        <div class="form-grid">
+          <label>Желаемое место<select name="seat"></select></label>
+          <label>Хотелось бы сидеть рядом с<select name="neighbor"></select></label>
+          <label>Вариант меню<select name="variant"></select></label>
+          <label>Салат<select name="salad"></select></label>
+          <label>Первое горячее<select name="hot"></select></label>
+        </div>
+        <label>Напитки, ограничения и личный дозаказ<textarea name="note" maxlength="1200" rows="4"></textarea></label>
+        <button class="primary">Сохранить пожелания</button>
+      </form>
+      <p id="wish-status" role="status"></p>
+    </section>
+    <section id="organizer" class="panel" hidden aria-labelledby="organizer-title">
+      <h2 id="organizer-title">Утверждение плана</h2>
+      <p>В план войдут открытый вариант меню, цены и порции, сервисный сбор, черновик рассадки и распределение блюд. Личные дозаказы видны только в черновике и личных пожеланиях.</p>
+      <div id="votes"></div>
+      <details><summary>Пожелания участников</summary><ul id="review"></ul></details>
+      <div class="actions">
+        <button id="edit-plan" type="button">Начать редактирование плана</button>
+        <button id="publish" class="primary" type="button" disabled>Утвердить меню и рассадку</button>
+        <button id="discard-plan" type="button" disabled>Отменить редактирование</button>
+      </div>
+      <p id="publish-status" role="status"></p>
+    </section>
+    <section id="history" class="panel" hidden aria-labelledby="history-title">
+      <h2 id="history-title">История изменений</h2>
+      <ol id="events"></ol>
+    </section>
+  </main>
+</body>
+</html>
+

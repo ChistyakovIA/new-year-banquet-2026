@@ -1,0 +1,82 @@
+:root {
+  color-scheme: light;
+  --ink: #182c42;
+  --muted: #546577;
+  --paper: #f4f1eb;
+  --line: #cad4dc;
+  --blue: #264b7a;
+  --red: #982d45;
+  font: 100%/1.5 system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; color: var(--ink); background: var(--paper); }
+main { width: min(100%, 72rem); margin: auto; padding: clamp(12px, 3vw, 32px); }
+h1, h2, h3, p { margin: 0 0 .65rem; }
+h1 { font: 600 clamp(2.5rem, 8vw, 5.75rem)/1 Georgia, serif; }
+h2 { font: 600 clamp(1.5rem, 4vw, 2.15rem)/1.16 Georgia, serif; }
+h3 { font-size: 1.15rem; }
+a { color: var(--blue); text-underline-offset: .18em; }
+strong { font-weight: 700; }
+:focus-visible { outline: 3px solid #ad4a0b; outline-offset: 3px; }
+.invitation {
+  color: white;
+  padding: clamp(22px, 6vw, 65px);
+  background: linear-gradient(115deg, #12283c 5%, #243e66 65%, #743246);
+  border-radius: 20px 20px 4px 4px;
+}
+.invitation p:first-child { color: #f6d4a3; }
+.invitation nav, .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.invitation a { color: white; display: inline-flex; align-items: center; padding-inline: 8px; min-height: 44px; }
+.panel { background: white; border: 1px solid var(--line); border-radius: 12px; padding: clamp(14px, 3vw, 27px); margin: 14px 0; min-width: 0; }
+.muted { color: var(--muted); }
+.warn { color: var(--red); }
+button, select, input, textarea { font: inherit; color: inherit; }
+button { background: white; cursor: pointer; padding: 8px 12px; border: 1px solid #aebecd; border-radius: 8px; min-height: 44px; }
+button:hover:not(:disabled) { border-color: var(--blue); }
+button:disabled { opacity: .58; cursor: default; }
+button.primary, button[aria-pressed="true"] { background: var(--blue); color: white; border-color: var(--blue); }
+button + button { margin-inline-start: 0; }
+input, select, textarea { padding: 8px; border: 1px solid #aebecd; border-radius: 8px; background: white; min-height: 44px; max-width: 100%; }
+form label, .guest-card label { display: grid; gap: 4px; }
+form label input, form label select, form textarea { width: 100%; }
+#login, .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(13rem, 100%), 1fr)); gap: 10px; align-items: end; }
+form textarea { margin-bottom: 10px; resize: vertical; }
+.choices, .budget, .stages { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(10rem, 100%), 1fr)); gap: 8px; margin: 14px 0; }
+.choices button, .stages button { text-align: left; }
+.choices button strong, .stages button strong, .budget strong { display: block; }
+.choices small, .stages small { display: block; }
+.budget { background: #edf2f7; padding: 12px; border-radius: 8px; }
+.budget strong { font-size: 1.2rem; }
+.dish { display: grid; grid-template-columns: 72px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid #e5e9ed; }
+.dish img, .dish-placeholder { display: block; width: 72px; height: 72px; object-fit: cover; border-radius: 8px; background: var(--paper); }
+.dish-placeholder { display: grid; place-items: center; color: var(--muted); font-size: 1.6rem; }
+.controls { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.controls button { min-width: 44px; }
+.controls input, .fee input { width: 6rem; }
+details { margin: 12px 0; }
+summary { cursor: pointer; font-weight: 650; min-height: 44px; padding-block: 10px; }
+.seats { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+.seat { min-width: 0; padding: 6px 3px; overflow-wrap: anywhere; }
+.seat small { display: block; }
+.table { grid-column: 1 / -1; text-align: center; padding: 14px; border: 1px solid #ccbda8; background: #f0e5d3; border-radius: 10px; }
+.guest-card { background: #edf2f7; padding: 14px; border-radius: 8px; margin: 14px 0; }
+.guest-card dl { display: grid; gap: 7px; }
+.guest-card dt { font-weight: 650; }
+.guest-card dd { margin: 0; }
+.extra { display: grid; grid-template-columns: minmax(0, 1fr) 4.5rem 5.5rem auto; gap: 6px; margin: 8px 0; }
+li { margin-block: 6px; }
+@media (max-width: 600px) {
+  .seats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .dish { grid-template-columns: 60px minmax(0, 1fr); }
+  .dish img, .dish-placeholder { width: 60px; height: 60px; }
+  .controls { grid-column: 1 / -1; }
+  .extra { grid-template-columns: 1fr 1fr auto; }
+  .extra input:first-child { grid-column: 1 / -1; }
+}
+@media print {
+  button, nav, #account, #wishes, #organizer, #history { display: none !important; }
+  body { background: white; }
+  .panel, .dish { break-inside: avoid; }
+}
